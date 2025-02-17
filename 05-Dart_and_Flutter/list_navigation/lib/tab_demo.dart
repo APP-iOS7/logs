@@ -5,9 +5,25 @@ class TabDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Tab Demo')),
-      body: const Center(child: Text('Tab Demo')),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Tab Demo'),
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.home), child: Text('Tab #1')),
+              Tab(icon: Icon(Icons.settings), child: Text('Tab #2')),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            Center(child: Text('Tab #1')),
+            Center(child: Text('Tab #2')),
+          ],
+        ),
+      ),
     );
   }
 }
