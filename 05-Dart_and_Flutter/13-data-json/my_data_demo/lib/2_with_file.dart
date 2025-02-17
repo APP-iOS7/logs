@@ -33,12 +33,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '파일로 데이터 가져오기',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        appBar: AppBar(title: const Text('My Data App')),
+        appBar: AppBar(title: const Text('파일로 데이터 가져오기')),
         body: FutureBuilder<List<String>>(
           future: futureData,
           builder: (context, snapshot) {

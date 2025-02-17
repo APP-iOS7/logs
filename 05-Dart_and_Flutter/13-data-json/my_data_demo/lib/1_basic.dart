@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const title = 'MyAwesomeApp';
+    const title = '파일 없이 데이터 가져오기';
     List items = data.items;
 
     return MaterialApp(
