@@ -6,6 +6,22 @@ void main() {
   runApp(const MyApp());
 }
 
+class Routes {
+  static const String home = '/';
+  static const String signUp = '/signup';
+
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case home:
+        return MaterialPageRoute(builder: (context) => const HomePage());
+      case signUp:
+        return MaterialPageRoute(builder: (context) => const SignUpPage());
+      default:
+        throw Exception('Invalid route: ${settings.name}');
+    }
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -18,10 +34,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         // 홈 대신 initialRoute 속성을 사용하여 초기 경로를 지정
-        initialRoute: '/',
-        routes: <String, WidgetBuilder>{
-          '/': (BuildContext context) => const HomePage(),
-          '/signup': (BuildContext context) => const SignUpPage(),
-        });
+        initialRoute: Routes.home,
+        // onGenerateRoute 속성을 사용하여 경로를 생성
+        onGenerateRoute: Routes.generateRoute);
   }
 }
