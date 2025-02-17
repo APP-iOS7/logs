@@ -27,7 +27,13 @@ class MyDrawerWidget extends StatelessWidget {
         child: ListView(
       children: [
         // 드로워 메뉴 헤더
-        const DrawerHeader(child: Icon(Icons.home, size: 35)),
+        DrawerHeader(
+            child: InkWell(
+                child: Icon(Icons.home, size: 35),
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => DrawerDemo()));
+                })),
         // 드로워 메뉴 아이템
         ListTile(
             leading: const Icon(Icons.home),
