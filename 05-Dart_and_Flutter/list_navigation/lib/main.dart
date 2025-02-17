@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'drawer_demo.dart';
+import 'tab_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: DrawerDemo(),
+      home: TabDemo(),
     );
   }
 }
