@@ -6,21 +6,28 @@ class NavigatorDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Navigator Demo'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) {
-                  return MyDetails(itemTitle: 'January');
-                },
-              ),
-            );
-          },
-          child: const Text('Go to January'),
+      backgroundColor: Colors.grey[800],
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.grey[400],
+          child: Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) {
+                      return MyDetails(itemTitle: 'January');
+                    },
+                  ),
+                );
+              },
+              child: const Text('Go to January'),
+            ),
+          ),
         ),
       ),
     );
