@@ -1,6 +1,5 @@
 // 파일을 사용하지 않고, 데이터를 가져와서 사용하는 방법
 // 데이터를 가져오는 클래스를 만들고, 그 클래스를 사용하는 방법
-
 import 'package:flutter/material.dart';
 
 class MyData {
