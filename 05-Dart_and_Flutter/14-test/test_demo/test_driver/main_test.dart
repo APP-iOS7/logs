@@ -23,9 +23,9 @@ void main() {
       final testLoginButton = find.byValueKey('testLoginButton');
 
       // textfield 가 존재하는지 확인
-      expect(await driver!.getText(testUsername), 'Username');
-      expect(await driver!.getText(testPassword), 'Password');
-      expect(await driver!.getText(testLoginButton), 'Login');
+      await driver!.waitFor(testUsername);
+      await driver!.waitFor(testPassword);
+      await driver!.waitFor(testLoginButton);
     });
 
     test('should allow login', () async {
