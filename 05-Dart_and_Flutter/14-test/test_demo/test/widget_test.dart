@@ -11,20 +11,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:test_demo/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('should allow login', (WidgetTester testWorker) async {
+    // Arrange
+    final testUsername = find.byKey(const ValueKey('testUsername'));
+    final testPassword = find.byKey(const ValueKey('testPassword'));
+    final testLoginButton = find.byKey(const ValueKey('testLoginButton'));
 
-    // Verify that our counter starts at 0. => Arrange
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Act
+    // 화면에 위젯을 그린다.
+    await testWorker.pumpWidget(const MyApp());
+    // 화면에 TextField 위젯을 찾아서 입력값을 넣는다.
+    await testWorker.enterText(testUsername, 'username');
+    await testWorker.enterText(testPassword, 'password');
 
-    // Tap the '+' icon and trigger a frame. => Act
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // 화면에 ElevatedButton 위젯을 찾아서 클릭한다.
+    await testWorker.tap(testLoginButton);
 
-    // Verify that our counter has incremented. => Assert
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // 화면을 다시 그린다.
+    await testWorker.pump();
+
+    // Assert
+    // 화면에 SnackBar 위젯이 있는지 확인한다.
+    expect(find.text('Logging in...'), findsOneWidget);
   });
 }
