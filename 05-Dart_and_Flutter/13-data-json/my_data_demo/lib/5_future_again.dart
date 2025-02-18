@@ -42,19 +42,38 @@ class _MyWidgetState extends State<MyWidget> {
 
   Future<void> _loadData() async {
     debugPrint('_loadData');
-    await Future.delayed(Duration(seconds: 2));
     _data = '데이터를 불러오는 중...';
-    setState(() {
-      debugPrint('setState');
-      _data = '데이터를 불러왔습니다.';
-    });
+    await Future.delayed(Duration(seconds: 5));
+    debugPrint('setState');
+    _data = '데이터를 불러왔습니다.';
+    // throw Exception('데이터를 불러오는 중 에러가 발생했습니다.');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Future 예제')),
-      body: Center(child: Text('비동기 함수 실습: $_data')),
+      body: FutureBuilder<void>(
+        future: _loadData(),
+        builder: (context, snapshot) {
+          debugPrint('FutureBuilder: ${snapshot.connectionState}');
+          if (snapshot.hasError) {
+            return Center(child: Text('데이터를 불러오는 중 에러가 발생했습니다.'));
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Text(
+                '비동기 함수 실습 1: $_data (snapshot.hasData: ${snapshot.hasData})',
+              ),
+            );
+          }
+          return Center(
+            child: Text(
+              '비동기 함수 실습 2: $_data (snapshot.hasData: ${snapshot.hasData})',
+            ),
+          );
+        },
+      ),
     );
   }
 }
