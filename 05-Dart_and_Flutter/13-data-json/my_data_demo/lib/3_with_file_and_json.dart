@@ -34,12 +34,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<DataSeries> dataSeries;
+  DataSeries? dataSeries;
 
   @override
   void initState() {
     super.initState();
-    dataSeries = fetchData();
+    fetchData().then((value) {
+      setState(() {
+        dataSeries = value;
+      });
+    });
   }
 
   Future<DataSeries> fetchData() async {
@@ -59,18 +63,11 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(title: const Text('파일 데이터를 JSON으로 가져오기')),
-        body: FutureBuilder<DataSeries>(
-          future: dataSeries,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            final data = snapshot.data!;
-            return ListView.builder(
-              itemCount: data.dataModel.length,
-              itemBuilder: (context, index) {
-                return ListTile(title: Text(data.dataModel[index].title));
-              },
+        body: ListView.builder(
+          itemCount: dataSeries?.dataModel.length ?? 0,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(dataSeries?.dataModel[index].title ?? ''),
             );
           },
         ),
