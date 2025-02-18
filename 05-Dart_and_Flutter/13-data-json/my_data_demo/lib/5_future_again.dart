@@ -21,8 +21,6 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
-  String _data = '데이터 초기화';
-
   @override
   void initState() {
     super.initState();
@@ -40,20 +38,18 @@ class _MyWidgetState extends State<MyWidget> {
     debugPrint('initState 다른작업 5');
   }
 
-  Future<void> _loadData() async {
+  Future<String> _loadData() async {
     debugPrint('_loadData');
-    _data = '데이터를 불러오는 중...';
     await Future.delayed(Duration(seconds: 5));
     debugPrint('setState');
-    _data = '데이터를 불러왔습니다.';
-    // throw Exception('데이터를 불러오는 중 에러가 발생했습니다.');
+    return '데이터를 불러왔습니다.';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Future 예제')),
-      body: FutureBuilder<void>(
+      body: FutureBuilder<String>(
         future: _loadData(),
         builder: (context, snapshot) {
           debugPrint('FutureBuilder: ${snapshot.connectionState}');
@@ -63,14 +59,17 @@ class _MyWidgetState extends State<MyWidget> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: Text(
-                '비동기 함수 실습 1: $_data (snapshot.hasData: ${snapshot.hasData})',
+                '비동기 함수 실습 1: (snapshot.hasData: ${snapshot.hasData})',
               ),
             );
           }
-          return Center(
-            child: Text(
-              '비동기 함수 실습 2: $_data (snapshot.hasData: ${snapshot.hasData})',
-            ),
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('비동기 함수 실습 2: (snapshot.hasData: ${snapshot.hasData}))'),
+              Text('비동기 함수 실습 2: (snapshot.data: ${snapshot.data}) '),
+            ],
           );
         },
       ),
