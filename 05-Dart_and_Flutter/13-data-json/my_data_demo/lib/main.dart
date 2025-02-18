@@ -11,3 +11,8 @@ import '3_with_file_and_json.dart';
 void main() {
   runApp(MyApp());
 }
+
+// JSON 데이터 파싱 (구문 분석)
+
+// 비동기 함수, Future, async, await
+// 비동기 함수는 함수가 실행되는 동안 다른 코드가 실행될 수 있도록 하는 함수입니다.
