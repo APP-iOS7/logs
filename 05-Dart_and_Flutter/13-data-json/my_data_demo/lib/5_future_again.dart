@@ -51,7 +51,7 @@ class _MyWidgetState extends State<MyWidget> {
       appBar: AppBar(title: Text('Future 예제')),
       body: FutureBuilder<String>(
         future: _loadData(),
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           debugPrint('FutureBuilder: ${snapshot.connectionState}');
           if (snapshot.hasError) {
             return Center(child: Text('데이터를 불러오는 중 에러가 발생했습니다.'));

@@ -52,7 +52,18 @@ class _MyWidgetState extends State<MyWidget> {
       appBar: AppBar(title: Text('StreamBuilder 예제')),
       body: StreamBuilder<String>(
         stream: _streamController.stream,
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          debugPrint('StreamBuilder: ${snapshot.connectionState}');
+          // Stream이 연결되는 중
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+            // 스트림에 에러가 발생했을때
+          } else if (snapshot.hasError) {
+            return Center(child: Text('데이터를 불러오는 중 에러가 발생했습니다.'));
+            // 스트림에 데이터가 없을때 (데이터가 로드되는 중에도 이 상태가 될 수 있음)
+          } else if (!snapshot.hasData) {
+            return Center(child: Text('데이터가 없습니다.'));
+          }
           return Center(child: Text('StreamBuilder 예제 : ${snapshot.data}'));
         },
       ),
