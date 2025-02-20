@@ -38,11 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final String _documentId = 'my_counter_id';
 
   void _incrementCounter() {
-    _firestore.runTransaction((transaction) async {
-      transaction.update(
-        _firestore.collection(_collectionName).doc(_documentId),
-        <String, dynamic>{'counter': FieldValue.increment(1)},
-      );
+    _firestore.collection(_collectionName).doc(_documentId).update({
+      'counter': FieldValue.increment(1),
     });
   }
 
@@ -69,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 AsyncSnapshot<DocumentSnapshot> snapshot,
               ) {
                 if (snapshot.hasError) {
+                  debugPrint(snapshot.error.toString());
                   return const Text('Something went wrong');
                 }
 
@@ -81,6 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
 
                 final data = snapshot.data!.data() as Map<String, dynamic>;
+
+                // 도큐먼트 데이터에 counter 변수가 있는지 확인
+                if (!data.containsKey('counter')) {
+                  return const Text('Counter does not exist');
+                }
+
                 final counter = data['counter'] as int;
 
                 return Text(
