@@ -5,6 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // Firebase Firestore Emulator 사용
+  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+
   runApp(const MyApp());
 }
 

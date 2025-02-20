@@ -3,7 +3,8 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
-      allow read, write: if false;
+      // 모든 도큐먼트에 읽기 쓰기 권한을 풀어줍니다. (주의! 실제 서비스에서는 절대 사용하면 안됩니다.)
+      allow read, write: if true;
     }
   }
 }
