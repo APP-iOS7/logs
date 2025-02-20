@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "389510016670",
+    "project_id": "appschool7th",
+    "storage_bucket": "appschool7th.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389510016670:android:3ecfced2838cb557b2558f",
+        "android_client_info": {
+          "package_name": "com.example.firebase_demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHOR35Nd91oVWQYZJ_Ng2C9WP2KVT7vf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389510016670:android:8696d33e8591f9c9b2558f",
+        "android_client_info": {
+          "package_name": "kr.co.codegrove.memo_07"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHOR35Nd91oVWQYZJ_Ng2C9WP2KVT7vf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
