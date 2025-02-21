@@ -9,6 +9,14 @@ class MyProfilePage extends StatefulWidget {
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
+  String? _profileImageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _profileImageUrl = FirebaseAuth.instance.currentUser?.photoURL;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +31,28 @@ class _MyProfilePageState extends State<MyProfilePage> {
             },
           ),
         ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 100,
+              backgroundImage:
+                  _profileImageUrl != null
+                      ? NetworkImage(_profileImageUrl!)
+                      : null,
+            ),
+            const SizedBox(height: 20),
+            MaterialButton(
+              color: Theme.of(context).colorScheme.primary,
+              textColor: Colors.white,
+              minWidth: 160,
+              onPressed: () {},
+              child: const Text('프로필 사진 변경'),
+            ),
+          ],
+        ),
       ),
     );
   }
