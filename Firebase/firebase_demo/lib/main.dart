@@ -28,6 +28,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(fontSize: 20.0),
+          bodyMedium: TextStyle(fontSize: 15.0),
+          bodySmall: TextStyle(fontSize: 10.0),
+          labelLarge: TextStyle(fontSize: 20.0),
+          labelMedium: TextStyle(fontSize: 15.0),
+          labelSmall: TextStyle(fontSize: 10.0),
+        ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const AuthScreen(),
@@ -64,8 +72,20 @@ class _AuthScreenState extends State<AuthScreen> {
               decoration: const InputDecoration(labelText: 'Password'),
             ),
             SizedBox(height: 20),
-            ElevatedButton(onPressed: () {}, child: const Text('로그인')),
-            ElevatedButton(onPressed: () {}, child: const Text('회원가입')),
+            MaterialButton(
+              color: Theme.of(context).colorScheme.primary,
+              textColor: Colors.white,
+              minWidth: double.infinity,
+              onPressed: () {},
+              child: const Text('로그인'),
+            ),
+            MaterialButton(
+              color: Theme.of(context).colorScheme.secondary,
+              textColor: Colors.white,
+              minWidth: double.infinity,
+              onPressed: () {},
+              child: const Text('회원가입'),
+            ),
           ],
         ),
       ),
