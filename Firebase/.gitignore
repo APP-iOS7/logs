@@ -67,3 +67,7 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# 에뮬레이터 백업 경로
+# 에뮬레이터 백업을 하는 명령어:  firebase emulators:start --import {폴터이름}  --export-on-exit
+emulator-backup/
