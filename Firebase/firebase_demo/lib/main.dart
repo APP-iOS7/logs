@@ -54,6 +54,32 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  Future<void> _signUp() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+      debugPrint('회원가입 성공: ${userCredential.user}');
+    } catch (e) {
+      debugPrint('회원가입 실패: ${e.toString()}');
+    }
+  }
+
+  Future<void> _signIn() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+      debugPrint('로그인 성공: ${userCredential.user}');
+    } catch (e) {
+      debugPrint('로그인 실패: ${e.toString()}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,20 +96,21 @@ class _AuthScreenState extends State<AuthScreen> {
             TextField(
               controller: _passwordController,
               decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: true,
             ),
             SizedBox(height: 20),
             MaterialButton(
               color: Theme.of(context).colorScheme.primary,
               textColor: Colors.white,
               minWidth: double.infinity,
-              onPressed: () {},
+              onPressed: _signIn,
               child: const Text('로그인'),
             ),
             MaterialButton(
               color: Theme.of(context).colorScheme.secondary,
               textColor: Colors.white,
               minWidth: double.infinity,
-              onPressed: () {},
+              onPressed: _signUp,
               child: const Text('회원가입'),
             ),
           ],
