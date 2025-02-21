@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +12,7 @@ void main() async {
   if (kDebugMode) {
     // Firebase Firestore Emulator 사용
     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+    FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   }
 
   runApp(const MyApp());
