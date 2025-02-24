@@ -134,4 +134,5 @@ Future<String> fetchData() async {
 
   return Future.delayed(Duration(seconds: 2), () => "123"); //정상적인 경우
   //return Future.delayed(Duration(seconds: 2), () => "abc");  //FormatException
+  
 }
