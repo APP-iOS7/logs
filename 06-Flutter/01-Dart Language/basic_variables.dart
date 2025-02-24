@@ -32,6 +32,7 @@ void main() {
   String? nullableName;
   String nonNullableName = 'John';
 
+  // ignore: dead_code
   print(nullableName?.length); // null
   print(nonNullableName.length);
 

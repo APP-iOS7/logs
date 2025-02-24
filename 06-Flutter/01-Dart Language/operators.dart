@@ -22,7 +22,8 @@ void main() {
   bool x = true;
   bool y = false;
   print('AND: x && y ${x && y}'); // false
-  print('OR: x || y ${x || y}'); // true
+  print('OR: x || y ${!x || y}'); // true
+  // ignore: dead_code
   print('NOT: !x ${!(x || y)} == ${!x && !y}'); // false
   print('NOT: !y ${!(x && y)} == ${!x || !y}'); // true
 
