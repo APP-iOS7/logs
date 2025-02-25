@@ -12,8 +12,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(
-        appBar: AppBar(title: const Text('Flutter Demo')),
-        body: const Center(child: Text('Hello World')),
+        appBar: AppBar(title: const Text('반응형 UI 예제')),
+        body: LayoutBuilder(
+          builder: (context, BoxConstraints constraints) {
+            double fontSize = constraints.maxWidth > 600 ? 32 : 24;
+            return Center(
+              child: Text('반응형 텍스트', style: TextStyle(fontSize: fontSize)),
+            );
+          },
+        ),
       ),
     );
   }
