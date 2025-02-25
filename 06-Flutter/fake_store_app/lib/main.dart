@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'views/project_list_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const Placeholder(),
+      home: ProductListScreen(),
     );
   }
 }
