@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'list_screen.dart';
+import 'grid_screen.dart';
 
 void main() {
-  runApp(ListScreen());
+  runApp(GridScreen());
 }
 
 class MyApp extends StatelessWidget {
