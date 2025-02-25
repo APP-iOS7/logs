@@ -4,6 +4,7 @@ class GridScreen extends StatelessWidget {
   GridScreen({super.key});
 
   final List<String> items = List.generate(100, (index) => 'Item ${index + 1}');
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,11 @@ class GridScreen extends StatelessWidget {
         appBar: AppBar(title: const Text('GridView 예제')),
         // Scrollbar 추가: GridView가 화면을 벗어날 때 스크롤바 표시
         body: Scrollbar(
+          // 가로 스크롤바를 표시하기 위한 설정
+          controller: _scrollController,
           child: GridView.builder(
+            scrollDirection: Axis.horizontal,
+            controller: _scrollController,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 10,
