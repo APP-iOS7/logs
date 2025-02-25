@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'list_screen.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(ListScreen());
 }
 
 class MyApp extends StatelessWidget {
