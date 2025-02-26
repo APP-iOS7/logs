@@ -31,6 +31,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               decoration: const InputDecoration(hintText: '검색어를 입력하세요'),
+              onChanged: (text) {
+                setState(() {
+                  _searchText = text;
+                });
+              },
             ),
           ),
           Expanded(child: _buildProductList()),
@@ -50,6 +55,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
         List products = snapshot.data as List<Product>;
+        if (_searchText.isNotEmpty) {
+          products =
+              products
+                  .where(
+                    (product) => product.title.toLowerCase().contains(
+                      _searchText.toLowerCase(),
+                    ),
+                  )
+                  .toList();
+        }
         return ListView.builder(
           itemCount: products.length,
           itemBuilder: (context, index) {
