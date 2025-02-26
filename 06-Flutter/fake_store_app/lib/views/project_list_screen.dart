@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 import '../services/api_service.dart';
+import '../widgets/product_card.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -39,6 +40,23 @@ class _ProductListScreenState extends State<ProductListScreen> {
   }
 
   Widget _buildProductList() {
-    return const Placeholder();
+    return FutureBuilder(
+      future: products,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+        List products = snapshot.data as List<Product>;
+        return ListView.builder(
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            return ProductCard(product: products[index]);
+          },
+        );
+      },
+    );
   }
 }
