@@ -13,30 +13,27 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  late Future<Product> product;
+  Product? product;
 
   @override
   void initState() {
     super.initState();
-    product = ApiService().getProduct(widget.productId);
+    _loadProduct();
+  }
+
+  Future<void> _loadProduct() async {
+    product = await ApiService().getProduct(widget.productId);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('상품 상세')),
-      body: FutureBuilder(
-        future: product,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return const Center(child: Text('상품을 불러오는 중에 오류가 발생했습니다.'));
-          }
-          return _buildProductDetail(snapshot.data as Product);
-        },
-      ),
+      body:
+          product == null
+              ? const Center(child: CircularProgressIndicator())
+              : _buildProductDetail(product!),
     );
   }
 
