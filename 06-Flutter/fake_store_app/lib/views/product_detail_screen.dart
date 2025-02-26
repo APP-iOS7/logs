@@ -16,6 +16,8 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   late Future<Product> product;
 
+  int quantity = 1;
+
   @override
   void initState() {
     super.initState();
@@ -49,7 +51,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        // 장바구니에 담기
+                        print(
+                          '장바구니에 담기: ${snapshot.data!.id} / title: ${snapshot.data!.title}, $quantity',
+                        );
+                      },
                       child: const Text(
                         '장바구니에 담기',
                         style: TextStyle(
@@ -106,7 +113,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             const SizedBox(height: 8),
             // 수량 선택
-            QuantitySelector(),
+            QuantitySelector(
+              onQuantityChange: (quantity) {
+                setState(() {
+                  this.quantity = quantity;
+                });
+              },
+            ),
           ],
         ),
       ),
