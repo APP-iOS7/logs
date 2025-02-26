@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 import '../services/api_service.dart';
+import '../widgets/quantity_selector.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final int productId;
@@ -75,6 +76,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
+            ),
+
+            const SizedBox(height: 8),
+
+            // 수량 선택
+            QuantitySelector(),
+            const SizedBox(height: 24),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                onPressed: () {},
+                child: const Text(
+                  '장바구니에 담기',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ],
         ),
