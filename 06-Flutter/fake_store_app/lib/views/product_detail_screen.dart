@@ -41,13 +41,44 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _buildProductDetail(Product data) {
-    return Column(
-      children: [
-        Image.network(data.image),
-        Text(data.title),
-        Text('\$${data.price.toStringAsFixed(2)}'),
-        Text(data.description),
-      ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              data.image,
+              width: double.infinity,
+              height: 300,
+              fit: BoxFit.contain,
+            ),
+            Text(
+              data.title,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '\$${data.price.toStringAsFixed(2)}',
+              style: const TextStyle(fontSize: 18, color: Colors.green),
+            ),
+            const SizedBox(height: 8),
+            Text(data.description, style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+
+            Row(
+              children: [
+                const Icon(Icons.star, color: Colors.amber),
+                const SizedBox(width: 4),
+                Text(
+                  '${data.rating['rate']} (${data.rating['count']})',
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
