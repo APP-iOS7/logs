@@ -12,25 +12,22 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(8),
-      child: InkWell(
+      child: ListTile(
         onTap: () {
-          Navigator.push(
-            context,
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => ProductDetailScreen(productId: product.id),
             ),
           );
         },
-        child: ListTile(
-          leading: Image.network(
-            product.image,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-          ),
-          title: Text(product.title),
-          subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
+        leading: Image.network(
+          product.image,
+          width: 50,
+          height: 50,
+          fit: BoxFit.cover,
         ),
+        title: Text(product.title),
+        subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
       ),
     );
   }
