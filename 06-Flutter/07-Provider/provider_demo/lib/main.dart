@@ -33,6 +33,8 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final counterModel = Provider.of<CounterModel>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -42,25 +44,36 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
+            const Text('누른 횟수:'),
             Consumer<CounterModel>(
-              builder: (context, counter, child) {
+              builder: (context, model, child) {
                 return Text(
-                  '${counter.counter}',
+                  '${model.counter}',
                   style: Theme.of(context).textTheme.headlineMedium,
                 );
               },
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    counterModel.increment();
+                  },
+                  child: const Text('증가'),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    counterModel.decrement();
+                  },
+                  child: const Text('감소'),
+                ),
+              ],
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Provider.of<CounterModel>(context, listen: false).incrementCounter();
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
