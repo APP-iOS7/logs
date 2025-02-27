@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'counter_model.dart';
+import 'even_odd_display.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,6 +45,7 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            EvenOddDisplay(),
             const Text('누른 횟수:'),
             Consumer<CounterModel>(
               builder: (context, model, child) {
