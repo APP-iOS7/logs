@@ -42,11 +42,28 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
                 // 결제하기 버튼
-                ElevatedButton(
-                  onPressed: () {
-                    // 결제하기
-                  },
-                  child: Text('결제하기 - \$${cart.totalPrice.toStringAsFixed(2)}'),
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      onPressed: () {
+                        // 결제하기
+                      },
+                      child: Text(
+                        '결제하기 - \$${cart.totalPrice.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             );
