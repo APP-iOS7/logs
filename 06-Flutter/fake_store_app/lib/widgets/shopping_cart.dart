@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
+import '../screens/cart_screen.dart';
 
 class ShoppingCart extends StatelessWidget {
   const ShoppingCart({super.key});
@@ -17,6 +18,9 @@ class ShoppingCart extends StatelessWidget {
               icon: const Icon(Icons.shopping_cart),
               onPressed: () {
                 // 장바구니 화면으로 이동
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (context) => CartScreen()));
               },
             ),
             if (cartProvider.itemCount > 0)
