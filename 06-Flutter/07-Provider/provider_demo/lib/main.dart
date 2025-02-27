@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Flutter Demo',
             theme:
-                themeModel.isLightTheme ? ThemeData.light() : ThemeData.dark(),
+                themeModel.isLightTheme
+                    ? ThemeData.light(useMaterial3: true)
+                    : ThemeData.dark(useMaterial3: true),
             home: const MyHomePage(title: 'Flutter Demo Home Page'),
           );
         },
@@ -48,6 +50,16 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
+        actions: [
+          IconButton(
+            icon: Icon(
+              !themeModel.isLightTheme ? Icons.dark_mode : Icons.light_mode,
+            ),
+            onPressed: () {
+              themeModel.toggleTheme();
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -69,7 +81,6 @@ class MyHomePage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     counterModel.increment();
-                    themeModel.toggleTheme();
                   },
                   child: const Text('증가'),
                 ),
