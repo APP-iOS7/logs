@@ -1,9 +1,9 @@
-import 'package:fake_store_app/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/cart_item.dart';
 import '../providers/cart_provider.dart';
+import '../widgets/cart_item_widget.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -37,13 +37,7 @@ class CartScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       // 장바구니 상품 정보
                       CartItem cartItem = cart.items[index];
-                      Product product = cartItem.product;
-                      return ListTile(
-                        title: Text('${product.title} x ${cartItem.quantity}'),
-                        subtitle: Text(
-                          '\$${cartItem.totalPrice.toStringAsFixed(2)}',
-                        ),
-                      );
+                      return CartItemWidget(cartItem: cartItem);
                     },
                   ),
                 ),
