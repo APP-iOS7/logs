@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/cart_item.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/cart_item_widget.dart';
+import 'checkout_screen.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -54,6 +55,11 @@ class CartScreen extends StatelessWidget {
                       ),
                       onPressed: () {
                         // 결제하기
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const CheckoutScreen(),
+                          ),
+                        );
                       },
                       child: Text(
                         '결제하기 - \$${cart.totalPrice.toStringAsFixed(2)}',
