@@ -2,7 +2,8 @@
     <application
         android:label="fake_store_app"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        cleartextTrafficPermitted="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
