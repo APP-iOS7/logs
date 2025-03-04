@@ -29,14 +29,17 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        theme: _buildTheme(),
+        theme: _buildLightTheme(),
+        darkTheme: _buildDarkTheme(),
+        themeMode: ThemeMode.dark,
         home: ProductListScreen(),
       ),
     );
   }
 
-  ThemeData _buildTheme() {
+  ThemeData _buildLightTheme() {
     return ThemeData(
+      brightness: Brightness.light,
       primaryColor: AppColors.primary,
       // 색상 테마
       colorScheme: ColorScheme.light(
@@ -104,6 +107,77 @@ class MyApp extends StatelessWidget {
           borderSide: BorderSide(color: AppColors.error, width: 2),
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+    );
+  }
+
+  ThemeData _buildDarkTheme() {
+    return ThemeData(
+      // 색상 테마 (다크)
+      brightness: Brightness.dark,
+      primaryColor: AppColors.primary,
+      colorScheme: ColorScheme.dark(
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
+        surface: AppColors.darkCardBackground,
+        error: AppColors.error,
+      ),
+      scaffoldBackgroundColor: AppColors.darkBackground,
+
+      // 텍스트 테마 (다크)
+      textTheme: TextTheme(
+        displayLarge: AppTextStyles.heading1.copyWith(color: Colors.white),
+        displayMedium: AppTextStyles.heading2.copyWith(color: Colors.white),
+        displaySmall: AppTextStyles.heading3.copyWith(color: Colors.white),
+        bodyLarge: AppTextStyles.bodyLarge.copyWith(color: Colors.white),
+        bodyMedium: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
+        bodySmall: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+        labelLarge: AppTextStyles.button.copyWith(color: Colors.white),
+      ),
+
+      // 앱바 테마 (다크)
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.darkCardBackground,
+        elevation: 0,
+        titleTextStyle: AppTextStyles.heading2.copyWith(color: Colors.white),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+
+      // 카드 테마 (다크)
+      cardTheme: CardTheme(
+        color: AppColors.darkCardBackground,
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+
+      // 버튼 테마 (다크)
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
+          textStyle: AppTextStyles.button,
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+
+      // 입력 필드 테마 (다크)
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.grey.shade700),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: AppColors.primary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: AppColors.error, width: 2),
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        fillColor: AppColors.darkCardBackground,
+        filled: true,
       ),
     );
   }
