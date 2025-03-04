@@ -1,3 +1,4 @@
+import 'package:fake_store_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
@@ -26,13 +27,19 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: _buildLightTheme(),
-        darkTheme: _buildDarkTheme(),
-        themeMode: ThemeMode.dark,
-        home: ProductListScreen(),
+      child: Selector<ThemeProvider, bool>(
+        selector: (context, themeProvider) => themeProvider.isDarkMode(context),
+        builder: (context, isDarkMode, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: _buildLightTheme(),
+            darkTheme: _buildDarkTheme(),
+            themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: ProductListScreen(),
+          );
+        },
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:fake_store_app/widgets/theme_button.dart';
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
@@ -25,7 +26,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('상품 목록'), actions: [ShoppingCart()]),
+      appBar: AppBar(
+        title: const Text('상품 목록'),
+        actions: [ThemeButton(), ShoppingCart()],
+      ),
       body: Column(
         children: [
           Padding(
