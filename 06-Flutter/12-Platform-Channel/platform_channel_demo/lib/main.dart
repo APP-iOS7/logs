@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: Text('Platform Channel Example')),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(_batteryLevel),
             ElevatedButton(
