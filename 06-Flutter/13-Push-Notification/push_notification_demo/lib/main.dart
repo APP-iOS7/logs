@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  OneSignal.initialize("c5cf0f85-3910-41ce-9fd8-79d0ff3945ef");
+
   runApp(const MyApp());
 }
 
