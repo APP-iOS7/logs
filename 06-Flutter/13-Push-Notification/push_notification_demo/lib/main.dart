@@ -41,12 +41,14 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Push Notification Demo')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(onPressed: () {}, child: Text('알림 권한 요청')),
-          ElevatedButton(onPressed: () {}, child: Text('알림 테스트')),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: () {}, child: Text('알림 권한 요청')),
+            ElevatedButton(onPressed: () {}, child: Text('알림 테스트')),
+          ],
+        ),
       ),
     );
   }
