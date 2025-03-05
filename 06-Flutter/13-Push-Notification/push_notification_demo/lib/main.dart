@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:push_notification_demo/one_signal_notification_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-
-  OneSignal.initialize("c5cf0f85-3910-41ce-9fd8-79d0ff3945ef");
-
-  // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-  OneSignal.Notifications.requestPermission(true);
   runApp(const MyApp());
 }
 
@@ -37,6 +32,25 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  late OneSignalNotificationController _notificationController;
+  String _notificationText = '-';
+
+  @override
+  void initState() {
+    super.initState();
+
+    _notificationController = OneSignalNotificationController();
+    _notificationController.initialize(
+      onNotificationReceived: _handleNotification,
+    );
+  }
+
+  void _handleNotification(OSNotification notification) {
+    setState(() {
+      _notificationText = '알림 수신: ${notification.title} - ${notification.body}';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +59,11 @@ class _NotificationPageState extends State<NotificationPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: () {}, child: Text('알림 권한 요청')),
+            Text(_notificationText),
+            ElevatedButton(
+              onPressed: _notificationController.promptPermission,
+              child: Text('알림 권한 요청'),
+            ),
             ElevatedButton(onPressed: () {}, child: Text('알림 테스트')),
           ],
         ),
