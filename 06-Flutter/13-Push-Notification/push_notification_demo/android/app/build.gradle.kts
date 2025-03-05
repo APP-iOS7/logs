@@ -9,6 +9,7 @@ android {
     namespace = "com.example.push_notification_demo"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+    compileSdkVersion(flutter.compileSdkVersion)
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

@@ -53,6 +53,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
+  - OneSignalXCFramework (< 6.0, >= 5.0.0)
 
 SPEC REPOS:
   trunk:
@@ -69,6 +70,6 @@ SPEC CHECKSUMS:
   onesignal_flutter: 6596144e1f08756a2c402047366c867a62b0f6f1
   OneSignalXCFramework: 1a3b28dfbff23aabce585796d23c1bef37772774
 
-PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
+PODFILE CHECKSUM: 46219b5934e6cdea473e0b5811d0dcfa6bcb74d8
 
 COCOAPODS: 1.16.2
