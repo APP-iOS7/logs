@@ -14,6 +14,13 @@ protocol SecondViewControllerDelegate: AnyObject {
 class SecondViewController: UIViewController {
   weak var delegate: SecondViewControllerDelegate?
 
+  lazy var messageTextField: UITextField = {
+    let textField = UITextField()
+    textField.placeholder = "메시지를 입력하세요."
+    textField.borderStyle = .roundedRect
+    return textField
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
@@ -45,8 +52,6 @@ class SecondViewController: UIViewController {
     super.viewDidDisappear(animated)
     print("06 SecondViewController.viewDidDisappear()")
 
-    // SecondViewController가 사라질 때 delegate에게 메시지를 전달
-    delegate?.didDismissSecondViewController(message: "Bye!")
   }
 
   func setupUI() {
@@ -61,6 +66,22 @@ class SecondViewController: UIViewController {
     label.font = UIFont.systemFont(ofSize: 24)
     label.frame = CGRect(x: 20, y: 100, width: view.frame.width - 40, height: 40)
     self.view.addSubview(label)
+
+    messageTextField.frame = CGRect(x: 20, y: 200, width: view.frame.width - 40, height: 40)
+    self.view.addSubview(messageTextField)
+
+    let button = UIButton()
+    button.setTitle("Submit", for: .normal)
+    button.setTitleColor(.blue, for: .normal)
+    button.frame = CGRect(x: 20, y: 300, width: view.frame.width - 40, height: 40)
+
+    button.addAction(UIAction { [weak self] _ in
+      self?.dismiss(animated: true)
+      // SecondViewController가 사라질 때 delegate에게 메시지를 전달
+      self?.delegate?.didDismissSecondViewController(message: self?.messageTextField.text ?? "")
+    }, for: .touchUpInside)
+
+    self.view.addSubview(button)
   }
 
 }

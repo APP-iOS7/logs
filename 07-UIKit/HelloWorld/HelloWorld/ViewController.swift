@@ -9,10 +9,21 @@ import UIKit
 
 class ViewController: UIViewController, SecondViewControllerDelegate {
 
+  // lazy var: 초기화를 늦게 하기 위해 사용하는 키워드
+  lazy var myLabel: UILabel = {
+    print("myLabel 생성")
+    let label = UILabel()
+    label.text = "입력 결과를 출력합니다."
+    label.textAlignment = .center
+    label.textColor = .black
+    label.font = UIFont.systemFont(ofSize: 24)
+    return label
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-
+    print("01 ViewController.viewDidLoad()")
     setupUI()
   }
 
@@ -37,10 +48,13 @@ class ViewController: UIViewController, SecondViewControllerDelegate {
     button.addTarget(self, action: #selector(goSecond), for: .touchUpInside)
 
     self.view.addSubview(button)
+
+    myLabel.frame = CGRect(x: 20, y: 300, width: view.frame.width - 40, height: 40)
+    self.view.addSubview(myLabel)
   }
 
   func didDismissSecondViewController(message: String) {
-      print("SecondViewController에서 전달받은 메시지: \(message)")
+      myLabel.text = message
   }
 
   @objc func goSecond() {
