@@ -17,6 +17,7 @@ class ViewController: UIViewController, SecondViewControllerDelegate {
     label.textAlignment = .center
     label.textColor = .black
     label.font = UIFont.systemFont(ofSize: 24)
+    label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
 
@@ -34,23 +35,43 @@ class ViewController: UIViewController, SecondViewControllerDelegate {
     label.textAlignment = .center
     label.textColor = .black
     label.font = UIFont.systemFont(ofSize: 24)
-    // (frame layout) 붙여질 뷰의 위치와 크기를 설정
-    label.frame = CGRect(x: 20, y: 100, width: view.frame.width - 40, height: 40)
+    // autolayout 설정
+    label.translatesAutoresizingMaskIntoConstraints = false
     // self.view(메인 뷰)에 라벨을 서브 뷰로 추가
     self.view.addSubview(label)
+
+    NSLayoutConstraint.activate([
+      label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
+      label.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+      label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+      label.heightAnchor.constraint(equalToConstant: 40)
+    ])
 
     // 버튼 추가
 
     let button = UIButton()
     button.setTitle("Go Second", for: .normal)
     button.setTitleColor(.blue, for: .normal)
-    button.frame = CGRect(x: 20, y: 200, width: view.frame.width - 40, height: 40)
     button.addTarget(self, action: #selector(goSecond), for: .touchUpInside)
+    button.translatesAutoresizingMaskIntoConstraints = false
 
     self.view.addSubview(button)
 
-    myLabel.frame = CGRect(x: 20, y: 300, width: view.frame.width - 40, height: 40)
+    NSLayoutConstraint.activate([
+      button.topAnchor.constraint(equalTo: label.topAnchor, constant: 100),
+      button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+      button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+      button.heightAnchor.constraint(equalToConstant: 40)
+    ])
+
     self.view.addSubview(myLabel)
+
+    NSLayoutConstraint.activate([
+      myLabel.topAnchor.constraint(equalTo: button.topAnchor, constant: 100),
+      myLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+      myLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+      myLabel.heightAnchor.constraint(equalToConstant: 40)
+    ])
   }
 
   func didDismissSecondViewController(message: String) {
