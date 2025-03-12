@@ -7,7 +7,12 @@
 
 import UIKit
 
+protocol SecondViewControllerDelegate: AnyObject {
+  func didDismissSecondViewController(message: String)
+}
+
 class SecondViewController: UIViewController {
+  weak var delegate: SecondViewControllerDelegate?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,6 +44,9 @@ class SecondViewController: UIViewController {
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     print("06 SecondViewController.viewDidDisappear()")
+
+    // SecondViewController가 사라질 때 delegate에게 메시지를 전달
+    delegate?.didDismissSecondViewController(message: "Bye!")
   }
 
   func setupUI() {

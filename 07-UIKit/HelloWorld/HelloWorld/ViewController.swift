@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, SecondViewControllerDelegate {
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,8 +39,13 @@ class ViewController: UIViewController {
     self.view.addSubview(button)
   }
 
+  func didDismissSecondViewController(message: String) {
+      print("SecondViewController에서 전달받은 메시지: \(message)")
+  }
+
   @objc func goSecond() {
     let secondVC = SecondViewController()
+    secondVC.delegate = self
     self.present(secondVC, animated: true)
   }
 }
