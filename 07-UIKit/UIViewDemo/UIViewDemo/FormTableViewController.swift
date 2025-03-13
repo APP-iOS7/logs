@@ -36,7 +36,10 @@ class FormTableViewController: UITableViewController {
     // 테이블 뷰 셀을 재사용 하거나 새로 생성
     let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
 
-    cell.backgroundColor = .systemGray
+    // Configure the cell...
+    var config = UIListContentConfiguration.subtitleCell()
+    config.text = "Section: \(indexPath.section), Row: \(indexPath.row)"
+    cell.contentConfiguration = config
 
     return cell
   }
