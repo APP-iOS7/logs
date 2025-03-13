@@ -61,17 +61,21 @@ class ViewController: UIViewController {
   // MARK: - 버튼 생성
   func setupButton() {
     let button = UIButton()
-//    button.setTitle("Press Me", for: .normal)
-//    button.titleLabel?.font = .systemFont(ofSize: 24)
-//    button.setTitleColor(.white, for: .normal)
-//    button.backgroundColor = .systemBlue
-//    button.layer.cornerRadius = 10
-//    button.translatesAutoresizingMaskIntoConstraints = false
 
-    // button configuration 추가 (iOS 15 이상)
-    var configuration = UIButton.Configuration.filled()
-    configuration.title = "Press Me"
-    button.configuration = configuration
+    if #available(iOS 15.0, *) {
+      // iOS 15 이상 버전에서만 사용 가능한 코드
+      // 버튼 configuration 추가
+      var configuration = UIButton.Configuration.filled()
+      configuration.title = "Press Me"
+      button.configuration = configuration
+    } else {
+      // iOS 15 미만 버전에서 사용할 코드
+      button.setTitle("Press Me", for: .normal)
+      button.titleLabel?.font = .systemFont(ofSize: 24)
+      button.setTitleColor(.white, for: .normal)
+      button.backgroundColor = .systemBlue
+      button.layer.cornerRadius = 10
+    }
 
     button.translatesAutoresizingMaskIntoConstraints = false
 
