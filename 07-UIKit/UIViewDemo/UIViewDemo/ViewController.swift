@@ -60,10 +60,21 @@ class ViewController: UIViewController {
 
   // MARK: - 버튼 생성
   func setupButton() {
-    let button = UIButton(type: .system)
-    button.setTitle("Press Me", for: .normal)
-    button.titleLabel?.font = .systemFont(ofSize: 24)
+    let button = UIButton()
+//    button.setTitle("Press Me", for: .normal)
+//    button.titleLabel?.font = .systemFont(ofSize: 24)
+//    button.setTitleColor(.white, for: .normal)
+//    button.backgroundColor = .systemBlue
+//    button.layer.cornerRadius = 10
+//    button.translatesAutoresizingMaskIntoConstraints = false
+
+    // button configuration 추가 (iOS 15 이상)
+    var configuration = UIButton.Configuration.filled()
+    configuration.title = "Press Me"
+    button.configuration = configuration
+
     button.translatesAutoresizingMaskIntoConstraints = false
+
     view.addSubview(button)
 
     NSLayoutConstraint.activate([
