@@ -10,7 +10,7 @@ import UIKit
 class FormTableViewController: UITableViewController {
   var flag = false
   let toggle = UISwitch()
-  let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height:30))
+  let button = UIButton()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -23,6 +23,7 @@ class FormTableViewController: UITableViewController {
     config.title = "Button"
     button.isEnabled = flag
     button.configuration = config
+    button.sizeToFit()
 
     tableView.headerView(forSection: 0)?.backgroundColor = .systemRed
 
