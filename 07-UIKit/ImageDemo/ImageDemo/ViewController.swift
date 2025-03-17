@@ -16,14 +16,14 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
 
-    // 기본 스크롤과 스택 뷰 추가
+    // UI 설정 (기본 스크롤과 스택 뷰 추가)
     setupUI()
 
     // 기본 도형 표시
     setupShapes()
   }
 
-  // MARK: - UI 설정
+  // MARK: - UI 설정 (기본 스크롤과 스택 뷰 추가)
   func setupUI() {
     // 스크롤 뷰 설정
     scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -45,10 +45,9 @@ class ViewController: UIViewController {
 
       // 스택 뷰 제약조건 설정
       stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-      stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-      stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
-      stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-      stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+      stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+
     ])
   }
 
@@ -56,9 +55,7 @@ class ViewController: UIViewController {
   func setupShapes() {
     let containerView = UIView()
     containerView.translatesAutoresizingMaskIntoConstraints = false
-
-    // 컨테이너 뷰 제약 조건 활성화
-    containerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+    containerView.sizeToFit()
 
     // 제목 레이블
     let titleLabel = UILabel()
@@ -88,12 +85,16 @@ class ViewController: UIViewController {
     squareView.backgroundColor = .blue
     containerView.addSubview(squareView)
 
-    // 원과 사각형의 제약조건 설정
+    // 스택 뷰에 컨테이너 뷰 추가
+    stackView.addArrangedSubview(containerView)
+
+    // 컨테이너 뷰 제약 조건 활성화
+    containerView.widthAnchor.constraint(equalTo: stackView.widthAnchor).isActive = true
+
+    // 제목 레이블, 원, 사각형의 제약조건 설정
     NSLayoutConstraint.activate([
-      // 제목 레이블 제약조건 설정
       titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
       titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-      titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
 
       circleView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
       circleView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -106,9 +107,6 @@ class ViewController: UIViewController {
       squareView.heightAnchor.constraint(equalToConstant: squareSize)
     ])
 
-
-    // 스택 뷰에 컨테이너 뷰 추가
-    stackView.addArrangedSubview(containerView)
   }
 }
 
