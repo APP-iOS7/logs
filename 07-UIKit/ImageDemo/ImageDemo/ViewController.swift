@@ -182,10 +182,9 @@ class ViewController: UIViewController {
     imageView.image = UIImage(named: "car")
     imageView.backgroundColor = .black
     imageView.contentMode = contentMode
+    imageView.clipsToBounds = true
     imageView.translatesAutoresizingMaskIntoConstraints = false
     containerView.addSubview(imageView)
-
-    stackView.addArrangedSubview(containerView)
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
@@ -198,6 +197,8 @@ class ViewController: UIViewController {
 
       containerView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20)
     ])
+
+    stackView.addArrangedSubview(containerView)
   }
 
   // MARK: - SF Symbol 표시
