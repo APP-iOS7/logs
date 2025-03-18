@@ -63,6 +63,9 @@ class ViewController: UIViewController {
       self?.showMessage("Delete 선택됨")
     })
 
+    // 취소 액션 추가 ( 외부 탭 닫힘도 같이 동작함 )
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
     // 아이패드에서 팝오버 형태로 메뉴를 표시하기 위한 설정입니다.
     if let popoverController = alert.popoverPresentationController {
       popoverController.sourceView = view
@@ -70,10 +73,8 @@ class ViewController: UIViewController {
       popoverController.permittedArrowDirections = [.down]
     }
 
-
     // 액션 시트를 표시합니다.
     present(alert, animated: true)
-
   }
 
   private func showMessage(_ message: String) {
