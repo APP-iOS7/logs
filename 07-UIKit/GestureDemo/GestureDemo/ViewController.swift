@@ -83,10 +83,17 @@ class ViewController: UIViewController {
 
 // MARK: - UIGestureRecognizerDelegate (동시 인식 설정)
 extension ViewController: UIGestureRecognizerDelegate {
+  // 동시 인식 설정
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
     shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
   ) -> Bool {
     return true
+  }
+
+  // 특정 제스처를 다른 제스처보다 우선적으로 인식하도록 설정
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                         shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    return gestureRecognizer is UIPinchGestureRecognizer && otherGestureRecognizer is UIRotationGestureRecognizer
   }
 }
 
