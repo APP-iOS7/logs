@@ -7,6 +7,13 @@
 
 import UIKit
 
+// MARK: - UIView extension (서브뷰 태그로 찾기 기능 추가)
+extension UIView {
+  func getSubview(withTag tag: Int) -> UIView? {
+    return subviews.first(where: { $0.tag == tag })
+  }
+}
+
 class ViewController: UIViewController {
   let RECTANGLE_VIEW_TAG = 1000
 
@@ -34,7 +41,7 @@ class ViewController: UIViewController {
 
   func setupGesture() {
     print("subviews count: \(view.subviews.count)")
-    guard let rectangle = view.subviews.first(where: { $0.tag == RECTANGLE_VIEW_TAG }) else {
+    guard let rectangle = view.getSubview(withTag: RECTANGLE_VIEW_TAG) else {
       return
     }
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
