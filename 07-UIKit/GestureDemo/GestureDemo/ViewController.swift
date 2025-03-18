@@ -8,6 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
+  let RECTANGLE_VIEW_TAG = 1000
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -20,6 +21,7 @@ class ViewController: UIViewController {
     let rectangle = UIView()
     rectangle.backgroundColor = .yellow
     rectangle.translatesAutoresizingMaskIntoConstraints = false
+    rectangle.tag = RECTANGLE_VIEW_TAG
     view.addSubview(rectangle)
 
     NSLayoutConstraint.activate([
@@ -31,10 +33,14 @@ class ViewController: UIViewController {
   }
 
   func setupGesture() {
+    print("subviews count: \(view.subviews.count)")
+    guard let rectangle = view.subviews.first(where: { $0.tag == RECTANGLE_VIEW_TAG }) else {
+      return
+    }
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
     tapGesture.numberOfTapsRequired = 2 // 더블 탭
     tapGesture.numberOfTouchesRequired = 1 // 한 손가락
-    view.addGestureRecognizer(tapGesture)
+    rectangle.addGestureRecognizer(tapGesture)
   }
 
   @objc func handleTapGesture() {
@@ -43,3 +49,6 @@ class ViewController: UIViewController {
 
 }
 
+#Preview {
+  ViewController()
+}
