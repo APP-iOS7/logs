@@ -53,6 +53,7 @@ class ViewController: UIViewController {
 }
 
 #Preview {
-  UINavigationController(rootViewController: ViewController())
+  // 스토리보드를 이용한 생성자 함수로 프리뷰 띄우기 ( 세그웨이 사용시 )
+  UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
 }
 
