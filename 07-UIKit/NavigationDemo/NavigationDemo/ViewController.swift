@@ -26,9 +26,7 @@ class ViewController: UIViewController {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    let VC = UIViewController()
-    VC.view.backgroundColor = .systemYellow
-    VC.title = "서브 타이틀"
+    let VC = SecondViewController()
     self.navigationController?.pushViewController(VC, animated: true)
   }
 }
