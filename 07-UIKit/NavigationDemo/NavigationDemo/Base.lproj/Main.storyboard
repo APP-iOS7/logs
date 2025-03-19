@@ -37,10 +37,29 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="IPJ-wh-FcK"/>
+                    <connections>
+                        <segue destination="aut-AQ-tJ6" kind="show" identifier="showDetailSegue" id="Hhx-tW-JHw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1379.3893129770993" y="15.492957746478874"/>
+        </scene>
+        <!--Second View Controller-->
+        <scene sceneID="3JF-TM-4a2">
+            <objects>
+                <viewController id="aut-AQ-tJ6" customClass="SecondViewController" customModule="NavigationDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="a55-ti-4q0">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="vho-Ew-bxl"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="80F-ET-JQz"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HVc-uy-Uoc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2213" y="15"/>
         </scene>
     </scenes>
     <resources>
