@@ -18,7 +18,6 @@ class SecondViewController: UIViewController {
   }()
   private var observer: NSObjectProtocol? // 옵저버 참조 저장
 
-
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationItem.title = "Second"
@@ -40,6 +39,7 @@ class SecondViewController: UIViewController {
     ])
 
     // NotificationCenter를 사용하여 데이터 변경 감지
+    // 옵저버가 등록되기 전에는 데이터 감지가 불가능
     observer = NotificationCenter.default.addObserver(
       forName: DataManager.dataChangedNotification,
       object: nil,
