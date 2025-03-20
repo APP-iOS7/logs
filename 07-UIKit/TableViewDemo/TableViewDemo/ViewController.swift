@@ -26,9 +26,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       Animal(name: "곰", image: UIImage(systemName: "circle")!)
     ]),
     AnimalCategory(category: "조류", animals: [
-      Animal(name: "독수리", image: UIImage(systemName: "circle")!),
-      Animal(name: "부엉이", image: UIImage(systemName: "circle")!),
-      Animal(name: "참새", image: UIImage(systemName: "circle")!)
+      Animal(name: "독수리", image: UIImage(systemName: "circle.fill")!),
+      Animal(name: "부엉이", image: UIImage(systemName: "circle.fill")!),
+      Animal(name: "참새", image: UIImage(systemName: "circle.fill")!)
     ]),
   ]
 
@@ -40,6 +40,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // 테이블 뷰의 데이터 소스를 현재 뷰 컨트롤러로 설정
     tableView.dataSource = self
     tableView.delegate = self
+
+    // 커스텀 셀을 등록
+    tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
+
 
     view.addSubview(tableView)
   }
@@ -58,13 +62,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   // 셀을 생성하고 구성하는 메서드
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    var cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
+    // 셀을 재사용 큐에서 가져옴
+    let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
 
-    if cell == nil {
-      cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
-    }
-    cell?.textLabel?.text = categories[indexPath.section].animals[indexPath.row].name
-    return cell!
+    let animal = categories[indexPath.section].animals[indexPath.row]
+
+    cell.configure(image: animal.image, name: animal.name)
+
+    return cell
   }
 
   // 헤더 뷰를 반환 ( 데이터 소스 메서드 )
@@ -80,7 +85,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
   // 행의 높이를 반환
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 60
+    return 70
   }
 
 }
