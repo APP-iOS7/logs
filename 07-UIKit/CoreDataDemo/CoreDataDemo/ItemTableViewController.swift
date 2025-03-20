@@ -23,7 +23,8 @@ class ItemTableViewController: UITableViewController {
     super.viewDidLoad()
     configureNavigation()
     configureTableView()
-    
+    configureSearchController()
+
     // 샘플 데이터 추가 버튼
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .add,
@@ -108,7 +109,6 @@ class ItemTableViewController: UITableViewController {
   }
 
   // MARK: - Table view data source
-  
   override func numberOfSections(in tableView: UITableView) -> Int {
     // #warning Incomplete implementation, return the number of sections
     return 1
@@ -164,5 +164,51 @@ class ItemTableViewController: UITableViewController {
       deleteGridItem(item)
     }
   }
+}
+
+// 검색 기능 구현
+extension ItemTableViewController: UISearchResultsUpdating {
+
+  // 검색 컨트롤러 설정
+  func configureSearchController() {
+    let searchController = UISearchController()
+    searchController.searchResultsUpdater = self
+    searchController.searchBar.placeholder = "검색"
+    navigationItem.searchController = searchController
+
+    // 네비게이션 바에 검색바가 숨겨지지 않도록 설정
+    navigationItem.hidesSearchBarWhenScrolling = false
+
+    // 검색 결과 화면을 현재 뷰 컨트롤러로 설정
+    definesPresentationContext = true
+  }
+
+  // 검색 기능 구현
+  func searchGridItems(_ text: String) {
+
+    // 검색어가 없을 때 전체 데이터 로드
+    if text.isEmpty {
+      loadGridItems()
+      return
+    }
+
+    let request: NSFetchRequest<GridItemEntity> = GridItemEntity.fetchRequest()
+
+    request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
+    
+    do {
+      let result = try viewContext.fetch(request)
+      items = result.compactMap { GridItem.from($0) }
+      tableView.reloadData()
+    } catch {
+      print("검색 실패: \(error)")
+    }
+  }
+
+  func updateSearchResults(for searchController: UISearchController) {
+    guard let text = searchController.searchBar.text else { return }
+    searchGridItems(text)
+  }
+
 
 }
