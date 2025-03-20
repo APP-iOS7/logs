@@ -16,6 +16,9 @@ class CustomCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+    // 오른쪽 화살표를 표시하기 위해 accessoryType을 .disclosureIndicator로 설정합니다.
+    accessoryType = .disclosureIndicator
+
     // 이미지 뷰의 크기와 위치를 설정합니다.
     // Auto Layout 제약 조건을 사용하기 위해 translatesAutoresizingMaskIntoConstraints를 false로 설정합니다.
     animalImageView.translatesAutoresizingMaskIntoConstraints = false
