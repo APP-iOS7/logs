@@ -78,7 +78,9 @@ class ItemTableViewController: UITableViewController {
   
   private func loadGridItems() {
     let request: NSFetchRequest<GridItemEntity> = GridItemEntity.fetchRequest()
-    
+    // 생성일 순으로 정렬
+    request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+
     do {
       let result = try viewContext.fetch(request)
       items = result.compactMap { GridItem.from($0) }
