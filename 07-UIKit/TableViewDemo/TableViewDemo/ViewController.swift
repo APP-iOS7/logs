@@ -67,6 +67,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     return cell!
   }
 
+  // 헤더 뷰를 반환 ( 데이터 소스 메서드 )
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return categories[section].category
+  }
+
   // MARK: - UITableViewDelegate
   // 행이 선택되었을 때 호출
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -78,10 +83,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     return 60
   }
 
-  //헤더 뷰를 반환
-  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    return categories[section].category
-  }
 }
 #Preview {
   UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
