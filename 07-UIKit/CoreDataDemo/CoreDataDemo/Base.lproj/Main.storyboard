@@ -34,7 +34,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KKY-w2-Zyp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1006.8702290076335" y="-58.450704225352112"/>
+            <point key="canvasLocation" x="1047" y="-58"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ack-ap-YsF">
@@ -47,7 +47,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Pao-WL-0ie" kind="relationship" relationship="rootViewController" id="Y38-wz-5DY"/>
+                        <segue destination="Pao-WL-0ie" kind="relationship" relationship="rootViewController" id="ohU-Up-YMG"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UCM-5Q-KSB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
