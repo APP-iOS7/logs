@@ -10,6 +10,8 @@ import CoreData
 
 class ViewController: UIViewController {
 
+  var filterDone = false
+
   // UIFetchedResultsController를 사용하여 데이터를 가져오기 위한 프로퍼티
   var fetchedResultsController: NSFetchedResultsController<TodoItem>!
 
@@ -25,6 +27,7 @@ class ViewController: UIViewController {
     navigationController?.navigationBar.prefersLargeTitles = true
 
     configureTodoList()
+    setupBarButton()
     addNewTodoItemButton()
     fetchTodoItems()
     configureSearchController()
@@ -37,12 +40,6 @@ class ViewController: UIViewController {
     tableView.dataSource = self
     tableView.delegate = self
 
-    tableView.refreshControl = UIRefreshControl()
-    tableView.refreshControl?.addAction(UIAction { [weak self] _ in
-      self?.fetchTodoItems()
-      self?.tableView.refreshControl?.endRefreshing()
-    }, for: .valueChanged)
-
     view.addSubview(tableView)
 
     NSLayoutConstraint.activate([
@@ -51,6 +48,23 @@ class ViewController: UIViewController {
       tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
     ])
+  }
+
+  func setupBarButton() {
+    // 필터 토글 상태에 따른 버튼 아이콘 변경
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: UIImage(systemName: !filterDone ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill"),
+      style: .plain,
+      target: self,
+      action: #selector(toggleDoneFilter)
+    )
+  }
+
+  @objc func toggleDoneFilter(_ sender: UIBarButtonItem) {
+    filterDone.toggle()
+    setupBarButton()
+
+    fetchTodoItems()
   }
 
   func addNewTodoItemButton() {
@@ -89,7 +103,10 @@ class ViewController: UIViewController {
     let sortDescriptor2 = NSSortDescriptor(key: "createdAt", ascending: false)
     request.sortDescriptors = [sortDescriptor1,sortDescriptor2]
 
+    request.predicate = filterDone ? NSPredicate(format: "isDone == false") : nil
+
     fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: viewContext, sectionNameKeyPath: "category", cacheName: nil)
+
     fetchedResultsController?.delegate = self
 
     do {
@@ -115,11 +132,20 @@ extension ViewController: NSFetchedResultsControllerDelegate {
     switch type {
     case .insert:
       if let newIndexPath = newIndexPath {
+        if tableView.numberOfSections < (controller.sections?.count ?? 0) {
+          tableView.insertSections(IndexSet(integer: newIndexPath.section), with: .automatic)
+        }
         tableView.insertRows(at: [newIndexPath], with: .automatic)
       }
     case .delete:
       if let indexPath = indexPath {
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+        if (controller.sections?.count ?? 0) > indexPath.section,
+           let section = controller.sections?[indexPath.section],
+           section.numberOfObjects == 1 {
+          tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+        } else {
+          tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
       }
     case .update:
       if let indexPath = indexPath {
@@ -171,18 +197,18 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let item = fetchedResultsController.object(at: indexPath)
-    print(
-      "Selected item: \(item.title ?? ""), category: \(item.category?.name ?? "")"
-    )
-    item.isDone.toggle()
-
-    do {
-      try viewContext.save()
-    } catch {
-      print("Failed to save item: \(error)")
-    }
     tableView.deselectRow(at: indexPath, animated: true)
+
+    let item = fetchedResultsController.object(at: indexPath)
+
+    viewContext.performAndWait {
+      do {
+        item.isDone.toggle()
+        try viewContext.save()
+      } catch {
+        print("Failed to save item: \(error)")
+      }
+    }
   }
 
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -212,6 +238,7 @@ extension ViewController: UISearchResultsUpdating {
     let searchController = UISearchController()
     searchController.searchResultsUpdater = self
     searchController.searchBar.placeholder = "검색"
+
     navigationItem.searchController = searchController
 
     // 검색 결과 화면을 현재 뷰 컨트롤러로 설정
@@ -234,6 +261,8 @@ extension ViewController: UISearchResultsUpdating {
     let sortDescriptor1 = NSSortDescriptor(key: "category.updatedAt", ascending: false)
     let sortDescriptor2 = NSSortDescriptor(key: "createdAt", ascending: false)
     request.sortDescriptors = [sortDescriptor1,sortDescriptor2]
+
+    request.predicate = filterDone ? NSPredicate(format: "isDone == false") : nil
 
     request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
 

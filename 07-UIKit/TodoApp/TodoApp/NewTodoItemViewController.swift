@@ -29,13 +29,12 @@ class NewTodoItemViewController: UIViewController {
 
     // 저장 버튼
     navigationItem.rightBarButtonItem = UIBarButtonItem(
-      barButtonSystemItem: .save,
-      target: self,
-      action: #selector(saveTodoItem)
-    )
+      systemItem: .save, primaryAction: UIAction { [weak self] _ in
+        self?.saveTodoItem()
+      })
   }
 
-  @objc func saveTodoItem() {
+  func saveTodoItem() {
     guard let title = titleField.text, !title.isEmpty else {
       let alert = UIAlertController(title: "제목을 입력하세요", message: nil, preferredStyle: .alert)
       alert.addAction(UIAlertAction(title: "확인", style: .default))
@@ -58,11 +57,13 @@ class NewTodoItemViewController: UIViewController {
       todoItem.category = newCategory
     }
 
-    do {
-      try viewContext.save()
-      navigationController?.popViewController(animated: true)
-    } catch {
-      print("Failed to save todo item: \(error)")
+    viewContext.performAndWait() {
+      do {
+        try viewContext.save()
+        navigationController?.popViewController(animated: true)
+      } catch {
+        print("Failed to save todo item: \(error)")
+      }
     }
   }
 
