@@ -49,10 +49,12 @@ class NewTodoItemViewController: UIViewController {
 
     if let category = fetchResultsController.fetchedObjects?.first(where: { $0.name == categoryField.text }) {
       todoItem.category = category
+      category.updatedAt = Date()
     } else {
       let newCategory = Category(context: viewContext)
       newCategory.name = categoryField.text
       newCategory.createdAt = Date()
+      newCategory.updatedAt = Date()
       todoItem.category = newCategory
     }
 
