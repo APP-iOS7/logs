@@ -6,8 +6,18 @@
 //
 
 import UIKit
+import CoreData
 
 class NewTodoItemViewController: UIViewController {
+
+  var fetchResultsController: NSFetchedResultsController<Category>!
+
+  lazy var persistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+
+  lazy var viewContext = persistentContainer.viewContext
+
+  let titleField = UITextField()
+  let categoryField = UITextField()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -15,11 +25,47 @@ class NewTodoItemViewController: UIViewController {
     view.backgroundColor = .systemBackground
 
     configureTodoItemForm()
+    fetchCategories()
+
+    // 저장 버튼
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .save,
+      target: self,
+      action: #selector(saveTodoItem)
+    )
+  }
+
+  @objc func saveTodoItem() {
+    guard let title = titleField.text, !title.isEmpty else {
+      let alert = UIAlertController(title: "제목을 입력하세요", message: nil, preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "확인", style: .default))
+      present(alert, animated: true)
+      return
+    }
+
+    let todoItem = TodoItem(context: viewContext)
+    todoItem.title = title
+    todoItem.createdAt = Date()
+
+    if let category = fetchResultsController.fetchedObjects?.first(where: { $0.name == categoryField.text }) {
+      todoItem.category = category
+    } else {
+      let newCategory = Category(context: viewContext)
+      newCategory.name = categoryField.text
+      newCategory.createdAt = Date()
+      todoItem.category = newCategory
+    }
+
+    do {
+      try viewContext.save()
+      navigationController?.popViewController(animated: true)
+    } catch {
+      print("Failed to save todo item: \(error)")
+    }
   }
 
   func configureTodoItemForm() {
     // TodoItem title 입력 필드
-    let titleField = UITextField()
 
     titleField.font = .systemFont(ofSize: 20)
     titleField.placeholder = "할 일을 입력하세요."
@@ -28,7 +74,6 @@ class NewTodoItemViewController: UIViewController {
     view.addSubview(titleField)
 
     // Category name 입력 드롭다운 (with 입력필드)
-    let categoryField = UITextField()
     categoryField.font = .systemFont(ofSize: 20)
     categoryField.placeholder = "카테고리를 선택하세요."
     categoryField.borderStyle = .roundedRect
@@ -61,16 +106,34 @@ class NewTodoItemViewController: UIViewController {
     ])
 
   }
+
+  func fetchCategories() {
+    let request: NSFetchRequest<Category> = Category.fetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(keyPath: \Category.name, ascending: true)]
+
+    fetchResultsController = NSFetchedResultsController(
+      fetchRequest: request,
+      managedObjectContext: viewContext,
+      sectionNameKeyPath: nil,
+      cacheName: nil
+    )
+
+    do {
+      try fetchResultsController.performFetch()
+    } catch {
+      print("Failed to fetch categories: \(error)")
+    }
+  }
 }
 
 extension NewTodoItemViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 5
+    return fetchResultsController.fetchedObjects?.count ?? 0
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-    cell.textLabel?.text = "Category \(indexPath.row)"
+    cell.textLabel?.text = fetchResultsController.object(at: indexPath).name
     return cell
   }
 }

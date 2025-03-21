@@ -6,8 +6,18 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
+
+  // UIFetchedResultsController를 사용하여 데이터를 가져오기 위한 프로퍼티
+  var fetchedResultsController: NSFetchedResultsController<TodoItem>!
+
+  lazy var persistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+
+  lazy var viewContext = persistentContainer.viewContext
+
+  let tableView = UITableView(frame: .zero, style: .insetGrouped)
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -16,22 +26,23 @@ class ViewController: UIViewController {
 
     configureTodoList()
     addNewTodoItemButton()
+    fetchTodoItems()
   }
 
   func configureTodoList() {
-    let todoList = UITableView(frame: .zero, style: .insetGrouped)
-    todoList.translatesAutoresizingMaskIntoConstraints = false
-    todoList.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-    todoList.dataSource = self
-    todoList.delegate = self
+    tableView.translatesAutoresizingMaskIntoConstraints = false
 
-    view.addSubview(todoList)
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    tableView.dataSource = self
+    tableView.delegate = self
+
+    view.addSubview(tableView)
 
     NSLayoutConstraint.activate([
-      todoList.topAnchor.constraint(equalTo: view.topAnchor),
-      todoList.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      todoList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      todoList.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+      tableView.topAnchor.constraint(equalTo: view.topAnchor),
+      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
     ])
   }
 
@@ -61,17 +72,47 @@ class ViewController: UIViewController {
       button.heightAnchor.constraint(equalToConstant: 60)
     ])
   }
+
+  func fetchTodoItems() {
+    let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
+    let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: false)
+    request.sortDescriptors = [sortDescriptor]
+
+    fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: viewContext, sectionNameKeyPath: "category.name", cacheName: nil)
+    fetchedResultsController?.delegate = self
+
+    do {
+      try fetchedResultsController.performFetch()
+    } catch {
+      print("Failed to fetch items: \(error)")
+    }
+  }
+}
+
+extension ViewController: NSFetchedResultsControllerDelegate {
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    print("Content changed")
+    tableView.reloadData()
+  }
 }
 
 extension ViewController: UITableViewDataSource {
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return fetchedResultsController.sections?.count ?? 0
+  }
+
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 100
+    return fetchedResultsController.sections?[section].numberOfObjects ?? 0
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-    cell.textLabel?.text = "Todo Item"
+    cell.textLabel?.text = fetchedResultsController.object(at: indexPath).title
     return cell
+  }
+
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return fetchedResultsController.sections?[section].name
   }
 }
 
