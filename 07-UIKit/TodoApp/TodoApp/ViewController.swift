@@ -11,9 +11,11 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view.
+    title = "UIKit Todo"
+    navigationController?.navigationBar.prefersLargeTitles = true
   }
-
-
 }
 
+#Preview {
+  UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+}
