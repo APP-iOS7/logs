@@ -139,9 +139,7 @@ extension ViewController: NSFetchedResultsControllerDelegate {
       }
     case .delete:
       if let indexPath = indexPath {
-        if (controller.sections?.count ?? 0) > indexPath.section,
-           let section = controller.sections?[indexPath.section],
-           section.numberOfObjects == 1 {
+        if tableView.numberOfRows(inSection: indexPath.section) == 1 {
           tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
         } else {
           tableView.deleteRows(at: [indexPath], with: .automatic)
