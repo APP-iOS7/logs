@@ -18,6 +18,7 @@ class NewTodoItemViewController: UIViewController {
 
   let titleField = UITextField()
   let categoryField = UITextField()
+  let tableView = UITableView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,6 +35,7 @@ class NewTodoItemViewController: UIViewController {
       })
   }
 
+  @MainActor
   func saveTodoItem() {
     guard let title = titleField.text, !title.isEmpty else {
       let alert = UIAlertController(title: "제목을 입력하세요", message: nil, preferredStyle: .alert)
@@ -48,22 +50,18 @@ class NewTodoItemViewController: UIViewController {
 
     if let category = fetchResultsController.fetchedObjects?.first(where: { $0.name == categoryField.text }) {
       todoItem.category = category
-      category.updatedAt = Date()
     } else {
       let newCategory = Category(context: viewContext)
       newCategory.name = categoryField.text
       newCategory.createdAt = Date()
-      newCategory.updatedAt = Date()
       todoItem.category = newCategory
     }
 
-    viewContext.performAndWait() {
-      do {
-        try viewContext.save()
-        navigationController?.popViewController(animated: true)
-      } catch {
-        print("Failed to save todo item: \(error)")
-      }
+    do {
+      try viewContext.save()
+      navigationController?.popViewController(animated: true)
+    } catch {
+      print("Failed to save todo item: \(error)")
     }
   }
 
@@ -83,15 +81,13 @@ class NewTodoItemViewController: UIViewController {
     categoryField.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(categoryField)
 
-    let recommendationTableView = UITableView()
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
 
-    recommendationTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    tableView.dataSource = self
+    tableView.delegate = self
 
-    recommendationTableView.dataSource = self
-    recommendationTableView.delegate = self
-
-    recommendationTableView.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(recommendationTableView)
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(tableView)
 
     NSLayoutConstraint.activate([
       titleField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -102,10 +98,10 @@ class NewTodoItemViewController: UIViewController {
       categoryField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
       categoryField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
 
-      recommendationTableView.topAnchor.constraint(equalTo: categoryField.bottomAnchor),
-      recommendationTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-      recommendationTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-      recommendationTableView.heightAnchor.constraint(equalToConstant: 200)
+      tableView.topAnchor.constraint(equalTo: categoryField.bottomAnchor),
+      tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+      tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+      tableView.heightAnchor.constraint(equalToConstant: 200)
     ])
 
   }
@@ -136,7 +132,11 @@ extension NewTodoItemViewController: UITableViewDataSource {
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-    cell.textLabel?.text = fetchResultsController.object(at: indexPath).name
+
+    var config = cell.defaultContentConfiguration()
+    config.text = fetchResultsController.object(at: indexPath).name
+    cell.contentConfiguration = config
+    
     return cell
   }
 }

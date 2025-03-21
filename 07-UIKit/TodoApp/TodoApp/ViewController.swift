@@ -99,7 +99,7 @@ class ViewController: UIViewController {
     // prefetching을 위해 relationshipKeyPathsForPrefetching 프로퍼티에 category 속성을 추가합니다.
     request.relationshipKeyPathsForPrefetching = ["category"]
 
-    let sortDescriptor1 = NSSortDescriptor(key: "category.updatedAt", ascending: false)
+    let sortDescriptor1 = NSSortDescriptor(key: "category.name", ascending: true)
     let sortDescriptor2 = NSSortDescriptor(key: "createdAt", ascending: false)
     request.sortDescriptors = [sortDescriptor1,sortDescriptor2]
 
@@ -214,7 +214,6 @@ extension ViewController: UITableViewDelegate {
       guard let self = self else { return }
       let item = self.fetchedResultsController.object(at: indexPath)
       self.viewContext.delete(item)
-      item.category?.updatedAt = Date()
       do {
         try self.viewContext.save()
         completion(true)
@@ -256,7 +255,7 @@ extension ViewController: UISearchResultsUpdating {
 
     request.relationshipKeyPathsForPrefetching = ["category"]
 
-    let sortDescriptor1 = NSSortDescriptor(key: "category.updatedAt", ascending: false)
+    let sortDescriptor1 = NSSortDescriptor(key: "category.name", ascending: true)
     let sortDescriptor2 = NSSortDescriptor(key: "createdAt", ascending: false)
     request.sortDescriptors = [sortDescriptor1,sortDescriptor2]
 
