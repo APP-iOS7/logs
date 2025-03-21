@@ -140,6 +140,7 @@ extension NewTodoItemViewController: UITableViewDataSource {
 
 extension NewTodoItemViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    categoryField.text = fetchResultsController.object(at: indexPath).name
     tableView.deselectRow(at: indexPath, animated: true)
   }
 }
