@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     configureTodoList()
     addNewTodoItemButton()
     fetchTodoItems()
+    configureSearchController()
   }
 
   func configureTodoList() {
@@ -93,6 +94,7 @@ class ViewController: UIViewController {
 
     do {
       try fetchedResultsController.performFetch()
+      tableView.reloadData()
     } catch {
       print("Failed to fetch items: \(error)")
     }
@@ -100,9 +102,42 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: NSFetchedResultsControllerDelegate {
+
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    print("Content will change")
+    // 테이블 뷰 변경 애니메이션 시작
+    tableView.beginUpdates()
+  }
+
+  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    print("Object changed")
+    // 테이블 뷰 변경 애니메이션 적용: 데이터 추가, 삭제, 업데이트, 이동
+    switch type {
+    case .insert:
+      if let newIndexPath = newIndexPath {
+        tableView.insertRows(at: [newIndexPath], with: .automatic)
+      }
+    case .delete:
+      if let indexPath = indexPath {
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+      }
+    case .update:
+      if let indexPath = indexPath {
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+      }
+    case .move:
+      if let indexPath = indexPath, let newIndexPath = newIndexPath {
+        tableView.moveRow(at: indexPath, to: newIndexPath)
+      }
+    @unknown default:
+      break
+    }
+  }
+
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     print("Content changed")
-    tableView.reloadData()
+    // 테이블 뷰 변경 애니메이션 종료
+    tableView.endUpdates()
   }
 }
 
@@ -169,6 +204,54 @@ extension ViewController: UITableViewDelegate {
   }
 }
 
-#Preview {
-  UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
+// 검색 기능 구현
+extension ViewController: UISearchResultsUpdating {
+
+  // 검색 컨트롤러 설정
+  func configureSearchController() {
+    let searchController = UISearchController()
+    searchController.searchResultsUpdater = self
+    searchController.searchBar.placeholder = "검색"
+    navigationItem.searchController = searchController
+
+    // 검색 결과 화면을 현재 뷰 컨트롤러로 설정
+    definesPresentationContext = true
+  }
+
+  // 검색 기능 구현
+  func searchTodoItems(_ text: String) {
+
+    // 검색어가 없을 때 전체 데이터 로드
+    if text.isEmpty {
+      fetchTodoItems()
+      return
+    }
+
+    let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
+
+    request.relationshipKeyPathsForPrefetching = ["category"]
+
+    let sortDescriptor1 = NSSortDescriptor(key: "category.updatedAt", ascending: false)
+    let sortDescriptor2 = NSSortDescriptor(key: "createdAt", ascending: false)
+    request.sortDescriptors = [sortDescriptor1,sortDescriptor2]
+
+    request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
+
+    fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: viewContext, sectionNameKeyPath: "category", cacheName: nil)
+    fetchedResultsController?.delegate = self
+
+    do {
+      try fetchedResultsController.performFetch()
+      tableView.reloadData()
+      print("검색 결과: \(fetchedResultsController.fetchedObjects?.count ?? 0) 건")
+    } catch {
+      print("검색 실패: \(error)")
+    }
+  }
+
+  func updateSearchResults(for searchController: UISearchController) {
+    guard let text = searchController.searchBar.text else { return }
+    print("Search text: \(text)")
+    searchTodoItems(text)
+  }
 }
