@@ -43,10 +43,29 @@ class ViewController: UIViewController {
   }
 
   func startAnimation() {
-    UIView.animate(withDuration: 1.0) {
-      self.animationView.frame.origin.x += 100
-      self.animationView.frame.origin.y += 50
-    }
+    UIView.animate(withDuration: 1, animations: {
+      self.animationView.transform = self.animationView.transform.rotated(by: .pi / 4)
+    }, completion: { _ in
+      UIView.animate(withDuration: 1) {
+        self.animationView.backgroundColor = .systemBlue
+      } completion: { _ in
+        UIView.animate(withDuration: 1) {
+//          self.animationView.frame.origin.x += 50
+//          self.animationView.frame.origin.y += 10
+        } completion: { _ in
+          // 현재 상태에 따라 확대 또는 축소
+          if self.animationView.transform == .identity {
+            UIView.animate(withDuration: 1.0) {
+              self.animationView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+            }
+          } else {
+            UIView.animate(withDuration: 1.0) {
+              self.animationView.transform = .identity
+            }
+          }
+        }
+      }
+    })
   }
 }
 
