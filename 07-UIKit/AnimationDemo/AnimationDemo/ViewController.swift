@@ -43,29 +43,53 @@ class ViewController: UIViewController {
   }
 
   func startAnimation() {
-    UIView.animate(withDuration: 1, animations: {
-      self.animationView.transform = self.animationView.transform.rotated(by: .pi / 4)
-    }, completion: { _ in
-      UIView.animate(withDuration: 1) {
+    UIView.animateKeyframes(withDuration: 4.0, delay: 0, options: [], animations: {
+      UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.25) {
+        self.animationView.frame.origin.x += 200
+      }
+      UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.25) {
+        self.animationView.frame.origin.y += 200
         self.animationView.backgroundColor = .systemBlue
-      } completion: { _ in
-        UIView.animate(withDuration: 1) {
-//          self.animationView.frame.origin.x += 50
-//          self.animationView.frame.origin.y += 10
-        } completion: { _ in
-          // 현재 상태에 따라 확대 또는 축소
-          if self.animationView.transform == .identity {
-            UIView.animate(withDuration: 1.0) {
-              self.animationView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
-            }
-          } else {
-            UIView.animate(withDuration: 1.0) {
-              self.animationView.transform = .identity
-            }
-          }
-        }
+      }
+      UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.25) {
+        self.animationView.frame.origin.x = 50
+        self.animationView.transform = CGAffineTransform(rotationAngle: .pi)
+      }
+      UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 0.25) {
+        self.animationView.frame.origin.y = 100
+        self.animationView.transform = .identity
+        self.animationView.backgroundColor = .systemGreen
       }
     })
+
+
+//    UIView.animate(withDuration: 1.0,
+//                   delay: 0,
+//                   options: [.repeat, .autoreverse, .curveEaseInOut],
+//                   animations: {
+//      self.animationView.frame.origin.y += 200
+//      self.animationView.backgroundColor = .systemBlue
+//    }, completion: { _ in
+//      UIView.animate(withDuration: 1) {
+//        self.animationView.backgroundColor = .systemBlue
+//      } completion: { _ in
+//        UIView.animate(withDuration: 1) {
+////          self.animationView.frame.origin.x += 50
+////          self.animationView.frame.origin.y += 10
+//        } completion: { _ in
+//          // 현재 상태에 따라 확대 또는 축소
+//          if self.animationView.transform == .identity {
+//            UIView.animate(withDuration: 1.0) {
+//              self.animationView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+//            }
+//          } else {
+//            UIView.animate(withDuration: 1.0) {
+//              self.animationView.transform = .identity
+//            }
+//          }
+//        }
+//      }
+//    })
   }
 }
 
