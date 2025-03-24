@@ -37,11 +37,20 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view.
 
+    configureNavigation()
     setupCollectionView()
     configureDataSource()
     applySnapshot()
+  }
+
+  func configureNavigation() {
+    title = "Collection View"
+    navigationController?.navigationBar.prefersLargeTitles = true
+    let searchController = UISearchController(searchResultsController: nil)
+    navigationItem.searchController = searchController
+    searchController.searchBar.placeholder = "검색"
+    searchController.searchBar.delegate = self
   }
 
   func setupCollectionView() {
@@ -64,7 +73,7 @@ class ViewController: UIViewController {
 
     // 그룹 정의 (가로 방향으로 3개의 아이템)
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .fractionalWidth(0.4))
+                                           heightDimension: .fractionalWidth(1/3))
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                    subitems: [item])
 
@@ -111,5 +120,23 @@ extension ViewController: UICollectionViewDelegate {
       preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "확인", style: .default))
     present(alert, animated: true)
+  }
+
+  private func filterItems(containing text: String) {
+    let filteredItems = items.filter { $0.title.contains(text) }
+    var snapshot = NSDiffableDataSourceSnapshot<Section, GridItem>()
+    snapshot.appendSections([.main])
+    snapshot.appendItems(filteredItems, toSection: .main)
+    dataSource.apply(snapshot, animatingDifferences: true)
+  }
+}
+
+extension ViewController: UISearchBarDelegate {
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchText.isEmpty {
+      applySnapshot()
+    } else {
+      filterItems(containing: searchText)
+    }
   }
 }
