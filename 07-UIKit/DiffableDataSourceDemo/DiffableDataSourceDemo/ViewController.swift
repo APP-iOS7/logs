@@ -77,7 +77,7 @@ class ViewController: UIViewController {
     var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
     snapshot.appendSections([.main])
     snapshot.appendItems(items)
-    // 데이터 소스에 스냩샷 적용
+    // 데이터 소스에 스냅샷 적용
     dataSource.apply(snapshot, animatingDifferences: false)
   }
 
