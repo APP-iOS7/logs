@@ -14,6 +14,10 @@ class JournalListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
   }
+
+  @IBAction func unwindNewEntryCancel(segue: UIStoryboardSegue) {
+    print("unwindNewEntryCancel")
+  }
 }
 
 extension JournalListViewController: UITableViewDataSource {
