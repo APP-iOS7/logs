@@ -37,3 +37,17 @@ class AddJournalEntryViewController: UIViewController {
     }
   }
 }
+
+// MARK: - UITextFieldDelegate
+extension AddJournalEntryViewController: UITextFieldDelegate {
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    print("1 textFieldDidBeginEditing")
+  }
+}
+
+// MARK: - UITextViewDelegate
+extension AddJournalEntryViewController: UITextViewDelegate {
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    print("2 textViewDidBeginEditing")
+  }
+}
