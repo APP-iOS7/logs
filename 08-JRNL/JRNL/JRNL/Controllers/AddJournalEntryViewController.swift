@@ -25,11 +25,15 @@ class AddJournalEntryViewController: UIViewController {
   
   // In a storyboard-based application, you will often want to do a little preparation before navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    print("prepare")
-    let title = titleTextField.text ?? ""
-    let body = bodyTextView.text ?? ""
-    let photo = photoImageView.image
-    let rating = 3
-    newJournalEntry = JournalEntry(rating: rating, title: title, body: body, photo: photo)
+    print("prepare: \(String(describing: segue.identifier))")
+    if let segueIndentifier = segue.identifier {
+      if segueIndentifier == "save" {
+        let title = titleTextField.text ?? ""
+        let body = bodyTextView.text ?? ""
+        let photo = photoImageView.image
+        let rating = 3
+        newJournalEntry = JournalEntry(rating: rating, title: title, body: body, photo: photo)
+      }
+    }
   }
 }

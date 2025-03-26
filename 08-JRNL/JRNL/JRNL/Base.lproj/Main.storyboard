@@ -363,10 +363,14 @@
                     <navigationItem key="navigationItem" title="New Entry" id="reU-XL-2bV">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="FUQ-ih-kfs">
                             <connections>
-                                <segue destination="jsJ-jr-qbZ" kind="unwind" unwindAction="unwindNewEntryCancelWithSegue:" id="5tU-9X-rJV"/>
+                                <segue destination="jsJ-jr-qbZ" kind="unwind" identifier="cancel" unwindAction="unwindNewEntryCancelWithSegue:" id="5tU-9X-rJV"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="6pF-aT-pdX"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="6pF-aT-pdX">
+                            <connections>
+                                <segue destination="jsJ-jr-qbZ" kind="unwind" identifier="save" unwindAction="unwindNewEntrySaveWithSegue:" id="B01-pR-gcG"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="sRx-GO-5Az" id="qxV-L1-W3i"/>
