@@ -311,8 +311,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Wjs-as-t1m">
                                         <rect key="frame" x="110" y="52" width="154" height="31"/>
                                         <subviews>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fFc-wK-ZQn">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fFc-wK-ZQn">
                                                 <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="getLocationSwitchValueChanged:" destination="KQW-r8-dtF" eventType="valueChanged" id="nnb-kb-SdO"/>
+                                                </connections>
                                             </switch>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BkI-yd-nTI">
                                                 <rect key="frame" x="57" y="0.0" width="97" height="31"/>
@@ -380,6 +383,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="sRx-GO-5Az" id="qxV-L1-W3i"/>
+                        <outlet property="getLocationSwitch" destination="fFc-wK-ZQn" id="aSg-OE-PHs"/>
+                        <outlet property="getLocationSwitchLabel" destination="BkI-yd-nTI" id="zdV-yS-eHI"/>
                         <outlet property="photoImageView" destination="zkK-Wp-4lq" id="J1X-Rv-dky"/>
                         <outlet property="saveButton" destination="6pF-aT-pdX" id="2Yx-g0-9VN"/>
                         <outlet property="titleTextField" destination="4gQ-vC-65f" id="8OT-3w-ePt"/>
