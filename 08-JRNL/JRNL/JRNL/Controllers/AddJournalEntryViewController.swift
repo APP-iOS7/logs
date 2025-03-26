@@ -6,22 +6,28 @@
 //
 
 import UIKit
+import CoreLocation
 
 class AddJournalEntryViewController: UIViewController {
-  
+
   @IBOutlet weak var saveButton: UIBarButtonItem!
   @IBOutlet weak var titleTextField: UITextField!
   @IBOutlet weak var bodyTextView: UITextView!
   @IBOutlet weak var photoImageView: UIImageView!
-  
+
   var newJournalEntry: JournalEntry?
-  
+  let locationManager = CLLocationManager()
+  var currentLocation: CLLocation?
+
   override func viewDidLoad() {
     super.viewDidLoad()
 //    스토리보드 내에서 delegate를 설정해줬기 때문에 아래 코드는 필요없다.
 //    titleTextField.delegate = self
 //    bodyTextView.delegate = self
-
+      
+      // 위치 정보 사용을 위한 설정
+      locationManager.delegate = self
+      locationManager.requestWhenInUseAuthorization()
   }
 
   // MARK: - Navigation
@@ -83,5 +89,17 @@ extension AddJournalEntryViewController: UITextViewDelegate {
 
   func textViewDidEndEditing(_ textView: UITextView) {
     updateSaveButtonState()
+  }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension AddJournalEntryViewController: CLLocationManagerDelegate {
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    guard let location = locations.first else { return }
+    currentLocation = location    
+  }
+
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("Error: \(error)")
   }
 }
