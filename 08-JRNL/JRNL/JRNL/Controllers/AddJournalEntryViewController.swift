@@ -23,13 +23,13 @@ class AddJournalEntryViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-//    스토리보드 내에서 delegate를 설정해줬기 때문에 아래 코드는 필요없다.
-//    titleTextField.delegate = self
-//    bodyTextView.delegate = self
-      
-      // 위치 정보 사용을 위한 설정
-      locationManager.delegate = self
-      locationManager.requestWhenInUseAuthorization()
+    //    스토리보드 내에서 delegate를 설정해줬기 때문에 아래 코드는 필요없다.
+    //    titleTextField.delegate = self
+    //    bodyTextView.delegate = self
+
+    // 위치 정보 사용을 위한 설정
+    locationManager.delegate = self
+    locationManager.requestWhenInUseAuthorization()
   }
 
   @IBAction func getLocationSwitchValueChanged(_ sender: Any) {
@@ -40,10 +40,10 @@ class AddJournalEntryViewController: UIViewController {
       getLocationSwitchLabel.text = "Get Location"
     }
   }
-  
+
 
   // MARK: - Navigation
-  
+
   // In a storyboard-based application, you will often want to do a little preparation before navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     print("prepare: \(String(describing: segue.identifier))")
@@ -53,7 +53,15 @@ class AddJournalEntryViewController: UIViewController {
         let body = bodyTextView.text ?? ""
         let photo = photoImageView.image
         let rating = 3
-        newJournalEntry = JournalEntry(rating: rating, title: title, body: body, photo: photo)
+        if getLocationSwitch.isOn, let location = currentLocation {
+          newJournalEntry = JournalEntry(rating: rating, title: title, body: body,
+                                         photo: photo,
+                                         latitude: location.coordinate.latitude,
+                                         longitude: location.coordinate.longitude)
+        } else {
+          newJournalEntry = JournalEntry(rating: rating, title: title, body: body,
+                                         photo: photo)
+        }
       }
     }
   }
@@ -143,7 +151,7 @@ extension AddJournalEntryViewController: UITextViewDelegate {
 
 // MARK: - CLLocationManagerDelegate
 extension AddJournalEntryViewController: CLLocationManagerDelegate {
-  
+
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     switch manager.authorizationStatus {
     case .authorizedWhenInUse:
