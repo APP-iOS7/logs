@@ -266,7 +266,6 @@
                                             <outlet property="dateLabel" destination="sQi-Rc-pIV" id="aU7-Q5-Icb"/>
                                             <outlet property="photoImageView" destination="lop-l2-fAj" id="TUe-6c-dwN"/>
                                             <outlet property="titleLabel" destination="9Zp-Ll-1Qy" id="jVo-41-MXz"/>
-                                            <segue destination="Jep-kH-EVE" kind="show" id="TVJ-1S-rF1"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -294,6 +293,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="vRg-bx-MXv" id="ak3-2v-Cnt"/>
+                        <segue destination="Jep-kH-EVE" kind="show" identifier="showDetail" id="OTD-xM-t1b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5oq-TQ-ETO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -482,7 +482,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="1ib-ek-gnu"/>
+        <segue reference="OTD-xM-t1b"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="face.smiling" catalog="system" width="128" height="123"/>

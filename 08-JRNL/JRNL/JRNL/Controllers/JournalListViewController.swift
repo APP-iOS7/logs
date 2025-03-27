@@ -12,7 +12,8 @@ class JournalListViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
   
   var sampleJournalEntryData = SampleJournalEntryData()
-  
+  var selectedJournalEntry: JournalEntry?
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // 샘플 데이터 생성
@@ -29,7 +30,17 @@ class JournalListViewController: UIViewController {
       sampleJournalEntryData.journalEntries.append(newJournalEntry)
       tableView.reloadData()
     }
-    
+  }
+
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let segueIndentifier = segue.identifier {
+      if segueIndentifier == "showDetail" {
+        guard let entryDetailViewController = segue.destination as? JournalEntryDetailViewController else {
+          fatalError("Unexpected destination: \(segue.destination)")
+        }
+        entryDetailViewController.selectedJournalEntry = selectedJournalEntry
+      }
+    }
   }
 }
 
@@ -57,6 +68,15 @@ extension JournalListViewController: UITableViewDataSource {
 
 
 extension JournalListViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    print("didSelectRowAt: \(indexPath)")
+    // 선택한 셀의 JournalEntry 객체를 가져와서 JournalEntryDetailViewController에 전달
+    let selectedJournalEntry = sampleJournalEntryData.journalEntries[indexPath.row]
+    print("selectedJournalEntry: \(selectedJournalEntry)")
+    self.selectedJournalEntry = selectedJournalEntry
+    performSegue(withIdentifier: "showDetail", sender: self)
+  }
+
   func tableView(
     _ tableView: UITableView,
     commit editingStyle: UITableViewCell.EditingStyle,
