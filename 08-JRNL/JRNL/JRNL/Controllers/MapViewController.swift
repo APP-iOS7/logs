@@ -30,6 +30,19 @@ class MapViewController: UIViewController {
     sampleJournalEntryData.createSampleJournalEntryData()
     mapView.addAnnotations(sampleJournalEntryData.journalEntries)
   }
+
+  // MARK: - Navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    super.prepare(for: segue, sender: sender)
+    if let segueIndentifier = segue.identifier {
+      if segueIndentifier == "showMapDetail" {
+        guard let entryDetailViewController = segue.destination as? JournalEntryDetailViewController else {
+          fatalError("Unexpected destination: \(segue.destination)")
+        }
+        entryDetailViewController.selectedJournalEntry = selectedJournalEntry
+      }
+    }
+  }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
@@ -70,11 +83,10 @@ extension MapViewController: MKMapViewDelegate {
     return view
   }
 
-  func mapView(
-    _ mapView: MKMapView,
-    annotationView view: MKAnnotationView,
+  func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
     calloutAccessoryControlTapped control: UIControl
   ) {
+    print("calloutAccessoryControlTapped")
     guard let annotation = mapView.selectedAnnotations.first as? JournalEntry else {
       return
     }
