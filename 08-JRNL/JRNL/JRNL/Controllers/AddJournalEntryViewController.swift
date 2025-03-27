@@ -64,6 +64,43 @@ class AddJournalEntryViewController: UIViewController {
     let bodyText = bodyTextView.text ?? ""
     saveButton.isEnabled = !titleText.isEmpty && !bodyText.isEmpty
   }
+
+  // 위치 권한 거부 알림 다이얼로그 표시 메서드
+  func showLocationPermissionDeniedAlert() {
+    let alertController = UIAlertController(
+      title: "위치 정보 권한 필요",
+      message: "이 앱의 기능을 사용하기 위해서는 위치 정보 접근 권한이 필요합니다. 설정에서 위치 접근 권한을 허용해주세요.",
+      preferredStyle: .alert
+    )
+
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+
+    let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+      self.openAppSettings()
+    }
+
+    alertController.addAction(cancelAction)
+    alertController.addAction(settingsAction)
+
+    present(alertController, animated: true, completion: nil)
+  }
+
+  // 앱 설정 페이지로 이동하는 메서드
+  private func openAppSettings() {
+    if let prefs = URL(string: "App-prefs:LOCATION/LOCATION_SERVICES/kr.co.codegrove.JRNL") {
+      // 대체 URL 시도
+      UIApplication.shared.open(prefs, options: [:], completionHandler: nil)
+    } else if let prefs = URL(string: "prefs:root=Privacy&path=LOCATION") {
+      // 또 다른 대체 URL 시도
+      UIApplication.shared.open(prefs, options: [:], completionHandler: nil)
+    } else {
+      // 위 URL들이 모두 실패할 경우 기본 설정 앱으로 이동
+      if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+      }
+    }
+  }
+
 }
 
 // MARK: - UITextFieldDelegate
@@ -106,6 +143,26 @@ extension AddJournalEntryViewController: UITextViewDelegate {
 
 // MARK: - CLLocationManagerDelegate
 extension AddJournalEntryViewController: CLLocationManagerDelegate {
+  
+  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    switch manager.authorizationStatus {
+    case .authorizedWhenInUse:
+      print("authorizedWhenInUse")
+    case .denied:
+      // 위치 정보 사용이 거부된 경우
+      showLocationPermissionDeniedAlert()
+      print("denied")
+    case .notDetermined:
+      print("notDetermined")
+    case .restricted:
+      print("restricted")
+    case .authorizedAlways:
+      print("authorizedAlways")
+    @unknown default:
+      print("unknown")
+    }
+  }
+
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     guard let location = locations.first else { return }
     currentLocation = location
@@ -114,5 +171,6 @@ extension AddJournalEntryViewController: CLLocationManagerDelegate {
 
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     print("Error: \(error)")
+
   }
 }
