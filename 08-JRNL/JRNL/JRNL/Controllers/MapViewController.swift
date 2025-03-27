@@ -13,6 +13,7 @@ class MapViewController: UIViewController {
   @IBOutlet weak var mapView: MKMapView!
 
   let locationManager = CLLocationManager()
+  var sampleJournalEntryData = SampleJournalEntryData()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -22,6 +23,10 @@ class MapViewController: UIViewController {
     locationManager.requestWhenInUseAuthorization()
     self.navigationItem.title = "Loading..."
     locationManager.requestLocation()
+
+    // 샘플 데이터 생성 & 지도에 표시
+    sampleJournalEntryData.createSampleJournalEntryData()
+    mapView.addAnnotations(sampleJournalEntryData.journalEntries)
   }
 }
 
