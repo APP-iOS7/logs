@@ -93,19 +93,11 @@ class AddJournalEntryViewController: UIViewController {
     present(alertController, animated: true, completion: nil)
   }
 
-  // 앱 설정 페이지로 이동하는 메서드
+  // 앱 설정 페이지로 이동하는 메서드 ( 시뮬레이터에서는 동작 안함 )
   private func openAppSettings() {
-    if let prefs = URL(string: "App-prefs:LOCATION/LOCATION_SERVICES/kr.co.codegrove.JRNL") {
-      // 대체 URL 시도
-      UIApplication.shared.open(prefs, options: [:], completionHandler: nil)
-    } else if let prefs = URL(string: "prefs:root=Privacy&path=LOCATION") {
-      // 또 다른 대체 URL 시도
-      UIApplication.shared.open(prefs, options: [:], completionHandler: nil)
-    } else {
-      // 위 URL들이 모두 실패할 경우 기본 설정 앱으로 이동
-      if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-      }
+    if let url = URL(string: UIApplication.openSettingsURLString) {
+      // Ask the system to open that URL.
+       UIApplication.shared.open(url)
     }
   }
 

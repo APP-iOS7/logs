@@ -13,7 +13,7 @@
         <!--Map-->
         <scene sceneID="Kdm-pB-M4g">
             <objects>
-                <viewController id="6l7-yj-yBk" sceneMemberID="viewController">
+                <viewController id="6l7-yj-yBk" customClass="MapViewController" customModule="JRNL" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PTe-YO-LwW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -33,6 +33,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Map" id="so9-QM-0Qm"/>
+                    <connections>
+                        <outlet property="mapView" destination="2Sv-Up-B5L" id="EDO-eK-dly"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CO7-Gd-F6L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
