@@ -55,10 +55,11 @@ extension JournalListViewController: UITableViewDataSource {
     let journalEntry = SharedData.shared.getJournalEntry(at: indexPath.row)
     // 날짜, 제목, 사진 표시
     // 날짜는 "월 일, 년" 형식으로 표시
-    journalCell.dateLabel.text = journalEntry.date.formatted(.dateTime.month().day().year())
+    journalCell.dateLabel.text = journalEntry.dateString
     journalCell.titleLabel.text = journalEntry.entryTitle
-    journalCell.photoImageView.image = journalEntry.photo
-    
+    if let photoData = journalEntry.photoData {
+      journalCell.photoImageView.image = UIImage(data: photoData)
+    }
     return journalCell
   }
 }

@@ -27,10 +27,12 @@ class JournalEntryDetailViewController: UITableViewController {
     guard let selectedJournalEntry = selectedJournalEntry else {
       return
     }
-    dateLabel.text = selectedJournalEntry.date.formatted(.dateTime.month().day().year())
+    dateLabel.text = selectedJournalEntry.dateString
     titleLabel.text = selectedJournalEntry.entryTitle
     bodyTextView.text = selectedJournalEntry.entryBody
-    photoImageView.image = selectedJournalEntry.photo
+    if let photoData = selectedJournalEntry.photoData {
+      photoImageView.image = UIImage(data: photoData)
+    }
     getMapSnapshot()
   }
 
