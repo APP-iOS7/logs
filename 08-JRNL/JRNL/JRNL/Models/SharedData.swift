@@ -19,8 +19,7 @@ class SharedData {
 
   // MARK: access methods
 
-  // 데이터 개수 반환
-  func numberOfJournalEntries() -> Int {
+  var numberOfJournalEntries: Int {
     return journalEntries.count
   }
 
