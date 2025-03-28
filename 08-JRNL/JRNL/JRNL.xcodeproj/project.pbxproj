@@ -148,6 +148,10 @@
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = JRNL/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "저널 엔트리 생성을 위해 카메라를 사용합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location for journal entries.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location for journal entries.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "저널 엔트리 생성을 위해 포토 라이브러리를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -176,6 +180,10 @@
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = JRNL/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "저널 엔트리 생성을 위해 카메라를 사용합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location for journal entries.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location for journal entries.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "저널 엔트리 생성을 위해 포토 라이브러리를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

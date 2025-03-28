@@ -72,6 +72,22 @@ class AddJournalEntryViewController: UIViewController,
     }
   }
 
+  // MARK: - Actions
+  @IBAction func getPhoto(_ sender: UITapGestureRecognizer) {
+    let imagePickerController = UIImagePickerController()
+    imagePickerController.delegate = self
+
+    #if targetEnvironment(simulator)
+    imagePickerController.sourceType = .photoLibrary
+    #else
+    imagePickerController.sourceType = .camera
+    imagePickerController.showsCameraControls = true
+    #endif
+
+    present(imagePickerController, animated: true)
+  }
+
+
   // MARK: - Methods
   func updateSaveButtonState() {
     let titleText = titleTextField.text ?? ""
@@ -187,6 +203,4 @@ class AddJournalEntryViewController: UIViewController,
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     dismiss(animated: true, completion: nil)
   }
-
-
 }

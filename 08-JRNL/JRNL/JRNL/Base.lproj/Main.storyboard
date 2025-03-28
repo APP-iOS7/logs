@@ -356,12 +356,16 @@
                                             <outlet property="delegate" destination="KQW-r8-dtF" id="Eq0-cS-FDv"/>
                                         </connections>
                                     </textView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="face.smiling" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zkK-Wp-4lq">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="face.smiling" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zkK-Wp-4lq">
                                         <rect key="frame" x="87" y="269.66666666666669" width="200" height="198.66666666666669"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="Ec1-lz-2BW"/>
                                             <constraint firstAttribute="height" constant="200" id="fLq-0g-hAo"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="0Zk-mf-vfZ" appends="YES" id="5eb-rH-BB6"/>
+                                        </connections>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -402,6 +406,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KGj-XS-FiE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="jsJ-jr-qbZ" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="0Zk-mf-vfZ">
+                    <connections>
+                        <action selector="getPhoto:" destination="KQW-r8-dtF" id="csh-Xu-729"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="4709" y="111"/>
         </scene>
