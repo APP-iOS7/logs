@@ -16,6 +16,7 @@ class AddJournalEntryViewController: UIViewController {
   @IBOutlet weak var titleTextField: UITextField!
   @IBOutlet weak var bodyTextView: UITextView!
   @IBOutlet weak var photoImageView: UIImageView!
+  @IBOutlet weak var ratingView: RatingView!
 
   var newJournalEntry: JournalEntry?
   let locationManager = CLLocationManager()
@@ -52,7 +53,7 @@ class AddJournalEntryViewController: UIViewController {
         let title = titleTextField.text ?? ""
         let body = bodyTextView.text ?? ""
         let photo = photoImageView.image
-        let rating = 3
+        let rating = ratingView.rating
         if getLocationSwitch.isOn, let location = currentLocation {
           newJournalEntry = JournalEntry(rating: rating, title: title, body: body,
                                          photo: photo,

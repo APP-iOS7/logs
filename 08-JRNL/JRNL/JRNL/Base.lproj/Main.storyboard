@@ -46,7 +46,7 @@
         <scene sceneID="cAl-cg-na9">
             <objects>
                 <tableViewController id="Jep-kH-EVE" customClass="JournalEntryDetailViewController" customModule="JRNL" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Tt7-v9-hfN">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Tt7-v9-hfN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -81,7 +81,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Okf-4G-W45" customClass="RatingView" customModule="JRNL" customModuleProvider="target">
+                                                <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Okf-4G-W45" customClass="RatingView" customModule="JRNL" customModuleProvider="target">
                                                     <rect key="frame" x="81" y="8" width="252" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="mE2-5Z-fKd"/>
@@ -204,6 +204,7 @@
                         <outlet property="dateLabel" destination="BBt-hy-fgS" id="xpq-La-Lkd"/>
                         <outlet property="mapImageView" destination="h4b-fZ-QTg" id="Qlf-F2-ulZ"/>
                         <outlet property="photoImageView" destination="TrN-yv-eoI" id="js4-Do-GGy"/>
+                        <outlet property="ratingView" destination="Okf-4G-W45" id="sag-uT-HDt"/>
                         <outlet property="titleLabel" destination="IQ1-MW-E4E" id="Nlp-bi-l7A"/>
                     </connections>
                 </tableViewController>
@@ -394,6 +395,7 @@
                         <outlet property="getLocationSwitch" destination="fFc-wK-ZQn" id="aSg-OE-PHs"/>
                         <outlet property="getLocationSwitchLabel" destination="BkI-yd-nTI" id="zdV-yS-eHI"/>
                         <outlet property="photoImageView" destination="zkK-Wp-4lq" id="J1X-Rv-dky"/>
+                        <outlet property="ratingView" destination="ER3-aa-vev" id="Y2G-OM-uhY"/>
                         <outlet property="saveButton" destination="6pF-aT-pdX" id="2Yx-g0-9VN"/>
                         <outlet property="titleTextField" destination="4gQ-vC-65f" id="8OT-3w-ePt"/>
                     </connections>

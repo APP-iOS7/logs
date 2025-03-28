@@ -11,6 +11,7 @@ import MapKit
 class JournalEntryDetailViewController: UITableViewController {
 
   @IBOutlet weak var dateLabel: UILabel!
+  @IBOutlet weak var ratingView: RatingView!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var bodyTextView: UITextView!
   @IBOutlet weak var photoImageView: UIImageView!
@@ -28,6 +29,7 @@ class JournalEntryDetailViewController: UITableViewController {
       return
     }
     dateLabel.text = selectedJournalEntry.dateString
+    ratingView.rating = selectedJournalEntry.rating
     titleLabel.text = selectedJournalEntry.entryTitle
     bodyTextView.text = selectedJournalEntry.entryBody
     if let photoData = selectedJournalEntry.photoData {
