@@ -15,6 +15,7 @@ class JournalListViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    SharedData.shared.loadJournalEntriesData()
   }
 
   @IBAction func unwindNewEntryCancel(segue: UIStoryboardSegue) {
