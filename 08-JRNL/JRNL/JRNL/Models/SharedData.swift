@@ -44,6 +44,14 @@ class SharedData {
     saveJournalEntriesData()
   }
 
+  // 선택된 데이터 삭제
+  func removeSelected(journalEntry: JournalEntry) {
+    if let index = journalEntries.firstIndex(where: { $0.id == journalEntry.id }) {
+      journalEntries.remove(at: index)
+      saveJournalEntriesData()
+    }
+  }
+
   // MARK - Persistence
   func getDocumentDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
