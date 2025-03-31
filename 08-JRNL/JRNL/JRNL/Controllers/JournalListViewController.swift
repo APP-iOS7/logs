@@ -25,6 +25,7 @@ class JournalListViewController: UIViewController {
     search.obscuresBackgroundDuringPresentation = false
     search.searchBar.placeholder = "제목 검색"
     navigationItem.searchController = search
+    tabBarController?.mode = .tabSidebar
   }
 
   func setupCollectionView() {
