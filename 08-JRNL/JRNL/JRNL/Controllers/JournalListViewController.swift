@@ -19,7 +19,7 @@ class JournalListViewController: UIViewController {
     super.viewDidLoad()
     setupCollectionView()
 
-    SharedData.shared.loadJournalEntriesData()
+    SharedData.shared.fetchJournalEntries()
 
     search.searchResultsUpdater = self
     search.obscuresBackgroundDuringPresentation = false
@@ -50,6 +50,7 @@ class JournalListViewController: UIViewController {
     if let sourceViewController = segue.source as? AddJournalEntryViewController,
        let newJournalEntry = sourceViewController.newJournalEntry {
       SharedData.shared.addJournalEntry(newJournalEntry)
+      SharedData.shared.fetchJournalEntries()
       collectionView.reloadData()
     }
   }
@@ -81,7 +82,7 @@ extension JournalListViewController: UICollectionViewDataSource {
     let journalEntry =  search.isActive ? filteredTableData[indexPath.row] : SharedData.shared.getJournalEntry(at: indexPath.row)
     // 날짜, 제목, 사진 표시
     // 날짜는 "월 일, 년" 형식으로 표시
-    journalCell.dateLabel.text = journalEntry.dateString
+    journalCell.dateLabel.text = journalEntry.title
     journalCell.titleLabel.text = journalEntry.entryTitle
     if let photoData = journalEntry.photoData {
       journalCell.photoImageView.image = UIImage(data: photoData)
@@ -106,7 +107,8 @@ extension JournalListViewController: UICollectionViewDelegate {
             self.filteredTableData.remove(at: indexPath.item)
             SharedData.shared.removeSelected(journalEntry: selectedJournalEntry)
           } else {
-            SharedData.shared.removeJournalEntry(at: indexPath.item)
+            let selectedJournalEntry = SharedData.shared.getJournalEntry(at: indexPath.item)
+            SharedData.shared.removeSelected(journalEntry: selectedJournalEntry)
           }
         }
         self.collectionView.reloadData()

@@ -28,7 +28,7 @@ class JournalEntryDetailViewController: UITableViewController {
     guard let selectedJournalEntry = selectedJournalEntry else {
       return
     }
-    dateLabel.text = selectedJournalEntry.dateString
+    dateLabel.text = selectedJournalEntry.title
     ratingView.rating = selectedJournalEntry.rating
     titleLabel.text = selectedJournalEntry.entryTitle
     bodyTextView.text = selectedJournalEntry.entryBody

@@ -6,24 +6,25 @@
 //
 import UIKit
 import MapKit
+import SwiftData
 
-class JournalEntry: NSObject, MKAnnotation, Codable {
-  var id: UUID = UUID()
-  let dateString: String
-  let rating: Int
-  let entryTitle: String
-  let entryBody: String
-  let photoData: Data?
-  let latitude: Double?
-  let longitude: Double?
+@Model
+class JournalEntry {
+  var id: UUID
+  var date: Date
+  var rating: Int
+  var entryTitle: String
+  var entryBody: String
+  @Attribute(.externalStorage) var photoData: Data?
+  var latitude: Double?
+  var longitude: Double?
 
   init?(rating: Int, title: String, body: String, photo: UIImage? = nil, latitude: Double? = nil, longitude: Double? = nil) {
     if title.isEmpty || body.isEmpty || rating < 0 || rating > 5 {
       return nil
     }
-    let formatter = DateFormatter()
-    formatter.dateStyle = .medium
-    self.dateString = formatter.string(from: Date())
+    self.id = UUID()
+    self.date = Date()
     self.rating = rating
     self.entryTitle = title
     self.entryBody = body
@@ -32,19 +33,11 @@ class JournalEntry: NSObject, MKAnnotation, Codable {
     self.longitude = longitude
   }
 
-  // MARK: - MKAnnotation
+  @Transient
   var title: String? {
-    dateString
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    return formatter.string(from: date)
   }
 
-  var subtitle: String? {
-    entryTitle
-  }
-
-  var coordinate: CLLocationCoordinate2D {
-    guard let latitude = latitude, let longitude = longitude else {
-      return CLLocationCoordinate2D()
-    }
-    return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-  }
 }
