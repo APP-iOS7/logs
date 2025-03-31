@@ -17,12 +17,28 @@ class JournalListViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupCollectionView()
+
     SharedData.shared.loadJournalEntriesData()
 
     search.searchResultsUpdater = self
     search.obscuresBackgroundDuringPresentation = false
     search.searchBar.placeholder = "제목 검색"
     navigationItem.searchController = search
+  }
+
+  func setupCollectionView() {
+    let flowLayout = UICollectionViewFlowLayout()
+    flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    flowLayout.minimumInteritemSpacing = 10
+    flowLayout.minimumLineSpacing = 10
+    collectionView.collectionViewLayout = flowLayout
+  }
+
+  override func viewWillLayoutSubviews() {
+    super.viewWillLayoutSubviews()
+    print("viewWillLayoutSubviews!!!!!")
+    collectionView.collectionViewLayout.invalidateLayout()
   }
 
   @IBAction func unwindNewEntryCancel(segue: UIStoryboardSegue) {
@@ -49,7 +65,7 @@ class JournalListViewController: UIViewController {
   }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UICollectionViewDataSource
 extension JournalListViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return search.isActive ? filteredTableData.count : SharedData.shared.numberOfJournalEntries
@@ -73,9 +89,27 @@ extension JournalListViewController: UICollectionViewDataSource {
   }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - UICollectionViewDelegate
 extension JournalListViewController: UICollectionViewDelegate {
 //  TODO: 컬렉션 뷰 델리게이트 코드 추가 ( contextMenu, 동적 사이즈 코드 추가 필요 )
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension JournalListViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    var columns: CGFloat
+    if traitCollection.horizontalSizeClass == .compact {
+      columns = 1
+    } else {
+      columns = 2
+    }
+    let viewWidth = collectionView.frame.width
+    let inset = 10.0
+    let contentWidth = viewWidth - inset * (columns + 1)
+    let cellWidth = contentWidth / columns
+    let cellHeight = 90.0
+    return CGSize(width: cellWidth, height: cellHeight)
+  }
 }
 
 // MARK: - UISearchResultsUpdating
