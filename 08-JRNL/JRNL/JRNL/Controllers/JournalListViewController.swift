@@ -59,16 +59,16 @@ extension JournalListViewController: UICollectionViewDataSource {
     let journalCell = collectionView.dequeueReusableCell(
       withReuseIdentifier: "journalCell",
       for: indexPath
-    )
+    ) as! JournalListCollectionViewCell
 
-//    let journalEntry =  search.isActive ? filteredTableData[indexPath.row] : SharedData.shared.getJournalEntry(at: indexPath.row)
-//    // 날짜, 제목, 사진 표시
-//    // 날짜는 "월 일, 년" 형식으로 표시
-//    journalCell.dateLabel.text = journalEntry.dateString
-//    journalCell.titleLabel.text = journalEntry.entryTitle
-//    if let photoData = journalEntry.photoData {
-//      journalCell.photoImageView.image = UIImage(data: photoData)
-//    }
+    let journalEntry =  search.isActive ? filteredTableData[indexPath.row] : SharedData.shared.getJournalEntry(at: indexPath.row)
+    // 날짜, 제목, 사진 표시
+    // 날짜는 "월 일, 년" 형식으로 표시
+    journalCell.dateLabel.text = journalEntry.dateString
+    journalCell.titleLabel.text = journalEntry.entryTitle
+    if let photoData = journalEntry.photoData {
+      journalCell.photoImageView.image = UIImage(data: photoData)
+    }
     return journalCell
   }
 }
