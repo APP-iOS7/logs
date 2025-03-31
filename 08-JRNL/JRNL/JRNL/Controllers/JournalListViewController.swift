@@ -8,7 +8,7 @@
 import UIKit
 
 class JournalListViewController: UIViewController {
-  
+
   @IBOutlet weak var collectionView: UICollectionView!
 
   let search = UISearchController(searchResultsController: nil)
@@ -44,7 +44,7 @@ class JournalListViewController: UIViewController {
   @IBAction func unwindNewEntryCancel(segue: UIStoryboardSegue) {
     print("unwindNewEntryCancel")
   }
-  
+
   @IBAction func unwindNewEntrySave(segue: UIStoryboardSegue) {
     if let sourceViewController = segue.source as? AddJournalEntryViewController,
        let newJournalEntry = sourceViewController.newJournalEntry {
@@ -70,7 +70,7 @@ extension JournalListViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return search.isActive ? filteredTableData.count : SharedData.shared.numberOfJournalEntries
   }
-  
+
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let journalCell = collectionView.dequeueReusableCell(
       withReuseIdentifier: "journalCell",
@@ -91,7 +91,29 @@ extension JournalListViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension JournalListViewController: UICollectionViewDelegate {
-//  TODO: 컬렉션 뷰 델리게이트 코드 추가 ( contextMenu, 동적 사이즈 코드 추가 필요 )
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    selectedJournalEntry = search.isActive ? filteredTableData[indexPath.row] : SharedData.shared.getJournalEntry(at: indexPath.row)
+    performSegue(withIdentifier: "showDetail", sender: self)
+  }
+
+  func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+    let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (elements) -> UIMenu? in
+      let delete = UIAction(title: "Delete") { (action) in
+        indexPaths.forEach { indexPath in
+          if self.search.isActive {
+            let selectedJournalEntry = self.filteredTableData[indexPath.item]
+            self.filteredTableData.remove(at: indexPath.item)
+            SharedData.shared.removeSelected(journalEntry: selectedJournalEntry)
+          } else {
+            SharedData.shared.removeJournalEntry(at: indexPath.item)
+          }
+        }
+        self.collectionView.reloadData()
+      }
+      return UIMenu(title: "", image: nil, identifier: nil, options: [], children: [delete])
+    }
+    return config
+  }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
