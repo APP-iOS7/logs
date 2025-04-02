@@ -55,9 +55,14 @@ struct JRNLWidgetEntryView : View {
   var entry: Provider.Entry
 
   var body: some View {
-    VStack {
-      Text(entry.journalEntryDate)
-      Text(entry.journalEntryTitle)
+    ZStack {
+      AccessoryWidgetBackground()
+      VStack {
+        Text(entry.journalEntryDate)
+          .font(.headline)
+        Text(entry.journalEntryTitle)
+          .font(.body)
+      }
     }
   }
 }
