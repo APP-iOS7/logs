@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import SwiftUI
 
 class MapViewController: UIViewController {
 
@@ -14,6 +15,8 @@ class MapViewController: UIViewController {
 
   let locationManager = CLLocationManager()
   var selectedJournalEntry: JournalEntry?
+
+  let globeView = UIHostingController(rootView: GlobeView())
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -25,6 +28,33 @@ class MapViewController: UIViewController {
     self.navigationItem.title = "Loading..."
     locationManager.requestLocation()
     SharedData.shared.fetchJournalEntries()
+
+    #if os(xrOS)
+    addChild(globeView)
+    view.addSubview(globeView.view)
+    setupContraints()
+    #endif
+  }
+
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    locationManager.stopUpdatingLocation()
+
+    #if os(xrOS)
+    globeView.willMove(toParent: nil)
+    globeView.removeFromParent()
+    globeView.view.removeFromSuperview()
+    #endif
+  }
+
+  func setupContraints() {
+    globeView.view.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      globeView.view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      globeView.view.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+      globeView.view.heightAnchor.constraint(equalToConstant: 600.0),
+      globeView.view.widthAnchor.constraint(equalToConstant: 600.0)
+    ])
   }
 
   // MARK: - Navigation
