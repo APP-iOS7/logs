@@ -88,10 +88,10 @@ extension MapViewController: MKMapViewDelegate {
     calloutAccessoryControlTapped control: UIControl
   ) {
     print("calloutAccessoryControlTapped")
-    guard let annotation = mapView.selectedAnnotations.first as? JournalEntry else {
+    guard let annotation = mapView.selectedAnnotations.first as? JournalEntryMKAnnotation else {
       return
     }
-    selectedJournalEntry = annotation
+    selectedJournalEntry = annotation.journalEntry
     performSegue(withIdentifier: "showMapDetail", sender: self)
   }
 }
