@@ -19,7 +19,13 @@ class SharedData {
   // MARK: - Initializer
   private init() {
     do {
-      container = try ModelContainer(for: JournalEntry.self)
+      let schema = Schema([JournalEntry.self],
+                          version: Schema.Version(1, 0, 0))
+      let configuration = ModelConfiguration(
+        schema: schema,
+        groupContainer: ModelConfiguration.GroupContainer.identifier("group.kr.co.codegrove.JRNL")
+      )
+      container = try ModelContainer(for: schema, configurations: configuration)
       if let container = container {
         context = ModelContext(container)
       }

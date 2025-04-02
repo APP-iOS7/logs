@@ -40,6 +40,7 @@
 		CCF115942D9CC80C003E2649 /* JRNLWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = JRNLWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCF115962D9CC80C003E2649 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		CCF115982D9CC80C003E2649 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		CCF115AB2D9CCB21003E2649 /* JRNLWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JRNLWidgetExtension.entitlements; sourceTree = "<group>"; };
 		CCFA1BB82D923B6700733525 /* JRNL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JRNL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -48,6 +49,14 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+			);
+			target = CCF115932D9CC80C003E2649 /* JRNLWidgetExtension */;
+		};
+		CCF115AD2D9CCBED003E2649 /* Exceptions for "JRNL" folder in "JRNLWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/JournalEntry.swift,
+				Models/SharedData.swift,
 			);
 			target = CCF115932D9CC80C003E2649 /* JRNLWidgetExtension */;
 		};
@@ -73,6 +82,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				CCFA1BCA2D923B6900733525 /* Exceptions for "JRNL" folder in "JRNL" target */,
+				CCF115AD2D9CCBED003E2649 /* Exceptions for "JRNL" folder in "JRNLWidgetExtension" target */,
 			);
 			path = JRNL;
 			sourceTree = "<group>";
@@ -111,6 +121,7 @@
 		CCFA1BAF2D923B6700733525 = {
 			isa = PBXGroup;
 			children = (
+				CCF115AB2D9CCB21003E2649 /* JRNLWidgetExtension.entitlements */,
 				CCFA1BBA2D923B6700733525 /* JRNL */,
 				CCF1159A2D9CC80C003E2649 /* JRNLWidget */,
 				CCF115952D9CC80C003E2649 /* Frameworks */,
@@ -262,6 +273,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = JRNLWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
@@ -290,6 +302,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = JRNLWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
@@ -318,6 +331,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = JRNL/JRNL.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
@@ -350,6 +364,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = JRNL/JRNL.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
