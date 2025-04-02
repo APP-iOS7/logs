@@ -51,7 +51,7 @@ class JournalEntryDetailViewController: UITableViewController {
     let region = MKCoordinateRegion(center: location, latitudinalMeters: 500, longitudinalMeters: 500)
     mapSnapshotOptions.region = region
     mapSnapshotOptions.size = mapImageView.frame.size
-    mapSnapshotOptions.scale = UIScreen.main.scale
+//    mapSnapshotOptions.scale = UIScreen.main.scale
 
     let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
     snapShotter.start { (snapshot, error) in
