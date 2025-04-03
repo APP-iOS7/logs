@@ -11,7 +11,7 @@ import SwiftUI
 struct PowerfulSwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+          ViewThatFitsExample()
         }
     }
 }
