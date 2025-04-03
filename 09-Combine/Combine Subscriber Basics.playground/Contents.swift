@@ -66,3 +66,67 @@ let failSubscription = failingPublisher.sink(
     print("👉 값 받음: \(value)")
   }
 )
+
+// 데이터 저장용 클래스
+class UserProfile {
+  var name: String = ""
+  var age: Int = 0
+
+  func display() {
+    print("사용자 정보: 이름 = \(name), 나이 = \(age)")
+  }
+}
+
+// ===== 예제 3: assign Subscriber - 속성에 할당 =====
+print("\n3️⃣ assign Subscriber - 객체의 속성에 직접 할당")
+print("------------------------------------------")
+
+let profile = UserProfile()
+
+// 문자열 배열을 발행하는 Publisher
+let namesPublisher = ["김민준", "이지현", "박준호"].publisher
+
+// 각 값이 할당될 때마다 확인
+namesPublisher.sink { name in
+  print("👉 현재 이름: \(profile.name) (방금 할당된 값: \(name))")
+}
+
+// assign은 Publisher의 값을 객체의 속성에 직접 할당합니다
+let nameAssign = namesPublisher.assign(to: \.name, on: profile)
+
+print("현재 이름: \(profile.name)")
+
+// ===== 예제 4: 커스텀 Subscriber 만들기 =====
+print("\n4️⃣ 커스텀 Subscriber - 나만의 Subscriber 만들기")
+print("-------------------------------------------")
+
+// 간단한 커스텀 Subscriber 클래스
+class SimpleSubscriber: Subscriber {
+  // 값과 오류 타입 정의
+  typealias Input = Int
+  typealias Failure = Never
+
+  // 구독 시작 시 호출됨
+  func receive(subscription: Subscription) {
+    print("👉 구독 시작!")
+    // 값을 무제한으로 요청 (backpressure 관리)
+    subscription.request(.unlimited)
+  }
+
+  // 값 수신 시 호출됨
+  func receive(_ input: Int) -> Subscribers.Demand {
+    print("👉 커스텀 Subscriber가 받은 값: \(input)")
+    // 추가 값을 요청하지 않음
+    return .none
+  }
+
+  // 완료 시 호출됨
+  func receive(completion: Subscribers.Completion<Never>) {
+    print("👉 구독 완료!")
+  }
+}
+
+// 커스텀 Subscriber 사용
+let customSubscriber = SimpleSubscriber()
+[100, 200, 300].publisher.subscribe(customSubscriber)
+
