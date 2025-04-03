@@ -79,7 +79,7 @@ class AddJournalEntryViewController: UIViewController,
 
     #if targetEnvironment(simulator)
     imagePickerController.sourceType = .photoLibrary
-    #else
+    #elseif !os(xrOS)
     imagePickerController.sourceType = .camera
     imagePickerController.showsCameraControls = true
     #endif
