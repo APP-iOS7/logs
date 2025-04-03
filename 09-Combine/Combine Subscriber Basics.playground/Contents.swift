@@ -38,3 +38,31 @@ let completionSink = numbersPublisher.sink(
   }
 )
 
+// ===== 에러 발행 =====
+print("\nFail Publisher - 에러를 발행하는 Publisher")
+print("------------------------------------------")
+
+// 커스텀 에러 정의
+enum NetworkError: Error {
+  case badRequest
+  case serverError
+  case notFound
+}
+
+// Fail: 특정 에러를 발행하는 Publisher
+let failingPublisher = Fail<String, NetworkError>(error: .serverError)
+
+// sink로 에러 처리
+let failSubscription = failingPublisher.sink(
+  receiveCompletion: { completion in
+    switch completion {
+    case .finished:
+      print("👉 정상적으로 완료됨")
+    case .failure(let error):
+      print("👉 에러 발생: \(error)")
+    }
+  },
+  receiveValue: { value in
+    print("👉 값 받음: \(value)")
+  }
+)
