@@ -137,8 +137,8 @@ struct Person: Equatable {
 let numbers = [1, 2, 2, 3, 3, 3, 4, 5, 5, 1]
 let people = [
   Person(id: 1, name: "Kim"),
-  Person(id: 2, name: "Lee"),
-  Person(id: 2, name: "Park"),  // 같은 ID
+  Person(id: 2, name: "Kim"),
+  Person(id: 2, name: "Kim"),  // 같은 ID
   Person(id: 3, name: "Choi"),
   Person(id: 3, name: "Jung")   // 같은 ID
 ]
@@ -179,7 +179,8 @@ people.publisher
 // 4. 커스텀 removeDuplicates로 Person 객체 비교
 print("\n4. 커스텀 removeDuplicates로 Person 비교:")
 people.publisher
-  .customRemoveDuplicates()
+  // 이름으로 중복제거시 다른 결과를 출력함
+  .customRemoveDuplicates(by: {$0.name == $1.name})
   .sink { person in
     print("  받은 값: ID \(person.id), 이름: \(person.name)")
   }
