@@ -35,7 +35,7 @@ class Topping {
 
 // 피자 주문을 나타내는 클래스
 class Order {
-  var status: OrderStatus = .placing
+  @Published var status: OrderStatus = .placing
   var toppings: [Topping]?
 
   init(toppings: [Topping]? = nil) {
@@ -62,18 +62,34 @@ let pizzaOrderPublisher = NotificationCenter.default.publisher(for: .didUpdateOr
 // Subscriber
 
 // 주문 상태 변경을 구독
-pizzaOrderPublisher.sink { notification in
-  print("Notification received: \(notification)")
+//pizzaOrderPublisher.sink { notification in
+//  print("Notification received: \(notification)")
+//
+//  // object에서 Order를,
+//  // userInfo에서 status를 가져와 주문 상태 업데이트
+//  if let orderObject = notification.object as? Order,
+//     let statusInfo = notification.userInfo?["status"] as? OrderStatus {
+//    orderObject.status = statusInfo
+//    print("주문 상태가 업데이트되었습니다: \(pizzaOrder.status)")
+//  }
+//}.store(in: &cancellables)  // 구독을 cancellables에 저장
 
-  // userInfo에서 status를 가져와 주문 상태 업데이트
-  if let orderObject = notification.object as? Order,
-     let statusInfo = notification.userInfo?["status"] as? OrderStatus {
-    orderObject.status = statusInfo
-    print("주문 상태가 업데이트되었습니다: \(pizzaOrder.status)")
+// 데이터 변환 및 할당
+pizzaOrderPublisher
+  .compactMap { $0.userInfo?["status"] as? OrderStatus }
+  .assign(to: \.status, on: pizzaOrder)
+  .store(in: &cancellables)
+
+// 주문 상태 변화 모니터링 (디버깅 print 로그를 대체)
+pizzaOrder.$status
+  .dropFirst() // 초기값 제외
+  .sink { status in
+    print("주문 상태가 변경됨: \(status)")
   }
-}.store(in: &cancellables)  // 구독을 cancellables에 저장
+  .store(in: &cancellables)
 
-
+// 초기 상태 출력
+print("초기 주문 상태: \(pizzaOrder.status)")
 
 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
   // 주문 상태 변경
