@@ -130,3 +130,44 @@ class SimpleSubscriber: Subscriber {
 let customSubscriber = SimpleSubscriber()
 [100, 200, 300].publisher.subscribe(customSubscriber)
 
+// ===== 예제 5: Demand(요청량) 관리하기 =====
+print("\n5️⃣ Demand 관리 - 값 요청량 조절하기")
+print("----------------------------------")
+
+// 수용량을 관리하는 커스텀 Subscriber
+class LimitedSubscriber: Subscriber {
+  typealias Input = String
+  typealias Failure = Never
+
+  // 수용 개수를 저장
+  private var totalDemand = 0
+  private let maxDemand = 2
+
+  func receive(subscription: Subscription) {
+    print("👉 최초 2개 값만 요청합니다")
+    // 처음에 2개만 요청
+    totalDemand = 2
+    // 구독자에게 수용량을 전달
+    subscription.request(Subscribers.Demand.max(2))
+  }
+
+  func receive(_ input: String) -> Subscribers.Demand {
+    print("👉 받은 값: \(input), 남은 수용량: \(maxDemand - totalDemand + 1)")
+
+    // 모든 수용량을 사용했으면 더 요청하지 않음
+    totalDemand -= 1
+    return .none
+  }
+
+  func receive(completion: Subscribers.Completion<Never>) {
+    print("👉 구독 완료!")
+  }
+}
+
+// 여러 값을 발행하는 Publisher
+let fruitsPublisher = ["사과", "바나나", "딸기", "오렌지", "포도"].publisher
+fruitsPublisher.subscribe(LimitedSubscriber())
+
+fruitsPublisher.sink { fruit in
+  print("👉 발행된 과일: \(fruit)")
+}
