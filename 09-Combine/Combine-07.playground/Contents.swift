@@ -172,15 +172,15 @@ let margheritaOrder = Order(toppings: [Topping("Tomato Sauce", isVegan: true),
 //
 //
 
+// 주문 상태와 주소 상태를 결합하여 처리하는 예제
+
 let orderStatusPublisher = NotificationCenter.default
-  .publisher(for: .didUpdateOrderStatus,
-             object: margheritaOrder)
+  .publisher(for: .didUpdateOrderStatus, object: margheritaOrder)
   .compactMap { $0.userInfo?["status"] as? OrderStatus }
   .eraseToAnyPublisher()
 
 let shippingStatusPublisher = NotificationCenter.default
-  .publisher(for: .didValidateAddress,
-             object: margheritaOrder)
+  .publisher(for: .didValidateAddress, object: margheritaOrder)
   .compactMap { $0.userInfo?["status"] as? AddressStatus }
   .eraseToAnyPublisher()
 
@@ -212,7 +212,6 @@ NotificationCenter
         object: margheritaOrder,
         userInfo: ["status": AddressStatus.valid])
 
-
 // 이벤트를 시간차를 두고 발송
 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
   NotificationCenter
@@ -220,29 +219,33 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
     .post(name: .didValidateAddress,
           object: margheritaOrder,
           userInfo: ["status": AddressStatus.invalid])
-
-  // 약간의 지연 추가
-  DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-    NotificationCenter
-      .default
-      .post(name: .didUpdateOrderStatus,
-            object: margheritaOrder,
-            userInfo: ["status": OrderStatus.placed])
-
-    // 추가 지연
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      NotificationCenter
-        .default
-        .post(name: .didValidateAddress,
-              object: margheritaOrder,
-              userInfo: ["status": AddressStatus.valid])
-
-      // 5초 후 플레이그라운드 실행 종료
-      DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-        // 실행 완료
-        print("결과 확인 완료")
-        PlaygroundPage.current.finishExecution()
-      }
-    }
-  }
 }
+
+// 약간의 지연 추가
+DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+  NotificationCenter
+    .default
+    .post(name: .didUpdateOrderStatus,
+          object: margheritaOrder,
+          userInfo: ["status": OrderStatus.placed])
+
+}
+
+// 추가 지연
+DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+  NotificationCenter
+    .default
+    .post(name: .didValidateAddress,
+          object: margheritaOrder,
+          userInfo: ["status": AddressStatus.valid])
+
+}
+
+// 5초 후 플레이그라운드 실행 종료
+DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+  // 실행 완료
+  print("결과 확인 완료")
+  cancellables.removeAll()
+  PlaygroundPage.current.finishExecution()
+}
+
