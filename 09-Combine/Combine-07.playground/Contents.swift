@@ -117,42 +117,132 @@ let margheritaOrder = Order(toppings: [Topping("Tomato Sauce", isVegan: true),
                                        Topping("Vegan Mozzarella", isVegan: true),
                                        Topping("Basil", isVegan: true)])
 
-let extraToppingPublisher = NotificationCenter.default.publisher(for: .addTopping,
-                                                                 object: margheritaOrder)
+//let extraToppingPublisher = NotificationCenter.default.publisher(for: .addTopping,
+//                                                                 object: margheritaOrder)
+//
+//// 비건 토핑을 추가하는 Subscriber
+//extraToppingPublisher
+//// userInfo에서 "extra" 키를 사용하여 Topping을 가져옴
+//  .compactMap { $0.userInfo?["extra"] as? Topping }
+//// Topping이 비건인지 확인
+//  .filter { $0.isVegan }
+//// 최대 3개까지 비건 토핑을 허용
+//  .prefix(3)
+//// Topping을 추가하는 작업
+//  .sink { value in
+//    if margheritaOrder.toppings != nil {
+//      margheritaOrder.toppings?.append(value)
+//      print("비건 토핑 추가됨: \(value.name)")
+//      print("토핑 개수: \(margheritaOrder.toppings?.count ?? 0)")
+//      print("현재 비건 토핑 목록: \(margheritaOrder.toppings?.map { $0.name } ?? [])")
+//    }
+//  }
+//
+//NotificationCenter
+//  .default
+//  .post(name: .addTopping,
+//        object: margheritaOrder,
+//        userInfo: ["extra": Topping("Olives", isVegan: true)])
+//
+//// 비건이 아닌 토핑 추가
+//NotificationCenter
+//  .default
+//  .post(name: .addTopping,
+//        object: margheritaOrder,
+//        userInfo: ["extra": Topping("Pepperoni", isVegan: false)])
+//
+//NotificationCenter
+//  .default
+//  .post(name: .addTopping,
+//        object: margheritaOrder,
+//        userInfo: ["extra": Topping("Mushrooms", isVegan: true)])
+//
+//NotificationCenter
+//  .default
+//  .post(name: .addTopping,
+//        object: margheritaOrder,
+//        userInfo: ["extra": Topping("Spinach", isVegan: true)])
+//
+//// 3개의 비건 토핑을 초과하는 경우
+//NotificationCenter
+//  .default
+//  .post(name: .addTopping,
+//        object: margheritaOrder,
+//        userInfo: ["extra": Topping("Extra Vegan Mozzarella", isVegan: true)])
+//
+//
 
-// 비건 토핑을 추가하는 Subscriber
-extraToppingPublisher
-// userInfo에서 "extra" 키를 사용하여 Topping을 가져옴
-  .compactMap { $0.userInfo?["extra"] as? Topping }
-// Topping이 비건인지 확인
-  .filter { $0.isVegan }
-// 최대 3개까지 비건 토핑을 허용
-  .prefix(3)
-// Topping을 추가하는 작업
-  .sink { value in
-    if margheritaOrder.toppings != nil {
-      margheritaOrder.toppings?.append(value)
-      print("비건 토핑 추가됨: \(value.name)")
-      print("토핑 개수: \(margheritaOrder.toppings?.count ?? 0)")
-      print("현재 비건 토핑 목록: \(margheritaOrder.toppings?.map { $0.name } ?? [])")
+let orderStatusPublisher = NotificationCenter.default
+  .publisher(for: .didUpdateOrderStatus,
+             object: margheritaOrder)
+  .compactMap { $0.userInfo?["status"] as? OrderStatus }
+  .eraseToAnyPublisher()
+
+let shippingStatusPublisher = NotificationCenter.default
+  .publisher(for: .didValidateAddress,
+             object: margheritaOrder)
+  .compactMap { $0.userInfo?["status"] as? AddressStatus }
+  .eraseToAnyPublisher()
+
+Publishers.CombineLatest(orderStatusPublisher, shippingStatusPublisher)
+  .map { (orderStatus, addressStatus) in
+    switch (orderStatus, addressStatus) {
+    case (.placed, .valid):
+      print("주문이 접수되었습니다. 배송 준비 중입니다.")
+      return true
+    case (.shipping, .valid):
+      print("배송 중입니다.")
+      fallthrough
+    case (.delivered, .valid):
+      print("배송 완료되었습니다.")
+      fallthrough
+    default:
+      print("주문 상태를 확인할 수 없습니다.")
+      return false
     }
   }
+  .sink {
+    print("주문 상태: \($0)")
+  }
+  .store(in: &cancellables)
 
 NotificationCenter
   .default
-  .post(name: .addTopping,
+  .post(name: .didValidateAddress,
         object: margheritaOrder,
-        userInfo: ["extra": Topping("Olives", isVegan: true)])
+        userInfo: ["status": AddressStatus.valid])
 
-// 비건이 아닌 토핑 추가
-NotificationCenter
-  .default
-  .post(name: .addTopping,
-        object: margheritaOrder,
-        userInfo: ["extra": Topping("Pepperoni", isVegan: false)])
 
-NotificationCenter
-  .default
-  .post(name: .addTopping,
-        object: margheritaOrder,
-        userInfo: ["extra": Topping("Mushrooms", isVegan: true)])
+// 이벤트를 시간차를 두고 발송
+DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+  NotificationCenter
+    .default
+    .post(name: .didValidateAddress,
+          object: margheritaOrder,
+          userInfo: ["status": AddressStatus.invalid])
+
+  // 약간의 지연 추가
+  DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    NotificationCenter
+      .default
+      .post(name: .didUpdateOrderStatus,
+            object: margheritaOrder,
+            userInfo: ["status": OrderStatus.placed])
+
+    // 추가 지연
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      NotificationCenter
+        .default
+        .post(name: .didValidateAddress,
+              object: margheritaOrder,
+              userInfo: ["status": AddressStatus.valid])
+
+      // 5초 후 플레이그라운드 실행 종료
+      DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+        // 실행 완료
+        print("결과 확인 완료")
+        PlaygroundPage.current.finishExecution()
+      }
+    }
+  }
+}
