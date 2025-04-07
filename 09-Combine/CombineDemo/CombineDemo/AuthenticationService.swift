@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 // 에러 타입 정의
 enum NetworkError: Error {
@@ -22,6 +23,7 @@ struct UserNameAvailableMessage: Codable {
 }
 
 actor AuthenticationService {
+  // 기존 비동기 메서드
   func checkUserNameAvailableOldSchool(userName: String,
                                        completion: @Sendable @escaping (Result<Bool, NetworkError>) -> Void) {
     guard let url = URL(string: "http://localhost:8080/isUserNameAvailable?userName=\(userName)") else {
@@ -72,5 +74,26 @@ actor AuthenticationService {
 
     // 요청 태스크를 시작
     task.resume()
+  }
+
+  // Publisher 를 활용한 비동기 메서드
+  // FIXME: Actor 대응
+  nonisolated func checkUserNameAvailableNaive(userName: String) -> AnyPublisher<Bool, Never> {
+    guard let url = URL(string: "http://localhost:8080/isUserNameAvailable?userName=\(userName)") else {
+      return Just(false).eraseToAnyPublisher()
+    }
+
+    return URLSession.shared.dataTaskPublisher(for: url)
+      .map { data, response in
+        do {
+          let decoder = JSONDecoder()
+          let userAvailableMessage = try decoder.decode(UserNameAvailableMessage.self, from: data)
+          return userAvailableMessage.isAvailable
+        } catch {
+          return false
+        }
+      }
+      .replaceError(with: false)
+      .eraseToAnyPublisher()
   }
 }
