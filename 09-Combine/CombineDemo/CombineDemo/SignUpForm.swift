@@ -22,6 +22,7 @@ struct SignUpForm: View {
       // 비밀번호 입력 필드
       Section {
         SecureField("비밀번호", text: $viewModel.password)
+        SecureField("비밀번호 확인", text: $viewModel.passwordConfirmation)
       } footer: {
         Text(viewModel.passwordMessage)
           .foregroundColor(.red)
