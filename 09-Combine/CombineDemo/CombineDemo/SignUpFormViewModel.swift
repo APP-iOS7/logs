@@ -63,8 +63,16 @@ class SignUpFormViewModel: ObservableObject {
       .assign(to: &$usernameMessage)
 
     // 비밀번호 유효성 검사
-    isPasswordValidPublisher
-      .map { $0 ? "" : "비밀번호가 비어있거나 일치하지 않습니다." }
+    Publishers.CombineLatest(isPasswordEmptyPublisher, isPasswordMatchingPublisher)
+      .map { isEmpty, isMatching in
+        if isEmpty {
+          return "비밀번호를 입력하세요."
+        } else if !isMatching {
+          return "비밀번호가 일치하지 않습니다."
+        } else {
+          return ""
+        }
+      }
       .assign(to: &$passwordMessage)
 
     // 폼 유효성 검사
