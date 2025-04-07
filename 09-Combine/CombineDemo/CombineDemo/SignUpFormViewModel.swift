@@ -13,6 +13,17 @@ enum UserNameValid {
   case notAvailable
 }
 
+typealias Available = Result<Bool, Error>
+
+extension Publisher {
+  func asResult() -> AnyPublisher<Result<Output, Failure>, Never> {
+    self
+      .map(Result.success)
+      .catch { error in Just(.failure(error)) }
+      .eraseToAnyPublisher()
+  }
+}
+
 class SignUpFormViewModel: ObservableObject {
   // 유저 입력 프로퍼티
   @Published var username: String = ""
@@ -33,7 +44,7 @@ class SignUpFormViewModel: ObservableObject {
       .eraseToAnyPublisher()
   }()
 
-  private lazy var isUsernameAvaliablePublisher: AnyPublisher<Bool, Never> = {
+  private lazy var isUsernameAvaliablePublisher: AnyPublisher<Available, Never> = {
     $username
       .debounce(for: 0.8, scheduler: DispatchQueue.main)
       .removeDuplicates()
@@ -44,13 +55,10 @@ class SignUpFormViewModel: ObservableObject {
         }
         return username
       }
-      .flatMap { username -> AnyPublisher<Bool, Never> in
-        return self.authenticationService.checkUserNameAvailablePublisher(userName: username)
-          .catch { error in
-            return Just(false)
-          }
-          .eraseToAnyPublisher()
-
+      .flatMap { username -> AnyPublisher<Available, Never> in
+        return self.authenticationService
+          .checkUserNameAvailablePublisher(userName: username)
+          .asResult()
       }
       .receive(on: DispatchQueue.main)
       .share()
@@ -62,7 +70,7 @@ class SignUpFormViewModel: ObservableObject {
       .map { isLengthValid, isAvailable in
         if !isLengthValid {
           return .tooShort
-        } else if !isAvailable {
+        } else if case .success(false) = isAvailable {
           return .notAvailable
         } else {
           return .valid
