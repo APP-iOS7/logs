@@ -77,7 +77,6 @@ actor AuthenticationService {
   }
 
   // Publisher 를 활용한 비동기 메서드
-  // FIXME: Actor 대응
   nonisolated func checkUserNameAvailableNaive(userName: String) -> AnyPublisher<Bool, Never> {
     guard let url = URL(string: "http://localhost:8080/isUserNameAvailable?userName=\(userName)") else {
       return Just(false).eraseToAnyPublisher()

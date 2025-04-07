@@ -7,6 +7,12 @@
 import Foundation
 import Combine
 
+enum UserNameValid {
+  case valid
+  case tooShort
+  case notAvailable
+}
+
 class SignUpFormViewModel: ObservableObject {
   // 유저 입력 프로퍼티
   @Published var username: String = ""
@@ -46,9 +52,17 @@ class SignUpFormViewModel: ObservableObject {
       .eraseToAnyPublisher()
   }()
 
-  private lazy var isUsernameValidPublisher: AnyPublisher<Bool, Never> = {
+  private lazy var isUsernameValidPublisher: AnyPublisher<UserNameValid, Never> = {
     Publishers.CombineLatest(isUsernameLengthValidPublisher, isUsernameAvaliablePublisher)
-      .map { $0 && $1 }
+      .map { isLengthValid, isAvailable in
+        if !isLengthValid {
+          return .tooShort
+        } else if !isAvailable {
+          return .notAvailable
+        } else {
+          return .valid
+        }
+      }
       .eraseToAnyPublisher()
   }()
 
@@ -79,20 +93,21 @@ class SignUpFormViewModel: ObservableObject {
 
   private lazy var isFormValidPublisher: AnyPublisher<Bool, Never> = {
     Publishers.CombineLatest(isUsernameValidPublisher, isPasswordValidPublisher)
-      .map { $0 && $1 }
+      .map { ($0 == .valid) && $1 }
       .eraseToAnyPublisher()
   }()
 
   init() {
     // 유저 이름 유효성 검사
-    Publishers.CombineLatest(isUsernameLengthValidPublisher, isUsernameAvaliablePublisher)
-      .map { isLengthValid, isAvailable in
-        if !isLengthValid {
-          return "사용자 이름은 3자 이상이어야 합니다."
-        } else if !isAvailable {
-          return "사용자 이름이 이미 사용중입니다."
-        } else {
+    isUsernameValidPublisher
+      .map { valid in
+        switch valid {
+        case .valid:
           return ""
+        case .tooShort:
+          return "사용자 이름은 3자 이상이어야 합니다."
+        case .notAvailable:
+          return "사용자 이름이 사용 중입니다."
         }
       }
       .assign(to: &$usernameMessage)
