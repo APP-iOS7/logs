@@ -9,6 +9,11 @@ import Foundation
 import Combine
 
 // 에러 타입 정의
+enum APIError: LocalizedError {
+  /// 잘못된 요청, 예: 잘못된 URL
+  case invalidRequestError(String)
+}
+
 enum NetworkError: Error {
   case invalidRequestError(String)
   case transportError(Error)
@@ -77,22 +82,15 @@ actor AuthenticationService {
   }
 
   // Publisher 를 활용한 비동기 메서드
-  nonisolated func checkUserNameAvailableNaive(userName: String) -> AnyPublisher<Bool, Never> {
+  nonisolated func checkUserNameAvailablePublisher(userName: String) -> AnyPublisher<Bool, Error> {
     guard let url = URL(string: "http://localhost:8080/isUserNameAvailable?userName=\(userName)") else {
-      return Just(false).eraseToAnyPublisher()
+      return Fail(error: APIError.invalidRequestError("URL invalid")).eraseToAnyPublisher()
     }
 
     return URLSession.shared.dataTaskPublisher(for: url)
-      .map { data, response in
-        do {
-          let decoder = JSONDecoder()
-          let userAvailableMessage = try decoder.decode(UserNameAvailableMessage.self, from: data)
-          return userAvailableMessage.isAvailable
-        } catch {
-          return false
-        }
-      }
-      .replaceError(with: false)
+      .map(\.data)
+      .decode(type: UserNameAvailableMessage.self, decoder: JSONDecoder())
+      .map(\.isAvailable)
       .eraseToAnyPublisher()
   }
 }

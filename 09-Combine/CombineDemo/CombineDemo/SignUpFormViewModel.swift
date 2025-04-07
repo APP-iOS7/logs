@@ -45,7 +45,12 @@ class SignUpFormViewModel: ObservableObject {
         return username
       }
       .flatMap { username -> AnyPublisher<Bool, Never> in
-        return self.authenticationService.checkUserNameAvailableNaive(userName: username)
+        return self.authenticationService.checkUserNameAvailablePublisher(userName: username)
+          .catch { error in
+            return Just(false)
+          }
+          .eraseToAnyPublisher()
+
       }
       .receive(on: DispatchQueue.main)
       .share()
