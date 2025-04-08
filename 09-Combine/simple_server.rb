@@ -5,6 +5,7 @@ require 'uri'
 # 사용 불가능한 사용자 이름 목록
 UNAVAILABLE_USERNAMES = ['jmbae', 'johnnyappleseed', 'page', 'johndoe']
 
+
 # HTTP 응답 헬퍼 메서드
 def http_response(code, content_type, body)
   "HTTP/1.1 #{code}\r\n" +
@@ -30,6 +31,7 @@ end
 
 # 서버 실행 함수
 def run_server(port=8080)
+  maintenance_counter = 0
   # 서버 소켓 생성
   server = TCPServer.new('127.0.0.1', port)
   
@@ -185,13 +187,12 @@ def run_server(port=8080)
               next
             end
 
-            # 유지보수 에러 시뮬레이션
-            @@maintenance_counter ||= 0
+            # 유지보수 에러 시뮬레이션            
             if username == 'maintenance'
-              @@maintenance_counter += 1
-              puts "Maintenance counter: #{@@maintenance_counter}"
+              maintenance_counter += 1
+              puts "Maintenance counter: #{maintenance_counter}"
               
-              if @@maintenance_counter % 3 != 0
+              if maintenance_counter % 3 != 0
                 puts "... throwing maintenance error"
                 error_response = {
                   error: true,
