@@ -204,7 +204,7 @@ def run_server(port=8080)
                   JSON.generate(error_response)
                 )
                 # 재시도 헤더 추가
-                response = response.sub("Connection: close\r\n", "Connection: close\r\nRetry-After: 120\r\n")
+                response = response.sub("Connection: close\r\n", "Connection: close\r\nRetry-After: 12\r\n")
                 c.write(response)
                 c.close
                 next
@@ -225,7 +225,7 @@ def run_server(port=8080)
                 JSON.generate(error_response)
               )
               # 재시도 헤더 추가
-              response = response.sub("Connection: close\r\n", "Connection: close\r\nRetry-After: 120\r\n")
+              response = response.sub("Connection: close\r\n", "Connection: close\r\nRetry-After: 12\r\n")
               c.write(response)
               c.close
               next

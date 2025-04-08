@@ -62,39 +62,58 @@ actor AuthenticationService {
       return Fail(error: APIError.invalidRequestError("URL invalid")).eraseToAnyPublisher()
     }
 
-    return URLSession.shared.dataTaskPublisher(for: url)
-    // URLSession을 사용하여 네트워크 요청에 대한 오류를 처리
-      .mapError { APIError.transportError($0) }
-      .tryMap { data, response in
-        // 응답을 처리
-        guard let httpResponse = response as? HTTPURLResponse else {
-          // 응답이 HTTPURLResponse가 아닐 경우
-          throw APIError.invalidResponse
-        }
-
-        if (200..<300).contains(httpResponse.statusCode) {
-          // 성공적인 응답일 경우
-          return data
-        } else {
-          // 실패한 응답일 경우
-          let decoder = JSONDecoder()
-          let apiError = try decoder.decode(APIErrorMessage.self, from: data)
-          // 서버에서 에러가 발생했을 경우
-          if httpResponse.statusCode == 400 {
-            throw APIError.validationError(apiError.reason)
-          } else if (500..<600) ~= httpResponse.statusCode {
-            let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After") ?? "0"
-            // 서버 에러
-            throw APIError.serverError(statusCode: httpResponse.statusCode,
-                                       reason: apiError.reason, retryAfter: Int(retryAfter) ?? 0)
-          } else {
-            // 기타 에러
+    func makeRequest() -> AnyPublisher<Bool, Error> {
+      return URLSession.shared.dataTaskPublisher(for: url)
+        .mapError { APIError.transportError($0) }
+        .tryMap { data, response in
+          // 응답을 처리
+          guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
           }
+
+          if (200..<300).contains(httpResponse.statusCode) {
+            // 성공적인 응답일 경우
+            return data
+          } else {
+            // 실패한 응답일 경우
+            let decoder = JSONDecoder()
+            let apiError = try decoder.decode(APIErrorMessage.self, from: data)
+            // 서버에서 에러가 발생했을 경우
+            if httpResponse.statusCode == 400 {
+              throw APIError.validationError(apiError.reason)
+            } else if (500..<600) ~= httpResponse.statusCode {
+              let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After") ?? "0"
+              // 서버 에러
+              throw APIError.serverError(
+                statusCode: httpResponse.statusCode,
+                reason: apiError.reason,
+                retryAfter: Int(retryAfter) ?? 0
+              )
+            } else {
+              // 기타 에러
+              throw APIError.invalidResponse
+            }
+          }
+        }
+        .decode(type: UserNameAvailableMessage.self, decoder: JSONDecoder())
+        .map(\.isAvailable)
+        .eraseToAnyPublisher()
+    }
+
+    return makeRequest()
+      .catch { error -> AnyPublisher<Bool, Error> in
+        if case APIError.serverError(_, _, let retryAfter) = error {
+          print("Retrying after \(retryAfter) seconds...")          
+          let delayTime = retryAfter > 0 ? TimeInterval(retryAfter) : 0.1
+          return Just(())
+            .delay(for: .seconds(delayTime), scheduler: RunLoop.main)
+            .flatMap { _ in makeRequest() }
+            .retry(10)
+            .eraseToAnyPublisher()
+        } else {
+          return Fail(error: error).eraseToAnyPublisher()
         }
       }
-      .decode(type: UserNameAvailableMessage.self, decoder: JSONDecoder())
-      .map(\.isAvailable)
-      .eraseToAnyPublisher()
+    .eraseToAnyPublisher()
   }
 }
