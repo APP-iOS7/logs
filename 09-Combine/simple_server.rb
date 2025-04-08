@@ -118,6 +118,31 @@ def run_server(port=8080)
           
           if params.has_key?('userName')
             username = params['userName']
+
+            if username.nil? || username.empty?
+              # 사용자 이름이 비어 있는 경우
+              response = http_response(
+                '400 Bad Request',
+                'text/plain',
+                'Bad Request: userName을 입력하세요'
+              )
+              c.write(response)
+              c.close
+              next
+            end
+
+            # 3자 이상인지 확인
+            if username.length < 3
+              # 사용자 이름이 3자 미만인 경우
+              response = http_response(
+                '400 Bad Request',
+                'text/plain',
+                'Bad Request: userName은 3자 이상이어야 합니다'
+              )
+              c.write(response)
+              c.close
+              next
+            end
             
             # 요청 로깅
             puts "Checking availability for username: #{username}"

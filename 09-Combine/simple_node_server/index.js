@@ -19,6 +19,13 @@ const server = http.createServer((req, res) => {
       
       // 요청 로깅
       console.log(`Checking availability for username: ${username}`);
+
+      // 사용자 이름이 비어있거나 공백인 경우 처리
+      if (!username || username.trim() === '') {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Username 이 비었습니다.' }));
+        return;
+      }
       
       // 사용자 이름이 사용 불가능한 목록에 있는지 확인
       const isAvailable = !unavailableUsernames.includes(username);

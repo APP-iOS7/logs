@@ -18,6 +18,20 @@ class UserNameHandler(BaseHTTPRequestHandler):
             # userName 파라미터가 있는지 확인
             if 'userName' in query_params:
                 username = query_params['userName'][0]
+
+                # 사용자 이름이 비어있는지 확인
+                if not username:
+                    self.send_response(400)
+                    self.end_headers()
+                    self.wfile.write(b'Bad Request: userName 이 비어있습니다.')
+                    return
+
+                # 사용자 이름이 3자 이상인지 확인
+                if len(username) < 3:
+                    self.send_response(400)
+                    self.end_headers()
+                    self.wfile.write(b'Bad Request: userName은 최소 3자 이상이어야 합니다.')
+                    return
                 
                 # 요청 로깅
                 print(f"Checking availability for username: {username}")
