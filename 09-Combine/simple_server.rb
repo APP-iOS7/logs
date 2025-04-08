@@ -121,10 +121,14 @@ def run_server(port=8080)
 
             if username.nil? || username.empty?
               # 사용자 이름이 비어 있는 경우
+              error_response = {
+                error: true,
+                reason: 'userName을 입력하세요'
+              }
               response = http_response(
                 '400 Bad Request',
-                'text/plain',
-                'Bad Request: userName을 입력하세요'
+                'application/json',
+                JSON.generate(error_response)
               )
               c.write(response)
               c.close
@@ -134,10 +138,105 @@ def run_server(port=8080)
             # 3자 이상인지 확인
             if username.length < 3
               # 사용자 이름이 3자 미만인 경우
+              error_response = {
+                error: true,
+                reason: 'userName은 3자 이상이어야 합니다'
+              }
+  
               response = http_response(
                 '400 Bad Request',
-                'text/plain',
-                'Bad Request: userName은 3자 이상이어야 합니다'
+                'application/json',
+                JSON.generate(error_response)
+              )
+              c.write(response)
+              c.close
+              next
+            end
+
+            # 금지된 사용자 이름 확인
+            if ['admin', 'superuser'].include?(username)
+              error_response = {
+                error: true,
+                reason: "Username is not valid: #{username}."
+              }
+              response = http_response(
+                '400 Bad Request',
+                'application/json',
+                JSON.generate(error_response)
+              )
+              c.write(response)
+              c.close
+              next
+            end
+
+            # 서버 에러 시뮬레이션 - 데이터베이스 손상
+            if username == 'servererror'
+              error_response = {
+                error: true,
+                reason: 'The database is corrupted'
+              }
+              response = http_response(
+                '500 Internal Server Error',
+                'application/json',
+                JSON.generate(error_response)
+              )
+              c.write(response)
+              c.close
+              next
+            end
+
+            # 유지보수 에러 시뮬레이션
+            @@maintenance_counter ||= 0
+            if username == 'maintenance'
+              @@maintenance_counter += 1
+              puts "Maintenance counter: #{@@maintenance_counter}"
+              
+              if @@maintenance_counter % 3 != 0
+                puts "... throwing maintenance error"
+                error_response = {
+                  error: true,
+                  reason: 'Temporarily unavailable for maintenance'
+                }
+                response = http_response(
+                  '500 Internal Server Error',
+                  'application/json',
+                  JSON.generate(error_response)
+                )
+                # 재시도 헤더 추가
+                response = response.sub("Connection: close\r\n", "Connection: close\r\nRetry-After: 120\r\n")
+                c.write(response)
+                c.close
+                next
+              else
+                puts "... NOT throwing maintenance error"
+              end
+            end
+
+            # 항상 유지보수 에러
+            if username == 'maintenance!'
+              error_response = {
+                error: 'Internal Server Error',
+                reason: 'Temporarily unavailable for maintenance'
+              }
+              response = http_response(
+                '500 Internal Server Error',
+                'application/json',
+                JSON.generate(error_response)
+              )
+              # 재시도 헤더 추가
+              response = response.sub("Connection: close\r\n", "Connection: close\r\nRetry-After: 120\r\n")
+              c.write(response)
+              c.close
+              next
+            end
+
+            # 잘못된 응답 형식 시뮬레이션
+            if username == 'illegalresponse'
+              result = { isAvailable: false }
+              response = http_response(
+                '200 OK',
+                'application/json',
+                JSON.generate(result)
               )
               c.write(response)
               c.close
