@@ -12,6 +12,31 @@ import Combine
 enum APIError: LocalizedError {
   /// 잘못된 요청, 예: 잘못된 URL
   case invalidRequestError(String)
+  case transportError(Error)
+  case invalidResponse
+  case validationError(String)
+  case decodingError(Error)
+
+  var errorDescription: String? {
+    switch self {
+    case .invalidRequestError(let message):
+      return "Invalid request: \(message)"
+    case .transportError(let error):
+      return "Transport error: \(error)"
+    case .invalidResponse:
+      return "Invalid response"
+    case .validationError(let reason):
+      return "Validation Error: \(reason)"
+    case .decodingError:
+      return "The server returned data in an unexpected format. Try updating the app."
+    }
+  }
+
+}
+
+struct APIErrorMessage: Decodable {
+  var error: Bool
+  var reason: String
 }
 
 enum NetworkError: Error {
@@ -88,7 +113,29 @@ actor AuthenticationService {
     }
 
     return URLSession.shared.dataTaskPublisher(for: url)
-      .map(\.data)
+    // URLSession을 사용하여 네트워크 요청에 대한 오류를 처리
+      .mapError { APIError.transportError($0) }
+      .tryMap { data, response in
+        // 응답을 처리
+        guard let httpResponse = response as? HTTPURLResponse else {
+          // 응답이 HTTPURLResponse가 아닐 경우
+          throw APIError.invalidResponse
+        }
+
+        if (200..<300).contains(httpResponse.statusCode) {
+          // 성공적인 응답일 경우
+          return data
+        } else {
+          // 실패한 응답일 경우
+          let decoder = JSONDecoder()
+          let apiError = try decoder.decode(APIErrorMessage.self, from: data)
+          // 서버에서 에러가 발생했을 경우
+          if httpResponse.statusCode == 400 {
+            throw APIError.validationError(apiError.reason)
+          }
+          throw APIError.invalidResponse
+        }
+      }
       .decode(type: UserNameAvailableMessage.self, decoder: JSONDecoder())
       .map(\.isAvailable)
       .eraseToAnyPublisher()
