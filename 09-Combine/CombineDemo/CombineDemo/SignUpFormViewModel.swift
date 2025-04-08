@@ -36,6 +36,9 @@ class SignUpFormViewModel: ObservableObject {
   @Published var isValid: Bool = false
   @Published var showUpdateDialog: Bool = false
 
+  // Combine의 cancellables 프로퍼티
+  private var cancellables: Set<AnyCancellable> = []
+
   var authenticationService = AuthenticationService()
 
   // 유저이름 유효성 검사 (3자 이상)
@@ -105,6 +108,14 @@ class SignUpFormViewModel: ObservableObject {
   }()
 
   init() {
+    // dump 연산자 사용 예시
+    print("HERE!")
+    Just(Date())
+      .dump()
+      .sink { _ in }
+      .store(in: &cancellables)
+    print("HERE END!")
+
     // 유저 이름 유효성 검사
     isUsernameAvailablePublisher
       .map { result in

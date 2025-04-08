@@ -103,7 +103,7 @@ actor AuthenticationService {
     return makeRequest()
       .catch { error -> AnyPublisher<Bool, Error> in
         if case APIError.serverError(_, _, let retryAfter) = error {
-          print("Retrying after \(retryAfter) seconds...")          
+          print("Retrying after \(retryAfter) seconds...")
           let delayTime = retryAfter > 0 ? TimeInterval(retryAfter) : 0.1
           return Just(())
             .delay(for: .seconds(delayTime), scheduler: RunLoop.main)
