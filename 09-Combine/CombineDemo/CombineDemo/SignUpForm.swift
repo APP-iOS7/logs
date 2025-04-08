@@ -36,6 +36,15 @@ struct SignUpForm: View {
         .disabled(!viewModel.isValid)
       }
     }
+    // 업데이트 대화 상자 표시
+    .alert("Please update", isPresented: $viewModel.showUpdateDialog, actions: {
+      Button("Upgrade") {
+        print("버전 업데이트 버튼 클릭")
+      }
+      Button("Not now", role: .cancel) { }
+    }, message: {
+      Text("업데이트가 필요합니다.")
+    })
   }
 }
 
