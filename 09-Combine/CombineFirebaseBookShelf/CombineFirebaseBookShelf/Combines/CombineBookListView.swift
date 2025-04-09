@@ -17,9 +17,9 @@ private class BookListViewModel: ObservableObject {
   init() {
     db.collection("books").snapshotPublisher()
       // Firestore 의 collectionReference 를 사용하여Firestore 의 collection 을 가져온다.
-      .tryMap { querySnapshot in
-        try querySnapshot.documents.compactMap { documentSnapshot in
-          try documentSnapshot.data(as: Book.self)
+      .map { querySnapshot in
+        querySnapshot.documents.compactMap { documentSnapshot in
+          try? documentSnapshot.data(as: Book.self)
         }
       }
       .catch { error in
