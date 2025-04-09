@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CC1831432DA5FB100098E93D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CC1831422DA5FB100098E93D /* FirebaseAnalytics */; };
+		CC1831482DA6008B0098E93D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CC1831472DA6008B0098E93D /* FirebaseAuth */; };
+		CC18314A2DA600AB0098E93D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CC1831492DA600AB0098E93D /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC1831432DA5FB100098E93D /* FirebaseAnalytics in Frameworks */,
+				CC1831482DA6008B0098E93D /* FirebaseAuth in Frameworks */,
+				CC18314A2DA600AB0098E93D /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				CC1831352DA5F8FB0098E93D /* CombineFirebaseBookShelf */,
+				CC1831462DA6008B0098E93D /* Frameworks */,
 				CC1831342DA5F8FB0098E93D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,6 +53,13 @@
 				CC1831332DA5F8FB0098E93D /* CombineFirebaseBookShelf.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CC1831462DA6008B0098E93D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,6 +83,8 @@
 			name = CombineFirebaseBookShelf;
 			packageProductDependencies = (
 				CC1831422DA5FB100098E93D /* FirebaseAnalytics */,
+				CC1831472DA6008B0098E93D /* FirebaseAuth */,
+				CC1831492DA600AB0098E93D /* FirebaseFirestore */,
 			);
 			productName = CombineFirebaseBookShelf;
 			productReference = CC1831332DA5F8FB0098E93D /* CombineFirebaseBookShelf.app */;
@@ -350,6 +364,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CC1831412DA5FB100098E93D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		CC1831472DA6008B0098E93D /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC1831412DA5FB100098E93D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		CC1831492DA600AB0098E93D /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC1831412DA5FB100098E93D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
