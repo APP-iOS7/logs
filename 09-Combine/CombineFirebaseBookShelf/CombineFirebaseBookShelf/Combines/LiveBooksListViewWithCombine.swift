@@ -13,9 +13,10 @@ private class BookListViewModel: ObservableObject {
   @Published var errorMessage: String?
 
   private var db = Firestore.firestore()
+  private var cancellable: AnyCancellable?
 
-  init() {
-    db.collection("books").snapshotPublisher()
+  fileprivate func subscribe() {
+    cancellable = db.collection("books").snapshotPublisher()
       .map { querySnapshot in
         querySnapshot.documents.compactMap { documentSnapshot in
           try? documentSnapshot.data(as: Book.self)
@@ -26,7 +27,15 @@ private class BookListViewModel: ObservableObject {
         return Just([Book]()).eraseToAnyPublisher()
       }
       .replaceError(with: [Book]())
-      .assign(to: &$books)
+      .handleEvents(receiveCancel: {
+        print("Cancelled")
+      })
+      .assign(to: \.books, on: self)
+  }
+
+  fileprivate func unsubscribe() {
+    cancellable?.cancel()
+    cancellable = nil
   }
 }
 
@@ -38,5 +47,11 @@ struct LiveBooksListViewWithCombine: View {
       Text(book.title)
     }
     .navigationTitle("Book List")
+    .onAppear {
+      viewModel.subscribe()
+    }
+    .onDisappear {
+      viewModel.unsubscribe()
+    }
   }
 }
