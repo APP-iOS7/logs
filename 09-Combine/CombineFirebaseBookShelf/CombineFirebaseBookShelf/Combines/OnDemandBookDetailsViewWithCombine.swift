@@ -16,7 +16,8 @@ private class BookDetailViewModel: ObservableObject {
   private var db = Firestore.firestore()
 
   init() {
-    db.collection("books").document("hitchhiker").getDocument()
+    // Subscribe to the snapshot publisher
+    db.collection("books").document("hitchhiker").snapshotPublisher()
       .tryMap { documentSnapshot in
         try documentSnapshot.data(as: Book.self)
       }
