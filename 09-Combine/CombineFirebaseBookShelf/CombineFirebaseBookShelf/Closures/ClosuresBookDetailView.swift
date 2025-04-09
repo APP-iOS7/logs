@@ -31,7 +31,7 @@ private class BookDetailViewModel: ObservableObject {
   }
 }
 
-struct OnDemandBookDetailsViewWithClosures: View {
+struct ClosuresBookDetailView: View {
   @StateObject private var viewModel = BookDetailViewModel()
 
   var body: some View {

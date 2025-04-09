@@ -12,10 +12,10 @@ struct ContentView: View {
     NavigationStack {
       Form {
         Section(header: Text("Closure-based APIs")) {
-          NavigationLink(destination: OnDemandBookDetailsViewWithClosures()) {
+          NavigationLink(destination: ClosuresBookDetailView()) {
             Label("On-demand fetch a single book", systemImage: "book")
           }
-          NavigationLink(destination: OnDemandBookListViewWithClosures()) {
+          NavigationLink(destination: ClosuresBookListView()) {
             Label("On-demand fetch list of books", systemImage: "books.vertical")
           }
           NavigationLink(destination: LiveBooksListViewWithClosures()) {
@@ -23,10 +23,10 @@ struct ContentView: View {
           }
         }
         Section(header: Text("Combine-based APIs")) {
-          NavigationLink(destination: OnDemandBookDetailsViewWithCombine()) {
+          NavigationLink(destination: CombineBookDetailView()) {
             Label("On-demand fetch a single book", systemImage: "book")
           }
-          NavigationLink(destination: OnDemandBookListViewWithCombine()) {
+          NavigationLink(destination: CombineBookListView()) {
             Label("On-demand fetch list of books", systemImage: "books.vertical")
           }
           NavigationLink(destination: LiveBooksListViewWithCombine()) {
