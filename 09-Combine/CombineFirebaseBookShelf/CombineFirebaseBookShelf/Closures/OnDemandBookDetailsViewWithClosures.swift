@@ -18,14 +18,14 @@ private class BookDetailViewModel: ObservableObject {
     let docRef = db.collection("books").document("hitchhiker")
 
     // Firestore 의 document 를 가져온다.
-    docRef.getDocument(as: Book.self) { result in
+    docRef.getDocument(as: Book.self) { [weak self] result in
       switch result {
       case .success(let book):
-        self.book = book
-        self.errorMessage = nil
+        self?.book = book
+        self?.errorMessage = nil
       case .failure(let error):
-        self.book = Book.empty
-        self.errorMessage = error.localizedDescription
+        self?.book = Book.empty
+        self?.errorMessage = error.localizedDescription
       }
     }
   }
