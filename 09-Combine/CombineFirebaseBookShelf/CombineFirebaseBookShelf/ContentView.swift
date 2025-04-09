@@ -16,7 +16,7 @@ struct ContentView: View {
             Label("On-demand fetch a single book", systemImage: "book")
           }
           NavigationLink(destination: OnDemandBookListViewWithClosures()) {
-            Label("On-demand fetch list of books", systemImage: "book")
+            Label("On-demand fetch list of books", systemImage: "books.vertical")
           }
           NavigationLink(destination: LiveBooksListViewWithClosures()) {
             Label("Live books list", systemImage: "bolt")
@@ -27,7 +27,7 @@ struct ContentView: View {
             Label("On-demand fetch a single book", systemImage: "book")
           }
           NavigationLink(destination: OnDemandBookListViewWithCombine()) {
-            Label("On-demand fetch list of books", systemImage: "book")
+            Label("On-demand fetch list of books", systemImage: "books.vertical")
           }
           NavigationLink(destination: LiveBooksListViewWithCombine()) {
             Label("Live books list", systemImage: "bolt")
