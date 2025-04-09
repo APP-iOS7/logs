@@ -22,11 +22,14 @@ private class BookListViewModel: ObservableObject {
           try? documentSnapshot.data(as: Book.self)
         }
       }
-      .catch { error in
-        self.errorMessage = error.localizedDescription
+      .catch { [weak self] error in
+        self?.errorMessage = error.localizedDescription
         return Just([Book]()).eraseToAnyPublisher()
       }
       .replaceError(with: [Book]())
+      .handleEvents(receiveCancel: {
+        print("Cancelled 2")
+      })
       .assign(to: &$books)
   }
 
