@@ -16,8 +16,9 @@ extension Publisher where Failure == Error {
         if case APIError.serverError(_, _, let retryAfter) = error {
           let delayTime = retryAfter > 0 ? TimeInterval(retryAfter) : 0.1
           return Just(())
-            .delay(for: .seconds(delayTime), scheduler: RunLoop.main)
+            .delay(for: .seconds(delayTime), scheduler: RunLoop.main)          
             .flatMap { _ in
+              // 에러를 다시 발생시킴
               return self
             }
             .retry(10)
