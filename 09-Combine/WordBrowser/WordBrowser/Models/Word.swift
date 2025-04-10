@@ -15,3 +15,5 @@ struct Word: Codable, Identifiable {
 
   static let empty = Word(word: "", results: nil, pronunciation: nil)
 }
+
+// TODO: SwiftData 용 모델 추가 하거나 모델을 공유할 수 있는 방법 모색

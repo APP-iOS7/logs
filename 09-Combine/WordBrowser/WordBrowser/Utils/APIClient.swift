@@ -76,6 +76,7 @@ struct APIClient {
 
       do {
         let word = try decoder.decode(Word.self, from: data)
+        // TODO: API 로 가져온 단어를 저장하는 로직
         return word
       } catch {
         debugPrint("디코딩 실패: \(error)") // 디버깅
@@ -94,6 +95,7 @@ struct APIClient {
       // 빈 문자열 검색 방지
       return Word.empty
     }
+    // TODO: 저장된 단어 확인후 API 사용 여부 판단
     let request = try buildURLRequest(for: searchTerm)
     return try await fetchWord(request)
   }
