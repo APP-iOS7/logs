@@ -21,3 +21,4 @@ xcuserdata/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 **/GoogleService-Info.plist
+*.xcconfig

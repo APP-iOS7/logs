@@ -9,17 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-      TabView {
-        LibraryView()
-          .tabItem {
-            Label("라이브러리", systemImage: "books.vertical")
-          }
-
-        WordSearchView()
-          .tabItem {
-            Label("API 검색", systemImage: "magnifyingglass")
-          }
-      }
+        VStack {
+            Image(systemName: "globe")
+                .imageScale(.large)
+                .foregroundStyle(.tint)
+            Text("Hello, world!")
+        }
+        .padding()
     }
 }
 
