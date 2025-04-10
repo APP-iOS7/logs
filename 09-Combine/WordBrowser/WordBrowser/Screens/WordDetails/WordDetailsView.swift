@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WordDetailsView: View {
   let wordToFetch: String
-  @State var viewModel: WordsApiViewModel = WordsApiViewModel()
+  @State var viewModel: WordDetailsViewModel = WordDetailsViewModel()
 
   var body: some View {
     List {

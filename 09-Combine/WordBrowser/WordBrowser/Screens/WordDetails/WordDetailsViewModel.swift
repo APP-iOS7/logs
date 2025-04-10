@@ -8,8 +8,7 @@
 import SwiftUI
 
 @Observable
-class WordsApiViewModel {
-  var searchTerm: String = ""
+class WordDetailsViewModel {
   var wordResult: Word? = nil
   var isLoading: Bool = false
   var errorMessage: String? = nil
