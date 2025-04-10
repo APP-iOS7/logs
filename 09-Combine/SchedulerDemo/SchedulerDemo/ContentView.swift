@@ -14,6 +14,9 @@ class ViewModel: ObservableObject {
 
   init() {
     $demo
+      .dropFirst()
+      // 지연 실행
+      .debounce(for: 3.0, scheduler: DispatchQueue.main)
       .sink { value in
         print("Main thread: \(Thread.isMainThread)")
       }
