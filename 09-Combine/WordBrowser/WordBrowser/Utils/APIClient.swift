@@ -42,6 +42,8 @@ struct APIClient {
     // 요청된 경우 랜덤 엔드포인트를 사용하고, 그렇지 않으면 용어를 검색
     let urlString = random ? (wordsApiBaseURL + "?random=true") : (wordsApiBaseURL + searchTerm.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)
 
+    print("요청 URL 문자열: \(urlString)") // 디버깅
+
     guard let url = URL(string: urlString) else {
       throw WordsAPIError.invalidURL
     }
