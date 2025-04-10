@@ -42,6 +42,8 @@ struct LibraryView: View {
               .foregroundColor(.red)
           }
         }
+
+        // TODO: 추가적인 섹션을 여기에 추가할 수 있습니다.
       }
       .navigationTitle("라이브러리")
       .refreshable { // 당겨서 새로고침 추가
