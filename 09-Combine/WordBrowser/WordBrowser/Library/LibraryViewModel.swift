@@ -18,18 +18,18 @@ class LibraryViewModel {
       isRefreshing = true
     }
     refreshError = nil
-    print("LibraryViewModel: 새로고침 트리거됨")
+    debugPrint("LibraryViewModel: 새로고침 트리거됨")
 
     do {
       let result = try await APIClient.fetchRandomWord()
       self.randomWord = result
-      print("LibraryViewModel: 새로고침 성공, '\(result.word)' 가져옴")
+      debugPrint("LibraryViewModel: 새로고침 성공, '\(result.word)' 가져옴")
     } catch let error as WordsAPIError {
       self.refreshError = error.localizedDescription
-      print("LibraryViewModel: 새로고침 실패: \(error.localizedDescription)")
+      debugPrint("LibraryViewModel: 새로고침 실패: \(error.localizedDescription)")
     } catch {
       self.refreshError = "새로고침 중 예상치 못한 오류 발생: \(error.localizedDescription)"
-      print("LibraryViewModel: 새로고침 실패: 예상치 못한 오류 \(error)")
+      debugPrint("LibraryViewModel: 새로고침 실패: 예상치 못한 오류 \(error)")
     }
     isRefreshing = false
   }

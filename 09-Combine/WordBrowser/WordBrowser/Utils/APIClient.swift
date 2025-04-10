@@ -35,14 +35,14 @@ struct APIClient {
       throw WordsAPIError.apiKeyMissing
     }
 
-    print("API 키: \(rapidApiKey)") // 디버깅
-    print("API 호스트: \(rapidApiHost)") // 디버깅
-    print("API 기본 URL: \(wordsApiBaseURL)") // 디버깅
+    debugPrint("API 키: \(rapidApiKey)") // 디버깅
+    debugPrint("API 호스트: \(rapidApiHost)") // 디버깅
+    debugPrint("API 기본 URL: \(wordsApiBaseURL)") // 디버깅
 
     // 요청된 경우 랜덤 엔드포인트를 사용하고, 그렇지 않으면 용어를 검색
     let urlString = random ? (wordsApiBaseURL + "?random=true") : (wordsApiBaseURL + searchTerm.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)
 
-    print("요청 URL 문자열: \(urlString)") // 디버깅
+    debugPrint("요청 URL 문자열: \(urlString)") // 디버깅
 
     guard let url = URL(string: urlString) else {
       throw WordsAPIError.invalidURL
@@ -53,7 +53,7 @@ struct APIClient {
     request.setValue(rapidApiKey, forHTTPHeaderField: "X-RapidAPI-Key")
     request.setValue(rapidApiHost, forHTTPHeaderField: "X-RapidAPI-Host")
 
-    print("요청 URL: \(url.absoluteString)") // 디버깅
+    debugPrint("요청 URL: \(url.absoluteString)") // 디버깅
 
     return request
   }
@@ -66,11 +66,11 @@ struct APIClient {
         throw WordsAPIError.invalidServerResponse
       }
 
-      print("받은 상태 코드: \(httpResponse.statusCode)") // 디버깅
+      debugPrint("받은 상태 코드: \(httpResponse.statusCode)") // 디버깅
 
       guard httpResponse.statusCode == 200 else {
         // 가능한 경우 여기에서 API의 오류 메시지를 디코딩할 수 있습니다.
-        print("오류 응답 데이터: \(String(data: data, encoding: .utf8) ?? "데이터 없음")")
+        debugPrint("오류 응답 데이터: \(String(data: data, encoding: .utf8) ?? "데이터 없음")")
         throw WordsAPIError.invalidServerResponse
       }
 
@@ -78,7 +78,7 @@ struct APIClient {
         let word = try decoder.decode(Word.self, from: data)
         return word
       } catch {
-        print("디코딩 실패: \(error)") // 디버깅
+        debugPrint("디코딩 실패: \(error)") // 디버깅
         throw WordsAPIError.decodingError(error)
       }
     } catch let error as WordsAPIError {
