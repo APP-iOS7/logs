@@ -5,4 +5,13 @@
 //  Created by Jungman Bae on 4/10/25.
 //
 
-import Foundation
+import SwiftUI
+
+struct LibraryView: View {
+  var body: some View {
+    VStack {
+      EmptyView()
+        .navigationTitle("라이브러리")
+    }
+  }
+}
