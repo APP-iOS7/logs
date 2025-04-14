@@ -22,7 +22,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CC9AE1692DACDC02001C7622 /* Exceptions for "HelloWorld" folder in "FizzBuzzTests" target */ = {
+		CC9AE16D2DACDE00001C7622 /* Exceptions for "HelloWorld" folder in "FizzBuzzTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				FizzBuzz.swift,
@@ -35,7 +35,7 @@
 		CC3E81062DACD2FB0035369B /* HelloWorld */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				CC9AE1692DACDC02001C7622 /* Exceptions for "HelloWorld" folder in "FizzBuzzTests" target */,
+				CC9AE16D2DACDE00001C7622 /* Exceptions for "HelloWorld" folder in "FizzBuzzTests" target */,
 			);
 			path = HelloWorld;
 			sourceTree = "<group>";
