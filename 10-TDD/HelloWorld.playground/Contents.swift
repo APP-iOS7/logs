@@ -2,10 +2,16 @@ import Foundation
 
 // 타겟 함수
 func fizzBuzz(_ number: Int) -> String {
+  if number % 3 == 0 && number % 5 == 0 {
+    return "fizz-buzz"
+  }
   if number % 3 == 0 {
     return "fizz"
   }
-  return ""
+  if number % 5 == 0 {
+    return "buzz"
+  }
+  return "\(number)"
 }
 
 // 테스트 함수
