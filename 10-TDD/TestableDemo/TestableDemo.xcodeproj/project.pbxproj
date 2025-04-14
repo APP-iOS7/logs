@@ -7,55 +7,62 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		CC3E81512DACD63C0035369B /* PBXContainerItemProxy */ = {
+		CC9AE1922DACE465001C7622 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CC3E80FC2DACD2FB0035369B /* Project object */;
+			containerPortal = CC9AE17C2DACE464001C7622 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = CC3E81032DACD2FB0035369B;
-			remoteInfo = HelloWorld;
+			remoteGlobalIDString = CC9AE1832DACE464001C7622;
+			remoteInfo = TestableDemo;
+		};
+		CC9AE19C2DACE465001C7622 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC9AE17C2DACE464001C7622 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC9AE1832DACE464001C7622;
+			remoteInfo = TestableDemo;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CC3E81042DACD2FB0035369B /* HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC3E814D2DACD63C0035369B /* FizzBuzzTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FizzBuzzTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC9AE1842DACE464001C7622 /* TestableDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestableDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC9AE1912DACE465001C7622 /* TestableDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestableDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC9AE19B2DACE465001C7622 /* TestableDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestableDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CC9AE16F2DACE2E7001C7622 /* Exceptions for "HelloWorld" folder in "FizzBuzzTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				FizzBuzz.swift,
-			);
-			target = CC3E814C2DACD63C0035369B /* FizzBuzzTests */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		CC3E81062DACD2FB0035369B /* HelloWorld */ = {
+		CC9AE1862DACE464001C7622 /* TestableDemo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				CC9AE16F2DACE2E7001C7622 /* Exceptions for "HelloWorld" folder in "FizzBuzzTests" target */,
-			);
-			path = HelloWorld;
+			path = TestableDemo;
 			sourceTree = "<group>";
 		};
-		CC3E814E2DACD63C0035369B /* FizzBuzzTests */ = {
+		CC9AE1942DACE465001C7622 /* TestableDemoTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FizzBuzzTests;
+			path = TestableDemoTests;
+			sourceTree = "<group>";
+		};
+		CC9AE19E2DACE465001C7622 /* TestableDemoUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TestableDemoUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		CC3E81012DACD2FB0035369B /* Frameworks */ = {
+		CC9AE1812DACE464001C7622 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC3E814A2DACD63C0035369B /* Frameworks */ = {
+		CC9AE18E2DACE465001C7622 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC9AE1982DACE465001C7622 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -65,20 +72,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CC3E80FB2DACD2FB0035369B = {
+		CC9AE17B2DACE464001C7622 = {
 			isa = PBXGroup;
 			children = (
-				CC3E81062DACD2FB0035369B /* HelloWorld */,
-				CC3E814E2DACD63C0035369B /* FizzBuzzTests */,
-				CC3E81052DACD2FB0035369B /* Products */,
+				CC9AE1862DACE464001C7622 /* TestableDemo */,
+				CC9AE1942DACE465001C7622 /* TestableDemoTests */,
+				CC9AE19E2DACE465001C7622 /* TestableDemoUITests */,
+				CC9AE1852DACE464001C7622 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		CC3E81052DACD2FB0035369B /* Products */ = {
+		CC9AE1852DACE464001C7622 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CC3E81042DACD2FB0035369B /* HelloWorld.app */,
-				CC3E814D2DACD63C0035369B /* FizzBuzzTests.xctest */,
+				CC9AE1842DACE464001C7622 /* TestableDemo.app */,
+				CC9AE1912DACE465001C7622 /* TestableDemoTests.xctest */,
+				CC9AE19B2DACE465001C7622 /* TestableDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,98 +95,134 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CC3E81032DACD2FB0035369B /* HelloWorld */ = {
+		CC9AE1832DACE464001C7622 /* TestableDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CC3E81252DACD2FC0035369B /* Build configuration list for PBXNativeTarget "HelloWorld" */;
+			buildConfigurationList = CC9AE1A52DACE465001C7622 /* Build configuration list for PBXNativeTarget "TestableDemo" */;
 			buildPhases = (
-				CC3E81002DACD2FB0035369B /* Sources */,
-				CC3E81012DACD2FB0035369B /* Frameworks */,
-				CC3E81022DACD2FB0035369B /* Resources */,
+				CC9AE1802DACE464001C7622 /* Sources */,
+				CC9AE1812DACE464001C7622 /* Frameworks */,
+				CC9AE1822DACE464001C7622 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				CC3E81062DACD2FB0035369B /* HelloWorld */,
+				CC9AE1862DACE464001C7622 /* TestableDemo */,
 			);
-			name = HelloWorld;
+			name = TestableDemo;
 			packageProductDependencies = (
 			);
-			productName = HelloWorld;
-			productReference = CC3E81042DACD2FB0035369B /* HelloWorld.app */;
+			productName = TestableDemo;
+			productReference = CC9AE1842DACE464001C7622 /* TestableDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CC3E814C2DACD63C0035369B /* FizzBuzzTests */ = {
+		CC9AE1902DACE465001C7622 /* TestableDemoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CC3E81532DACD63C0035369B /* Build configuration list for PBXNativeTarget "FizzBuzzTests" */;
+			buildConfigurationList = CC9AE1A82DACE465001C7622 /* Build configuration list for PBXNativeTarget "TestableDemoTests" */;
 			buildPhases = (
-				CC3E81492DACD63C0035369B /* Sources */,
-				CC3E814A2DACD63C0035369B /* Frameworks */,
-				CC3E814B2DACD63C0035369B /* Resources */,
+				CC9AE18D2DACE465001C7622 /* Sources */,
+				CC9AE18E2DACE465001C7622 /* Frameworks */,
+				CC9AE18F2DACE465001C7622 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CC3E81522DACD63C0035369B /* PBXTargetDependency */,
+				CC9AE1932DACE465001C7622 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				CC3E814E2DACD63C0035369B /* FizzBuzzTests */,
+				CC9AE1942DACE465001C7622 /* TestableDemoTests */,
 			);
-			name = FizzBuzzTests;
+			name = TestableDemoTests;
 			packageProductDependencies = (
 			);
-			productName = FizzBuzzTests;
-			productReference = CC3E814D2DACD63C0035369B /* FizzBuzzTests.xctest */;
+			productName = TestableDemoTests;
+			productReference = CC9AE1912DACE465001C7622 /* TestableDemoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CC9AE19A2DACE465001C7622 /* TestableDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC9AE1AB2DACE465001C7622 /* Build configuration list for PBXNativeTarget "TestableDemoUITests" */;
+			buildPhases = (
+				CC9AE1972DACE465001C7622 /* Sources */,
+				CC9AE1982DACE465001C7622 /* Frameworks */,
+				CC9AE1992DACE465001C7622 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CC9AE19D2DACE465001C7622 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CC9AE19E2DACE465001C7622 /* TestableDemoUITests */,
+			);
+			name = TestableDemoUITests;
+			packageProductDependencies = (
+			);
+			productName = TestableDemoUITests;
+			productReference = CC9AE19B2DACE465001C7622 /* TestableDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		CC3E80FC2DACD2FB0035369B /* Project object */ = {
+		CC9AE17C2DACE464001C7622 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
-					CC3E81032DACD2FB0035369B = {
+					CC9AE1832DACE464001C7622 = {
 						CreatedOnToolsVersion = 16.3;
 					};
-					CC3E814C2DACD63C0035369B = {
+					CC9AE1902DACE465001C7622 = {
 						CreatedOnToolsVersion = 16.3;
+						TestTargetID = CC9AE1832DACE464001C7622;
+					};
+					CC9AE19A2DACE465001C7622 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = CC9AE1832DACE464001C7622;
 					};
 				};
 			};
-			buildConfigurationList = CC3E80FF2DACD2FB0035369B /* Build configuration list for PBXProject "HelloWorld" */;
+			buildConfigurationList = CC9AE17F2DACE464001C7622 /* Build configuration list for PBXProject "TestableDemo" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = CC3E80FB2DACD2FB0035369B;
+			mainGroup = CC9AE17B2DACE464001C7622;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = CC3E81052DACD2FB0035369B /* Products */;
+			productRefGroup = CC9AE1852DACE464001C7622 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CC3E81032DACD2FB0035369B /* HelloWorld */,
-				CC3E814C2DACD63C0035369B /* FizzBuzzTests */,
+				CC9AE1832DACE464001C7622 /* TestableDemo */,
+				CC9AE1902DACE465001C7622 /* TestableDemoTests */,
+				CC9AE19A2DACE465001C7622 /* TestableDemoUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CC3E81022DACD2FB0035369B /* Resources */ = {
+		CC9AE1822DACE464001C7622 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC3E814B2DACD63C0035369B /* Resources */ = {
+		CC9AE18F2DACE465001C7622 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC9AE1992DACE465001C7622 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -187,14 +232,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CC3E81002DACD2FB0035369B /* Sources */ = {
+		CC9AE1802DACE464001C7622 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC3E81492DACD63C0035369B /* Sources */ = {
+		CC9AE18D2DACE465001C7622 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC9AE1972DACE465001C7622 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -204,15 +256,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CC3E81522DACD63C0035369B /* PBXTargetDependency */ = {
+		CC9AE1932DACE465001C7622 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CC3E81032DACD2FB0035369B /* HelloWorld */;
-			targetProxy = CC3E81512DACD63C0035369B /* PBXContainerItemProxy */;
+			target = CC9AE1832DACE464001C7622 /* TestableDemo */;
+			targetProxy = CC9AE1922DACE465001C7622 /* PBXContainerItemProxy */;
+		};
+		CC9AE19D2DACE465001C7622 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC9AE1832DACE464001C7622 /* TestableDemo */;
+			targetProxy = CC9AE19C2DACE465001C7622 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		CC3E81232DACD2FC0035369B /* Debug */ = {
+		CC9AE1A32DACE465001C7622 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -276,7 +333,7 @@
 			};
 			name = Debug;
 		};
-		CC3E81242DACD2FC0035369B /* Release */ = {
+		CC9AE1A42DACE465001C7622 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -333,14 +390,13 @@
 			};
 			name = Release;
 		};
-		CC3E81262DACD2FC0035369B /* Debug */ = {
+		CC9AE1A62DACE465001C7622 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -354,7 +410,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.HelloWorld;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.TestableDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -362,14 +418,13 @@
 			};
 			name = Debug;
 		};
-		CC3E81272DACD2FC0035369B /* Release */ = {
+		CC9AE1A72DACE465001C7622 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -383,7 +438,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.HelloWorld;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.TestableDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -391,23 +446,45 @@
 			};
 			name = Release;
 		};
-		CC3E81542DACD63C0035369B /* Debug */ = {
+		CC9AE1A92DACE465001C7622 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.FizzBuzzTests;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.TestableDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestableDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TestableDemo";
 			};
 			name = Debug;
 		};
-		CC3E81552DACD63C0035369B /* Release */ = {
+		CC9AE1AA2DACE465001C7622 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 59FP2PXRXK;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.TestableDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestableDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TestableDemo";
+			};
+			name = Release;
+		};
+		CC9AE1AC2DACE465001C7622 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -415,45 +492,72 @@
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.FizzBuzzTests;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.TestableDemoUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TestableDemo;
+			};
+			name = Debug;
+		};
+		CC9AE1AD2DACE465001C7622 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 59FP2PXRXK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.TestableDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TestableDemo;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CC3E80FF2DACD2FB0035369B /* Build configuration list for PBXProject "HelloWorld" */ = {
+		CC9AE17F2DACE464001C7622 /* Build configuration list for PBXProject "TestableDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC3E81232DACD2FC0035369B /* Debug */,
-				CC3E81242DACD2FC0035369B /* Release */,
+				CC9AE1A32DACE465001C7622 /* Debug */,
+				CC9AE1A42DACE465001C7622 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CC3E81252DACD2FC0035369B /* Build configuration list for PBXNativeTarget "HelloWorld" */ = {
+		CC9AE1A52DACE465001C7622 /* Build configuration list for PBXNativeTarget "TestableDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC3E81262DACD2FC0035369B /* Debug */,
-				CC3E81272DACD2FC0035369B /* Release */,
+				CC9AE1A62DACE465001C7622 /* Debug */,
+				CC9AE1A72DACE465001C7622 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CC3E81532DACD63C0035369B /* Build configuration list for PBXNativeTarget "FizzBuzzTests" */ = {
+		CC9AE1A82DACE465001C7622 /* Build configuration list for PBXNativeTarget "TestableDemoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC3E81542DACD63C0035369B /* Debug */,
-				CC3E81552DACD63C0035369B /* Release */,
+				CC9AE1A92DACE465001C7622 /* Debug */,
+				CC9AE1AA2DACE465001C7622 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC9AE1AB2DACE465001C7622 /* Build configuration list for PBXNativeTarget "TestableDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC9AE1AC2DACE465001C7622 /* Debug */,
+				CC9AE1AD2DACE465001C7622 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = CC3E80FC2DACD2FB0035369B /* Project object */;
+	rootObject = CC9AE17C2DACE464001C7622 /* Project object */;
 }
