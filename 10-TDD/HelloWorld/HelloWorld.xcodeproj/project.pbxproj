@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		CC3E81122DACD2FC0035369B /* PBXContainerItemProxy */ = {
+		CC3E81512DACD63C0035369B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CC3E80FC2DACD2FB0035369B /* Project object */;
 			proxyType = 1;
@@ -18,18 +18,31 @@
 
 /* Begin PBXFileReference section */
 		CC3E81042DACD2FB0035369B /* HelloWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC3E81112DACD2FC0035369B /* HelloWorldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HelloWorldTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC3E814D2DACD63C0035369B /* FizzBuzzTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FizzBuzzTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CC9AE1692DACDC02001C7622 /* Exceptions for "HelloWorld" folder in "FizzBuzzTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				FizzBuzz.swift,
+			);
+			target = CC3E814C2DACD63C0035369B /* FizzBuzzTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		CC3E81062DACD2FB0035369B /* HelloWorld */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CC9AE1692DACDC02001C7622 /* Exceptions for "HelloWorld" folder in "FizzBuzzTests" target */,
+			);
 			path = HelloWorld;
 			sourceTree = "<group>";
 		};
-		CC3E81142DACD2FC0035369B /* HelloWorldTests */ = {
+		CC3E814E2DACD63C0035369B /* FizzBuzzTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = HelloWorldTests;
+			path = FizzBuzzTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -42,7 +55,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC3E810E2DACD2FC0035369B /* Frameworks */ = {
+		CC3E814A2DACD63C0035369B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -56,7 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				CC3E81062DACD2FB0035369B /* HelloWorld */,
-				CC3E81142DACD2FC0035369B /* HelloWorldTests */,
+				CC3E814E2DACD63C0035369B /* FizzBuzzTests */,
 				CC3E81052DACD2FB0035369B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				CC3E81042DACD2FB0035369B /* HelloWorld.app */,
-				CC3E81112DACD2FC0035369B /* HelloWorldTests.xctest */,
+				CC3E814D2DACD63C0035369B /* FizzBuzzTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,27 +108,27 @@
 			productReference = CC3E81042DACD2FB0035369B /* HelloWorld.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CC3E81102DACD2FC0035369B /* HelloWorldTests */ = {
+		CC3E814C2DACD63C0035369B /* FizzBuzzTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CC3E81282DACD2FC0035369B /* Build configuration list for PBXNativeTarget "HelloWorldTests" */;
+			buildConfigurationList = CC3E81532DACD63C0035369B /* Build configuration list for PBXNativeTarget "FizzBuzzTests" */;
 			buildPhases = (
-				CC3E810D2DACD2FC0035369B /* Sources */,
-				CC3E810E2DACD2FC0035369B /* Frameworks */,
-				CC3E810F2DACD2FC0035369B /* Resources */,
+				CC3E81492DACD63C0035369B /* Sources */,
+				CC3E814A2DACD63C0035369B /* Frameworks */,
+				CC3E814B2DACD63C0035369B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CC3E81132DACD2FC0035369B /* PBXTargetDependency */,
+				CC3E81522DACD63C0035369B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				CC3E81142DACD2FC0035369B /* HelloWorldTests */,
+				CC3E814E2DACD63C0035369B /* FizzBuzzTests */,
 			);
-			name = HelloWorldTests;
+			name = FizzBuzzTests;
 			packageProductDependencies = (
 			);
-			productName = HelloWorldTests;
-			productReference = CC3E81112DACD2FC0035369B /* HelloWorldTests.xctest */;
+			productName = FizzBuzzTests;
+			productReference = CC3E814D2DACD63C0035369B /* FizzBuzzTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -131,9 +144,8 @@
 					CC3E81032DACD2FB0035369B = {
 						CreatedOnToolsVersion = 16.3;
 					};
-					CC3E81102DACD2FC0035369B = {
+					CC3E814C2DACD63C0035369B = {
 						CreatedOnToolsVersion = 16.3;
-						TestTargetID = CC3E81032DACD2FB0035369B;
 					};
 				};
 			};
@@ -152,7 +164,7 @@
 			projectRoot = "";
 			targets = (
 				CC3E81032DACD2FB0035369B /* HelloWorld */,
-				CC3E81102DACD2FC0035369B /* HelloWorldTests */,
+				CC3E814C2DACD63C0035369B /* FizzBuzzTests */,
 			);
 		};
 /* End PBXProject section */
@@ -165,7 +177,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC3E810F2DACD2FC0035369B /* Resources */ = {
+		CC3E814B2DACD63C0035369B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -182,7 +194,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC3E810D2DACD2FC0035369B /* Sources */ = {
+		CC3E81492DACD63C0035369B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -192,10 +204,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CC3E81132DACD2FC0035369B /* PBXTargetDependency */ = {
+		CC3E81522DACD63C0035369B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CC3E81032DACD2FB0035369B /* HelloWorld */;
-			targetProxy = CC3E81122DACD2FC0035369B /* PBXContainerItemProxy */;
+			targetProxy = CC3E81512DACD63C0035369B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -377,41 +389,35 @@
 			};
 			name = Release;
 		};
-		CC3E81292DACD2FC0035369B /* Debug */ = {
+		CC3E81542DACD63C0035369B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.HelloWorldTests;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.FizzBuzzTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelloWorld.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HelloWorld";
 			};
 			name = Debug;
 		};
-		CC3E812A2DACD2FC0035369B /* Release */ = {
+		CC3E81552DACD63C0035369B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.HelloWorldTests;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.codegrove.FizzBuzzTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelloWorld.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HelloWorld";
 			};
 			name = Release;
 		};
@@ -436,11 +442,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CC3E81282DACD2FC0035369B /* Build configuration list for PBXNativeTarget "HelloWorldTests" */ = {
+		CC3E81532DACD63C0035369B /* Build configuration list for PBXNativeTarget "FizzBuzzTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC3E81292DACD2FC0035369B /* Debug */,
-				CC3E812A2DACD2FC0035369B /* Release */,
+				CC3E81542DACD63C0035369B /* Debug */,
+				CC3E81552DACD63C0035369B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
