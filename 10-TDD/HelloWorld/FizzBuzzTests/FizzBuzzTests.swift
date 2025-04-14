@@ -38,4 +38,10 @@ final class FizzBuzzTests: XCTestCase {
     XCTAssertEqual(result, "7")
   }
 
+  func testAsyncSum() async throws {
+    await asyncSum(a: 3, b: 5) {
+      result in
+      XCTAssertEqual(result, 8)
+    }
+  }
 }
