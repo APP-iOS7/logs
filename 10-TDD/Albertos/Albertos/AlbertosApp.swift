@@ -9,9 +9,9 @@ import SwiftUI
 
 @main
 struct AlbertosApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  var body: some Scene {
+    WindowGroup {
+      MenuList(sections: groupMenuByCategory(menu))
     }
+  }
 }
