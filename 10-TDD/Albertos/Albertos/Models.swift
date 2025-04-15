@@ -9,13 +9,14 @@ import Foundation
 
 struct MenuItem {
     let category: String
+    let name: String
 }
 
 struct MenuSection {
-
+    let items: [MenuItem]
 }
 
 func groupMenuByCategory(_ menu: [MenuItem]) -> [MenuSection] {
     guard menu.isEmpty == false else { return [] }
-    return [MenuSection()]
+    return [MenuSection(items: menu)]
 }
