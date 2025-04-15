@@ -12,11 +12,13 @@ extension MenuItem {
     category: String = "category",
     name: String = "name",
     spicy: Bool = false,
+    price: Double = 0.0
   ) -> MenuItem {
     MenuItem(
       category: category,
       name: name,
-      spicy: spicy
+      spicy: spicy,
+      price: price
     )
   }
 }
