@@ -13,8 +13,7 @@ struct AlbertosApp: App {
     WindowGroup {
       NavigationStack {
         MenuList(viewModel: .init(
-          menuFetching: MenuFetchingPlaceholder(),
-          menuGrouping: groupMenuByCategory
+          menuFetching: MenuFetchingPlaceholder()
         ))
       }
     }
