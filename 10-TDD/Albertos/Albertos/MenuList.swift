@@ -13,12 +13,18 @@ struct MenuList: View {
 
   var body: some View {
     List {
-      ForEach(viewModel.sections) { section in
-        Section(header: Text(section.category)) {
-          ForEach(section.items) { item in
-            MenuRow(viewModel: .init(item: item))
+      switch viewModel.sections {
+      case .success(let sections):
+        ForEach(sections) { section in
+          Section(header: Text(section.category)) {
+            ForEach(section.items) { item in
+              MenuRow(viewModel: .init(item: item))
+            }
           }
         }
+      case .failure(let error):
+        Text("An error occurred:")
+        Text(error.localizedDescription).italic()
       }
     }
     .navigationTitle("Alberto's 🇮🇹")
@@ -27,19 +33,19 @@ struct MenuList: View {
 
 extension MenuList {
   class ViewModel: ObservableObject {
-    @Published private(set) var sections: [MenuSection]
+    @Published private(set) var sections: Result<[MenuSection], Error> = .success([])
 
     var cancellables = Set<AnyCancellable>()
 
     init(
       menuFetching: MenuFetching,
       menuGrouping: @escaping ([MenuItem]) -> [MenuSection] = groupMenuByCategory) {
-        self.sections = []
         menuFetching.fetchMenu()
           .sink(
             receiveCompletion: { _ in },
             receiveValue: { [weak self] items in
-              self?.sections = menuGrouping(items)
+              debugPrint("Fetched \(items.count) menu items")
+              self?.sections = .success(menuGrouping(items))
             })
           .store(in: &cancellables)
       }
