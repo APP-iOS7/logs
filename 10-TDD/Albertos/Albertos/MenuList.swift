@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MenuList: View {
   let viewModel: ViewModel
-
+  
   var body: some View {
     List {
       ForEach(viewModel.sections) { section in
@@ -25,18 +25,20 @@ struct MenuList: View {
 }
 
 extension MenuList {
-  struct ViewModel {
-    let sections: [MenuSection]
-
-    init(menu: [MenuItem], menuGrouping: @escaping ([MenuItem]) -> [MenuSection]) {
-      self.sections = menuGrouping(menu)
-    }
+  class ViewModel: ObservableObject {
+    @Published private(set) var sections: [MenuSection]
+    
+    init(
+      menuFetching: MenuFetching,
+      menuGrouping: @escaping ([MenuItem]) -> [MenuSection]) {
+        self.sections = menuGrouping([])
+      }
   }
 }
 
 #Preview {
   NavigationStack {
-    MenuList(viewModel: .init(menu: menu,
+    MenuList(viewModel: .init(menuFetching: MenuFetchingPlaceholder(),
                               menuGrouping: groupMenuByCategory))
   }
 }
