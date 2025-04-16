@@ -24,6 +24,16 @@ struct MenuList: View {
   }
 }
 
+extension MenuList {
+  struct ViewModel {
+    let sections: [MenuSection]
+
+    init(menu: [MenuItem], menuGrouping: @escaping ([MenuItem]) -> [MenuSection]) {
+      self.sections = menuGrouping(menu)
+    }
+  }
+}
+
 #Preview {
   NavigationStack {
     MenuList(sections: groupMenuByCategory(menu))

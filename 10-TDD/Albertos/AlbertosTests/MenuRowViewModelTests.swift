@@ -26,6 +26,20 @@ final class MenuRowViewModelTests: XCTestCase {
 
     // Assert
     XCTAssertEqual(viewModel.text, "name 🌶️")
+  }
 
+  func testCallsGivenGroupingFunction() {
+    var called = false
+    let inputSections = [MenuSection.fixture()]
+    let spyClosure: ([MenuItem]) -> [MenuSection] = { items in
+      called = true
+      return inputSections
+    }
+    let viewModel = MenuList.ViewModel(menu: [.fixture()], menuGrouping: spyClosure)
+    let sections = viewModel.sections
+    // 주어진 클로저가 호출되었는지 확인합니다.
+    XCTAssertTrue(called)
+    // 반환된 값이 클로저로 생성된 값인지 확인합니다.
+    XCTAssertEqual(sections, inputSections)
   }
 }
