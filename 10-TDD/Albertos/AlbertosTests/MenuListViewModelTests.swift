@@ -39,8 +39,11 @@ final class MenuListViewModelTests: XCTestCase {
       receivedMenu = items
       return expectedSections
     }
-    let viewModel = MenuList.ViewModel(menuFetching: MenuFetchingPlaceholder(),
-                                       menuGrouping: spyClosure)
+    let expectedMenu = [MenuItem.fixture()]
+    let viewModel = MenuList.ViewModel(
+      menuFetching: MenuFetchingStub(returning: .success(expectedMenu)),
+      menuGrouping: spyClosure
+)
     let expectation = XCTestExpectation(
       description: "Publishes sections built from received menu and given grouping closure"
     )
@@ -50,7 +53,7 @@ final class MenuListViewModelTests: XCTestCase {
       .sink { value in
         // Ensure the grouping closure is called with
         // the received menu
-        XCTAssertEqual(receivedMenu, menu)
+        XCTAssertEqual(receivedMenu,  expectedMenu)
         // Ensure the published value is the result of
         // the grouping closure
         XCTAssertEqual(value, expectedSections)
