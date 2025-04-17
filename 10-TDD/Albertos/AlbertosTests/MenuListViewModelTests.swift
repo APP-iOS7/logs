@@ -97,6 +97,64 @@ final class MenuListViewModelTests: XCTestCase {
 
   // 메뉴 조회 재시도 테스트
   func testRetryFetchesMenuAgain() {
+    // Arrange
+    var fetchCount = 0
+    let expectedMenu = [MenuItem.fixture()]
 
+    let menuFetchingSpy = MenuFetchingSpy(
+      fetchingClosure: {
+        fetchCount += 1
+        if fetchCount == 1 {
+          return Fail(error: NSError(domain: "TestError", code: 0, userInfo: nil))
+            .eraseToAnyPublisher()
+        } else {
+          return Just(expectedMenu)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+        }
+      })
+
+    let viewModel = MenuList.ViewModel(menuFetching: menuFetchingSpy)
+
+    // Act
+    let firstFailExpectation = XCTestExpectation(description: "First fetch fails")
+    let expectation = XCTestExpectation(description: "Retry fetches menu again")
+
+    var results = [Result<[MenuSection], Error>]()
+    viewModel
+      .$sections
+      .sink { value in
+        results.append(value)
+        guard case .success(let sections) = value else {
+          firstFailExpectation.fulfill()
+          return
+        }
+        XCTAssertEqual(sections.flatMap { $0.items }, expectedMenu)
+        expectation.fulfill()
+      }
+      .store(in: &cancellables)
+
+
+    viewModel.retry()
+
+    // Assert
+    wait(for: [firstFailExpectation], timeout: 0.1)
+    wait(for: [expectation], timeout: 0.1)
+    XCTAssertEqual(fetchCount, 2)
+    XCTAssertTrue(results[0].isFailure)
+    XCTAssertTrue(results[1].isSuccess)
+  }
+
+}
+
+extension Result {
+  var isSuccess: Bool {
+    switch self {
+    case .success: return true
+    case .failure: return false
+    }
+  }
+  var isFailure: Bool {
+    return !isSuccess
   }
 }
