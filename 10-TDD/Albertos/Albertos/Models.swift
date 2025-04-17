@@ -14,18 +14,19 @@ struct MenuItem: Identifiable, Equatable, Decodable {
   }
 
   enum CodingKeys: String, CodingKey {
-    case categoryObject = "category"
-    case name, spicy, price
+    case name, category, spicy, price
   }
 
+  private enum CategoryKeys: String, CodingKey {
+    case name
+  }
+
+  let category: String
   let name: String
   let spicy: Bool
   let price: Double
 
-  private let categoryObject: Category
-
   var id: String { name }
-  var category: String { categoryObject.name }
 
   init(
     category: String,
@@ -33,10 +34,27 @@ struct MenuItem: Identifiable, Equatable, Decodable {
     spicy: Bool,
     price: Double
   ) {
-    self.categoryObject = Category(name: category)
+    self.category = category
     self.name = name
     self.spicy = spicy
     self.price = price
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+
+    if let categoryString = try? container.decode(String.self, forKey: .category) {
+      self.category = categoryString
+    } else {
+      // 중첩된 객체 형식
+      let categoryContainer = try container.nestedContainer(keyedBy: CategoryKeys.self, forKey: .category)
+      category = try categoryContainer.decode(String.self, forKey: .name)
+    }
+
+
+    self.name = try container.decode(String.self, forKey: .name)
+    self.spicy = try container.decode(Bool.self, forKey: .spicy)
+    self.price = try container.decode(Double.self, forKey: .price)
   }
 }
 
