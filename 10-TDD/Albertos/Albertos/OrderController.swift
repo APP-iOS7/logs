@@ -19,10 +19,8 @@ class OrderController: ObservableObject {
     return order.items.contains { $0.id == item.id }
   }
 
-  func addToOrder(item: MenuItem) {
-    if !isItemInOrder(item) {
-      order.items.append(item)
-    }
+  func addToOrder(_ item: MenuItem) {
+    order.items.append(item)
   }
 
   func removeFromOrder(_ item: MenuItem) {
