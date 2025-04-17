@@ -16,7 +16,9 @@ extension MenuItem {
   ) -> String {
     """
     {
-      "category": "\(category)",
+      "category": {
+        "name": "\(category)"
+      },
       "name": "\(name)",
       "spicy": \(spicy),
       "price": \(price)

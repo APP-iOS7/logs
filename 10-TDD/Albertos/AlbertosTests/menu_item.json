@@ -1,6 +1,8 @@
 {
   "name": "a name",
-  "category": "a category",
+  "category": {
+    "name": "a category"
+  },
   "spicy": false,
   "price": 0.0
 }

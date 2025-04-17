@@ -8,15 +8,39 @@
 import Foundation
 
 struct MenuItem: Identifiable, Equatable, Decodable {
-  let category: String
+
+  struct Category: Equatable, Decodable {
+    let name: String
+  }
+
+  enum CodingKeys: String, CodingKey {
+    case categoryObject = "category"
+    case name, spicy, price
+  }
+
   let name: String
   let spicy: Bool
   let price: Double
 
-  var id: String {
-    name
+  private let categoryObject: Category
+
+  var id: String { name }
+  var category: String { categoryObject.name }
+
+  init(
+    category: String,
+    name: String,
+    spicy: Bool,
+    price: Double
+  ) {
+    self.categoryObject = Category(name: category)
+    self.name = name
+    self.spicy = spicy
+    self.price = price
   }
 }
+
+
 
 struct MenuSection: Identifiable, Equatable {
   let category: String
