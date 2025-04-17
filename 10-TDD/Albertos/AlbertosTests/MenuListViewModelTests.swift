@@ -70,5 +70,33 @@ final class MenuListViewModelTests: XCTestCase {
   }
 
   // 메뉴 리스트 조회가 실패하면, 에러를 발행한다.
-  func testWhenFetchingFailsPublishesAnError() {}
+  func testWhenFetchingFailsPublishesAnError() {
+    // Arrange
+    let expectedError = NSError(domain: "TestError", code: 0, userInfo: nil)
+    let viewModel = MenuList.ViewModel(
+      menuFetching: MenuFetchingStub(returning: .failure(expectedError))
+    )
+
+    // Act
+    let expectation = XCTestExpectation(description: "Publishes an error")
+
+    viewModel
+      .$sections
+      .dropFirst()
+      .sink { value in
+        guard case .failure(let error) = value else {
+          return XCTFail("Expected a failing Result, got: \(value)")
+        }
+        XCTAssertEqual(error as NSError, expectedError)
+        expectation.fulfill()
+      }
+      .store(in: &cancellables)
+    // Assert
+    wait(for: [expectation], timeout: 1)
+  }
+
+  // 메뉴 조회 재시도 테스트
+  func testRetryFetchesMenuAgain() {
+
+  }
 }
