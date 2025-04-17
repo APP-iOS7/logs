@@ -18,4 +18,17 @@ final class MenuItemTests: XCTestCase {
     XCTAssertEqual(item.spicy, true)
     XCTAssertEqual(item.price, 0.0)
   }
+
+  func testDecodesFromJSONData() throws {
+    let url = try XCTUnwrap(
+      Bundle(for: type(of: self)).url(forResource: "menu_item", withExtension: "json")
+    )
+    let data = try Data(contentsOf: url)
+    let item = try JSONDecoder().decode(MenuItem.self, from: data)
+    XCTAssertEqual(item.name, "a name")
+    XCTAssertEqual(item.category, "a category")
+    XCTAssertEqual(item.spicy, false)
+    XCTAssertEqual(item.price, 0.0)
+  }
+
 }
