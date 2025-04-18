@@ -14,10 +14,17 @@ struct AlbertosApp: App {
   var body: some Scene {
     WindowGroup {
       NavigationStack {
-        MenuList(viewModel: .init(
-          menuFetching: MenuFetcher()
-        ))
-        OrderButton(orderController: orderController)
+        VStack {
+          MenuList(viewModel: .init(
+            menuFetching: MenuFetcher()
+          ))
+          OrderButton(orderController: orderController)
+        }
+        .navigationDestination(for: String.self) { destination in
+          if destination == "OrderDetail" {
+            OrderDetail(orderController: orderController)
+          }
+        }
       }
       .environmentObject(orderController)
     }
