@@ -17,6 +17,7 @@ struct AlbertosApp: App {
         MenuList(viewModel: .init(
           menuFetching: MenuFetcher()
         ))
+        OrderButton(orderController: orderController)
       }
       .environmentObject(orderController)
     }
