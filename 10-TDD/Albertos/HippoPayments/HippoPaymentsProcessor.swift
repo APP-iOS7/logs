@@ -21,7 +21,8 @@ public class HippoPaymentsProcessor {
     onFailure: @escaping (HippoPaymentsError) -> Void
   ) {
     let vc = HippoPaymentsConfirmationViewController()
-    vc.onDismiss = onSuccess
+    vc.onSuccess = onSuccess
+    vc.onFailure = onFailure
 
     UIApplication.shared.windows.first?.rootViewController?
       .viewControllerPresentationSource.present(vc, animated: true, completion: .none)

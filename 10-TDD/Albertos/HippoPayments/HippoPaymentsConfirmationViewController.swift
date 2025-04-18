@@ -9,11 +9,13 @@ import UIKit
 
 class HippoPaymentsConfirmationViewController: UIViewController {
 
-  let dismissButton = UIButton()
+  let successButton = UIButton()
+  let failureButton = UIButton()
   let textLabel = UILabel()
   let container = UIStackView()
 
-  var onDismiss: (() -> Void)?
+  var onSuccess: (() -> Void)?
+  var onFailure: ((HippoPaymentsError) -> Void)?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,19 +41,30 @@ class HippoPaymentsConfirmationViewController: UIViewController {
     )
 
     container.addArrangedSubview(textLabel)
-    container.addArrangedSubview(dismissButton)
+    container.addArrangedSubview(successButton)
     container.axis = .vertical
 
     textLabel.text = "Your payment was successful\n\nPowered by HippoPayments 🦛"
     textLabel.numberOfLines = 0
     textLabel.textAlignment = .center
-    dismissButton.setTitle("Dismiss", for: .normal)
-    dismissButton.setTitleColor(.systemBlue, for: .normal)
-    dismissButton.addTarget(self, action: #selector(dismissButtonTouched), for: .primaryActionTriggered)
+    successButton.setTitle("Success", for: .normal)
+    successButton.setTitleColor(.systemBlue, for: .normal)
+    successButton.addTarget(self, action: #selector(dismissButtonTouched), for: .primaryActionTriggered)
+
+    failureButton.setTitle("Failure", for: .normal)
+    failureButton.setTitleColor(.systemRed, for: .normal)
+    failureButton.addTarget(self, action: #selector(failureButtonTouched), for: .primaryActionTriggered)
+    container.addArrangedSubview(failureButton)
 
   }
 
   @objc func dismissButtonTouched() {
-    viewControllerPresentationSource.dismiss(animated: true, completion: onDismiss)
+    viewControllerPresentationSource.dismiss(animated: true, completion: onSuccess)
+  }
+
+  @objc func failureButtonTouched() {
+    viewControllerPresentationSource.dismiss(animated: true, completion: {
+      self.onFailure?(HippoPaymentsError.genericError)
+    })
   }
 }
