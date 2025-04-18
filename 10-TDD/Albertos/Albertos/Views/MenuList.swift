@@ -61,7 +61,7 @@ extension MenuList {
 
     init(menuFetching: MenuFetching,
          menuGrouping: @escaping ([MenuItem]) -> [MenuSection] = groupMenuByCategory) {
-      HippoAnalytics.shared.logEvent(
+      HippoAnalyticsClient.shared.logEvent(
         named: "menuListOpened",
         properties: ["menuListOpened": "Menu List Opened"]
       )
