@@ -1,93 +1,175 @@
 import SwiftUI
-import Network // Product 모델 사용 위함
+import Network
 
 public struct ProductListView: View {
-    // ViewModel 인스턴스 (StateObject로 View의 생명주기와 연결)
-    @StateObject private var viewModel: ProductListViewModel
+  // StateObject로 ViewModel 선언 (View의 생명주기와 함께 유지)
+  @StateObject private var viewModel: ProductListViewModel
 
-    // 외부에서 ViewModel을 주입받을 수 있도록 public init 추가
-    public init(viewModel: ProductListViewModel = ProductListViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+  // 외부에서 ViewModel 주입 가능
+  public init(viewModel: ProductListViewModel = ProductListViewModel()) {
+    _viewModel = StateObject(wrappedValue: viewModel)
+  }
 
-    public var body: some View {
-        NavigationView { // 네비게이션 바 사용
-            Group { // 여러 뷰를 그룹화
-                if viewModel.isLoading {
-                    ProgressView("상품 목록 로딩중...") // 로딩 인디케이터
-                } else if let errorMessage = viewModel.errorMessage {
-                    Text("오류 발생: \(errorMessage)") // 오류 메시지 표시
-                        .foregroundColor(.red)
-                        .padding()
-                } else {
-                    // 상품 목록 표시 List
-                    List(viewModel.products) { product in
-                        ProductRow(product: product) // 각 상품 행
-                    }
-                }
-            }
-            .navigationTitle("상품 목록") // 네비게이션 타이틀
-            .task { // View가 나타날 때 비동기 작업 수행
-                if viewModel.products.isEmpty { // 데이터가 없을 때만 로드
-                    await viewModel.loadProducts()
-                }
-            }
-            .refreshable { // 아래로 당겨서 새로고침 기능
-                 await viewModel.loadProducts()
-            }
+  public var body: some View {
+    NavigationView {
+      Group {
+        if viewModel.isLoading {
+          loadingView
+        } else if let errorMessage = viewModel.errorMessage {
+          errorView(message: errorMessage)
+        } else if viewModel.products.isEmpty {
+          emptyStateView
+        } else {
+          productListView
         }
+      }
+      .navigationTitle("상품 목록")
+      .task {
+        // 데이터가 없을 때만 로드 (중복 로드 방지)
+        if viewModel.products.isEmpty && viewModel.errorMessage == nil && !viewModel.isLoading {
+          await viewModel.loadProducts()
+        }
+      }
+      .refreshable {
+        // 새로고침 시 강제로 다시 로드
+        await viewModel.loadProducts()
+      }
     }
+  }
+
+  // MARK: - 하위 뷰 컴포넌트들
+
+  private var loadingView: some View {
+    VStack {
+      ProgressView()
+        .scaleEffect(1.5)
+        .padding()
+      Text("상품 목록 로딩중...")
+        .font(.subheadline)
+        .foregroundColor(.secondary)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+  }
+
+  private func errorView(message: String) -> some View {
+    VStack(spacing: 16) {
+      Image(systemName: "exclamationmark.triangle")
+        .font(.largeTitle)
+        .foregroundColor(.red)
+
+      Text("오류 발생")
+        .font(.headline)
+
+      Text(message)
+        .font(.subheadline)
+        .foregroundColor(.secondary)
+        .multilineTextAlignment(.center)
+        .padding(.horizontal)
+
+      Button("다시 시도") {
+        Task {
+          await viewModel.loadProducts()
+        }
+      }
+      .buttonStyle(.bordered)
+      .padding(.top)
+    }
+    .padding()
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+  }
+
+  private var emptyStateView: some View {
+    VStack(spacing: 16) {
+      Image(systemName: "cart")
+        .font(.system(size: 60))
+        .foregroundColor(.secondary)
+
+      Text("상품이 없습니다")
+        .font(.headline)
+
+      Text("상품 목록을 불러올 수 없습니다.\n다시 시도해 주세요.")
+        .font(.subheadline)
+        .foregroundColor(.secondary)
+        .multilineTextAlignment(.center)
+        .padding(.horizontal)
+
+      Button("새로고침") {
+        Task {
+          await viewModel.loadProducts()
+        }
+      }
+      .buttonStyle(.bordered)
+      .padding(.top)
+    }
+    .padding()
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+  }
+
+  private var productListView: some View {
+    List {
+      ForEach(viewModel.products) { product in
+        ProductRow(product: product)
+      }
+    }
+    .listStyle(.plain)
+  }
 }
 
 // 상품 목록의 각 행을 위한 View
 struct ProductRow: View {
-    let product: Product
+  let product: Product
 
-    var body: some View {
-        HStack {
-            // AsyncImage: URL로부터 비동기 이미지 로딩 (iOS 15 이상)
-            AsyncImage(url: URL(string: product.image)) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView() // 로딩 중
-                case .success(let image):
-                    image.resizable() // 이미지 로드 성공
-                         .aspectRatio(contentMode: .fit)
-                case .failure:
-                    Image(systemName: "photo") // 로드 실패 시 기본 이미지
-                        .foregroundColor(.gray)
-                @unknown default:
-                    EmptyView()
-                }
-            }
-            .frame(width: 50, height: 50) // 이미지 크기 고정
-            .clipShape(RoundedRectangle(cornerRadius: 8)) // 모서리 둥글게
+  var body: some View {
+    HStack(spacing: 12) {
+      // 이미지 부분
+      productImage
 
-            VStack(alignment: .leading) {
-                Text(product.title)
-                    .font(.headline)
-                    .lineLimit(2) // 최대 2줄
-                Text("$\(product.price, specifier: "%.2f")") // 소수점 2자리까지
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-            Spacer() // 오른쪽으로 밀기
-        }
+      // 텍스트 정보 부분
+      productInfo
+
+      Spacer()
     }
-}
+    .padding(.vertical, 8)
+  }
 
-// SwiftUI 미리보기 설정
-struct ProductListView_Previews: PreviewProvider {
-    static var previews: some View {
-        // 미리보기용 ViewModel 설정 (가짜 데이터 사용)
-        let mockViewModel = ProductListViewModel()
-        mockViewModel.products = [
-//            Product(id: 1, title: "미리보기 상품 1", price: 19.99, image: ""),
-//            Product(id: 2, title: "미리보기 상품 2 (아주 긴 이름 테스트)", price: 120.50, image: "")
-        ]
-//        mockViewModel.isLoading = true // 로딩 상태 미리보기
-//        mockViewModel.errorMessage = "미리보기 오류 메시지" // 오류 상태 미리보기
-
-        return ProductListView(viewModel: mockViewModel)
+  private var productImage: some View {
+    AsyncImage(url: URL(string: product.image)) { phase in
+      switch phase {
+      case .empty:
+        ProgressView()
+          .frame(width: 60, height: 60)
+      case .success(let image):
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 60, height: 60)
+      case .failure:
+        Image(systemName: "photo")
+          .font(.system(size: 30))
+          .foregroundColor(.gray)
+          .frame(width: 60, height: 60)
+      @unknown default:
+        EmptyView()
+      }
     }
+    .frame(width: 60, height: 60)
+    .clipShape(RoundedRectangle(cornerRadius: 8))
+    .background(
+      RoundedRectangle(cornerRadius: 8)
+        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+    )
+  }
+
+  private var productInfo: some View {
+    VStack(alignment: .leading, spacing: 4) {
+      Text(product.title)
+        .font(.system(size: 16, weight: .medium))
+        .lineLimit(2)
+        .multilineTextAlignment(.leading)
+
+      Text("$\(String(format: "%.2f", product.price))")
+        .font(.system(size: 14, weight: .semibold))
+        .foregroundColor(.blue)
+    }
+  }
 }

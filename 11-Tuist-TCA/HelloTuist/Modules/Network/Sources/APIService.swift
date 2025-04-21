@@ -10,9 +10,15 @@ public enum NetworkError: Error {
 }
 
 // API 통신 서비스 (public으로 선언)
-public class APIService {
+public actor APIService {
   public static let shared = APIService() // 싱글톤 인스턴스
   private let baseURL = "https://fakestoreapi.com"
+
+  private lazy var session: Session = {
+    let configuration = URLSessionConfiguration.default
+    configuration.timeoutIntervalForRequest = 30 // 요청 타임아웃 설정
+    return Session(configuration: configuration)
+  }()
 
   private init() {} // 외부 생성 방지
 
@@ -27,7 +33,7 @@ public class APIService {
 
     do {
       // AF.request + await DataTask의 value 프로퍼티로 간단히 비동기 처리
-      let products = try await AF.request(url)
+      let products = try await session.request(url)
         .validate(statusCode: 200..<300)
         .serializingDecodable([Product].self) // 최신 Alamofire 비동기 API
         .value // 성공 시 [Product] 반환, 실패 시 Error throw
