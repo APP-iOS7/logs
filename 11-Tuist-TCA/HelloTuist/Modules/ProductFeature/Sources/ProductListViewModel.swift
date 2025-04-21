@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import Network
+import Core
 
 public class ProductListViewModel: ObservableObject {
   // MARK: - Published Properties

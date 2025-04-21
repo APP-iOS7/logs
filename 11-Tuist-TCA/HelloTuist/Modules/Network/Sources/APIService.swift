@@ -1,5 +1,6 @@
 import Foundation
 import Alamofire
+import Core
 
 // API 통신 오류 정의
 public enum NetworkError: Error {
