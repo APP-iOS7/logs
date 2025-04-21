@@ -18,7 +18,9 @@ let project = Project(
             ),
             sources: ["HelloTuist/Sources/**"],
             resources: ["HelloTuist/Resources/**"],
-            dependencies: []
+            dependencies: [
+                .package(product: "Alamofire"),
+            ]
         ),
         .target(
             name: "HelloTuistTests",
