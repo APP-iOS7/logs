@@ -55,7 +55,7 @@ let networkModule = Target.target(
   infoPlist: .default,
   sources: ["Modules/Network/Sources/**"],
   dependencies: [
-    .package(product: "Alamofire"),
+    .external(name: "Alamofire"),
   ]
 )
 
