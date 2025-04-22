@@ -114,14 +114,7 @@ class ProductDetailViewController: UIViewController {
       make.top.equalTo(productImageView.snp.bottom).offset(16)
       make.leading.trailing.equalTo(productImageView) // 이미지와 좌우 정렬
     }
-
-
-
   }
-
-
-
-
 }
 
 
