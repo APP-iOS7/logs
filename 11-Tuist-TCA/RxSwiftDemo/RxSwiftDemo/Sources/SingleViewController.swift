@@ -18,6 +18,8 @@ class SingleViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    title = "Single, Completable, Maybe"
+    view.backgroundColor = .white
     // Single 예제
     fetchDataFromServer()
       .subscribe(onSuccess: { data in
