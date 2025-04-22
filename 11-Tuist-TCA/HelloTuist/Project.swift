@@ -19,7 +19,13 @@ let appTarget = Target.target(
   resources: ["HelloTuist/Resources/**"],
   dependencies: [
     .target(name: "ProductFeature")
-  ]
+  ],
+  settings: .settings(
+    base: [
+      "ARCHS": "arm64",
+      "EXCLUDED_ARCHS": "x86_64"
+    ]
+  )
 )
 
 let testTarget = Target.target(
