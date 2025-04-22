@@ -1,5 +1,7 @@
 import ProjectDescription
 
+let bundleIdPrefix = "kr.co.codegrove.SnapKitDemo"
+
 let project = Project(
   name: "SnapKitDemo",
   targets: [
@@ -7,7 +9,7 @@ let project = Project(
       name: "SnapKitDemo",
       destinations: .iOS,
       product: .app,
-      bundleId: "io.tuist.SnapKitDemo",
+      bundleId: "\(bundleIdPrefix)",
       infoPlist: .extendingDefault(
         with: [
           "UILaunchScreen": [
@@ -26,7 +28,7 @@ let project = Project(
       name: "SnapKitDemoTests",
       destinations: .iOS,
       product: .unitTests,
-      bundleId: "io.tuist.SnapKitDemoTests",
+      bundleId: "\(bundleIdPrefix).Tests",
       infoPlist: .default,
       sources: ["SnapKitDemo/Tests/**"],
       resources: [],
