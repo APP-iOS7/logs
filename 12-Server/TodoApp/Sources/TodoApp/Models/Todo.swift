@@ -22,9 +22,18 @@ final class Todo: Model, @unchecked Sendable {
 
     init() { }
 
+    enum CodingKeys: String {
+        case id
+        case title
+        case isComplete = "is_complete"
+        case createdAt = "created_at"
+    }
+
     init(id: UUID? = nil, title: String, isComplete: Bool = false, createdAt: Date? = Date()) {
         self.id = id
         self.title = title
+        self.isComplete = isComplete
+        self.createdAt = createdAt
     }
     
     func toDTO() -> TodoDTO {

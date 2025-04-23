@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#(title)</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <style>
+    body {
+      font-size: 24px;
+    }
+    </style>
+</head>
+<body>
+    <h1>#(title)</h1>
+
+    <form method="POST" action="/todos"> 
+        <div>
+            <label for="title">할 일 제목:</label>
+            <input type="text" id="title" name="title" required>
+            <input type="hidden" name="isComplete" value="0">
+            <br/>
+        </div>
+        <div>
+            <button type="submit">추가하기</button>
+            <a href="/">취소</a>
+        </div>
+    </form>
+
+</body>
+</html>
