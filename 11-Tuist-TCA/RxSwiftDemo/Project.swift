@@ -7,7 +7,7 @@ let project = Project(
             name: "RxSwiftDemo",
             destinations: .iOS,
             product: .app,
-            bundleId: "io.tuist.RxSwiftDemo",
+            bundleId: "kr.co.codegrove.RxSwiftDemo",
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchScreen": [
@@ -19,14 +19,15 @@ let project = Project(
             sources: ["RxSwiftDemo/Sources/**"],
             resources: ["RxSwiftDemo/Resources/**"],
             dependencies: [
-                .external(name: "RxSwift")
+                .external(name: "RxSwift"),
+                .external(name: "RxCocoa")
             ]
         ),
         .target(
             name: "RxSwiftDemoTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "io.tuist.RxSwiftDemoTests",
+            bundleId: "kr.co.codegrove.RxSwiftDemoTests",
             infoPlist: .default,
             sources: ["RxSwiftDemo/Tests/**"],
             resources: [],
