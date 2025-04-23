@@ -1,0 +1,22 @@
+{
+  "configurations": [
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:TodoApp}",
+      "name": "Debug TodoApp",
+      "program": "${workspaceFolder:TodoApp}/.build/debug/TodoApp",
+      "preLaunchTask": "swift: Build Debug TodoApp"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:TodoApp}",
+      "name": "Release TodoApp",
+      "program": "${workspaceFolder:TodoApp}/.build/release/TodoApp",
+      "preLaunchTask": "swift: Build Release TodoApp"
+    }
+  ]
+}
