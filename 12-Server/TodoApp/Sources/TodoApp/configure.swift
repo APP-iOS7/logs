@@ -12,7 +12,6 @@ public func configure(_ app: Application) async throws {
     app.databases.use(DatabaseConfigurationFactory.sqlite(.file("db.sqlite")), as: .sqlite)
 
     app.migrations.add(CreateTodo())
-    print("Migrations: \(app.migrations)")
 
     app.views.use(.leaf)
 

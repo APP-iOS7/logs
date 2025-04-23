@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#(title)</title> {#- 페이지 제목 변수 #}
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        ul { list-style: none; padding: 0; }
+        li { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        li.completed span { text-decoration: line-through; color: #aaa; }
+        .status { font-size: 0.8em; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>#(title)</h1>
+
+    #if(count(todos) > 0): {#- todos 배열이 비어있지 않으면 #}
+        <ul>
+            #for(todo in todos): {#- todos 배열 순회 #}
+                <li class="#if(todo.isCompleted):completed#endif"> {#- 완료 시 completed 클래스 추가 #}
+                    <span>#(todo.title)</span> {#- Todo 제목 출력 #}
+                    <span class="status">#if(todo.isCompleted):완료#else:미완료#endif</span> {#- 완료 여부 표시 #}
+                </li>
+            #endfor
+        </ul>
+    #else: {#- todos 배열이 비어 있으면 #}
+        <p>할 일이 없습니다.</p>
+    #endif
+
+    {#- 여기에 새 Todo를 추가하는 폼 등을 추가할 수 있습니다. #}
+
+</body>
+</html>

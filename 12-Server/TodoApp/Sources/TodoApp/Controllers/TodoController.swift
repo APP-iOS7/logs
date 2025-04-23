@@ -5,11 +5,19 @@ struct TodoController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         let todos = routes.grouped("todos")
 
-        todos.get(use: self.index)
+        todos.get("index", use: list)
+        // todos.get(use: self.index)
         todos.post(use: self.create)
         todos.group(":todoID") { todo in
             todo.delete(use: self.delete)
         }
+    }
+
+    @Sendable
+    func list(req: Request) async throws -> View {
+        let todos: [Todo] = try await Todo.query(on: req.db).all()
+        let context = ["todos": todos.map { $0.toDTO() }]
+        return try await req.view.render("todos", context)
     }
 
     @Sendable
