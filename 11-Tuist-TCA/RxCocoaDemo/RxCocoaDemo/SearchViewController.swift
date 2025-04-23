@@ -60,17 +60,6 @@ class SearchViewController: UIViewController {
       button.widthAnchor.constraint(equalToConstant: 100),
       button.heightAnchor.constraint(equalToConstant: 50)
     ])
-
-    button.rx.tap.asSignal(onErrorSignalWith: .empty())
-      .emit(onNext: { [weak self] in
-        guard let self = self else { return }
-        // 버튼 클릭 시 검색어로 API 호출
-        print("Search button tapped")
-        if let query = self.searchBar.text, !query.isEmpty {
-          self.viewModel.searchText.onNext(query)
-        }
-      })
-      .disposed(by: disposeBag)
   }
 
   func bindViewModel() {
@@ -85,6 +74,18 @@ class SearchViewController: UIViewController {
         cell.textLabel?.text = result // 검색 결과를 셀에 표시
       }
       .disposed(by: disposeBag)
+
+    button.rx.tap.asSignal(onErrorSignalWith: .empty())
+      .emit(onNext: { [weak self] in
+        guard let self = self else { return }
+        // 버튼 클릭 시 검색어로 API 호출
+        print("Search button tapped")
+        if let query = self.searchBar.text, !query.isEmpty {
+          self.viewModel.searchText.onNext(query)
+        }
+      })
+      .disposed(by: disposeBag)
+
   }
 }
 

@@ -15,6 +15,6 @@ import PackageDescription
 let package = Package(
     name: "RxSwiftDemo",
     dependencies: [
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.0.0")
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.9.0")
     ]
 )
