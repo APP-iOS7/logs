@@ -13,8 +13,6 @@ struct CounterFeatureTests {
     }
   }
 
-  deinit {}
-
   @Test
   func testIncrementButtonWorks() async {
     // Act
