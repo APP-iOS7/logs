@@ -28,6 +28,24 @@ public struct ContentView: View {
         .background(Color.black.opacity(0.1))
         .cornerRadius(10)
       }
+
+      Button("Fact") {
+//        store.send(.factButtonTapped)
+      }
+      .font(.largeTitle)
+      .padding()
+      .background(Color.black.opacity(0.1))
+      .cornerRadius(10)
+
+      if true /*store.isLoading*/ {
+        ProgressView()
+      } else /*if let fact = store.fact*/ {
+//        Text(fact)
+//          .font(.largeTitle)
+//          .multilineTextAlignment(.center)
+//          .padding()
+      }
+
     }
   }
 }

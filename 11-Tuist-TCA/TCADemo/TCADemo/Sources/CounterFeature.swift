@@ -13,12 +13,15 @@ struct CounterFeature {
   @ObservableState
   struct State: Equatable {
     var count = 0
+    var isLoading = false
+    var fact: String?
   }
   
   // MARK: - Action
   enum Action {
     case incrementButtonTapped
     case decrementButtonTapped
+    case factButtonTapped
   }
   
   // MARK: - Reducer
@@ -27,12 +30,18 @@ struct CounterFeature {
       switch action {
       case .incrementButtonTapped:
         state.count += 1
+        state.fact = nil
         return .none
         
       case .decrementButtonTapped:
         state.count -= 1
+        state.fact = nil
         return .none
-        
+
+      case .factButtonTapped:
+        state.fact = nil
+        state.isLoading = true
+        return .none
       }
     }
   }
