@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#(title)</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <style>
+    body {
+      font-size: 24px;
+    }
+    </style>
+</head>
+<body>
+    <h1>#(todo.title)</h1>
+    <p>할 일 제목: #(todo.title)</p>
+    <p>상태: #if(todo.isComplete):완료#else:미완료#endif</p>
+    <p>생성일: #(todo.createdAt)</p>
+
+    <a href="/todos/#(todo.id)/edit">수정하기</a>
+
+    <form method="POST" action="/todos/#(todo.id)">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">삭제하기</button>
+        <a href="/">취소</a>
+    </form>
+</body>
+</html>

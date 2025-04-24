@@ -42,15 +42,17 @@
     #if(count(todos) > 0):
         <ul>
             #for(todo in todos):
-                <li class="#if(todo.isComplete):completed#endif">
-                    <span>#(todo.title)</span>
-                    <span class="status">
-                        #if(todo.isComplete):
-                            완료
-                        #else:
-                            미완료
-                        #endif
-                    </span>
+                <li style="cursor:pointer" class="#if(todo.isComplete):completed#endif">
+                    <a href="/todos/#(todo.id)">
+                        <span>#(todo.title)</span>
+                        <span class="status">
+                            #if(todo.isComplete):
+                                완료
+                            #else:
+                                미완료
+                            #endif
+                        </span>
+                    </a>
                 </li>
             #endfor
         </ul>
@@ -58,7 +60,7 @@
         <p>할 일이 없습니다.</p>
     #endif
 
-    <a href="/todos/create">할 일 추가하기</a>
+    <a href="/todos/new">할 일 추가하기</a>
 </body>
 
 </html>
