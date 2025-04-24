@@ -46,15 +46,7 @@ struct CounterFeature {
         return .none
 
       case .factButtonTapped:
-        state.fact = nil
-        state.isLoading = true
-
-        return .run { [count = state.count] send in
-          let (data, _) = try await URLSession.shared
-            .data(from: URL(string: "http://numbersapi.com/\(count)")!)
-          let fact = String(decoding: data, as: UTF8.self)
-          await send(.factResponse(fact))
-        }
+        return handleFactButtonTapped(&state)
 
       case let .factResponse(fact):
         state.fact = fact
@@ -62,21 +54,8 @@ struct CounterFeature {
         return .none
 
       case .toggleTimerButtonTapped:
-        state.isTimerRunning.toggle()
-        if state.isTimerRunning {
-          return .run { [isRunning = state.isTimerRunning] send in
-            while true {
-              try await Task.sleep(for: .seconds(1))
-              await send(.timerTick)
-              if !isRunning {
-                break
-              }
-            }
-          }
-          .cancellable(id: CancelID.timer)
-        } else {
-          return .cancel(id: CancelID.timer)
-        }
+        return handleTimerButtonTapped(&state)
+
       case .timerTick:
         state.count += 1
         state.fact = nil
@@ -84,4 +63,35 @@ struct CounterFeature {
       }
     }
   }
+
+  private func handleFactButtonTapped(_ state: inout CounterFeature.State) -> Effect<CounterFeature.Action> {
+    state.fact = nil
+    state.isLoading = true
+
+    return .run { [count = state.count] send in
+      let (data, _) = try await URLSession.shared
+        .data(from: URL(string: "http://numbersapi.com/\(count)")!)
+      let fact = String(decoding: data, as: UTF8.self)
+      await send(.factResponse(fact))
+    }
+  }
+
+  private func handleTimerButtonTapped(_ state: inout CounterFeature.State) -> Effect<CounterFeature.Action> {
+    state.isTimerRunning.toggle()
+    if state.isTimerRunning {
+      return .run { [isRunning = state.isTimerRunning] send in
+        while true {
+          try await Task.sleep(for: .seconds(1))
+          await send(.timerTick)
+          if !isRunning {
+            break
+          }
+        }
+      }
+      .cancellable(id: CancelID.timer)
+    } else {
+      return .cancel(id: CancelID.timer)
+    }
+  }
+
 }
