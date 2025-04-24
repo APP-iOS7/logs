@@ -14,6 +14,10 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+                    // 모든 HTTP 연결을 허용
+                    "NSAppTransportSecurity": [
+                        "NSAllowsArbitraryLoads": true,
+                    ],
                 ]
             ),
             sources: ["TCADemo/Sources/**"],
