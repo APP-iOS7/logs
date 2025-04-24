@@ -16,6 +16,7 @@ struct CounterFeature {
     var count = 0
     var isLoading = false
     var fact: String?
+    var isTimerRunning = false
   }
 
   // MARK: - Action
@@ -24,7 +25,11 @@ struct CounterFeature {
     case decrementButtonTapped
     case factButtonTapped
     case factResponse(String)
+    case toggleTimerButtonTapped
+    case timerTick
   }
+
+  enum CancelID { case timer }
 
   // MARK: - Reducer
   var body: some ReducerOf<Self> {
@@ -55,8 +60,28 @@ struct CounterFeature {
         state.fact = fact
         state.isLoading = false
         return .none
-      }
 
+      case .toggleTimerButtonTapped:
+        state.isTimerRunning.toggle()
+        if state.isTimerRunning {
+          return .run { [isRunning = state.isTimerRunning] send in
+            while true {
+              try await Task.sleep(for: .seconds(1))
+              await send(.timerTick)
+              if !isRunning {
+                break
+              }
+            }
+          }
+          .cancellable(id: CancelID.timer)
+        } else {
+          return .cancel(id: CancelID.timer)
+        }
+      case .timerTick:
+        state.count += 1
+        state.fact = nil
+        return .none
+      }
     }
   }
 }
