@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 @main
-struct StoreAppApp: App {
+struct StoreApp: App {
   @Bindable var store = Store(
     initialState: AppFeature.State(
       productList: ProductListFeature.State(),
