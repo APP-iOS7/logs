@@ -63,21 +63,21 @@ struct StoreAppTests {
 
   // 내비게이션 테스트 (상세 화면으로 이동)
   func testNavigationToDetail() async {
-//    let productToNavigate = Product(id: 1, title: "상세 이동 상품", price: 10.0, description: "", category: "", image: "")
-//    let store = await TestStore(initialState: ProductListFeature.State()) {
-//      ProductListFeature()
-//    } withDependencies: {
-//      // apiClient.fetchProducts가 즉시 성공하고 [productToNavigate] 를 반환하도록 설정
-//      $0.apiClient.fetchProducts = { [productToNavigate] }
-//    }
-//
-//    // NavigationLink(state:)를 통해 path 액션이 전송되는 것을 시뮬레이션
-//    // 여기서는 직접 path 상태를 변경하여 테스트 (실제로는 View 상호작용 결과)
-//    let detailState = ProductDetailFeature.State(product: productToNavigate)
-//    await store.send(.path(.push(id: 0, state:.detail(detailState)))) {
-//      // path 스택에 detail 상태가 추가되었는지 확인
-//      $0.path[id: 0] = .detail(detailState)
-//    }
+    let productToNavigate = Product(id: 1, title: "상세 이동 상품", price: 10.0, description: "", category: "", image: "")
+    let store = await TestStore(initialState: ProductListFeature.State()) {
+      ProductListFeature()
+    } withDependencies: {
+      // apiClient.fetchProducts가 즉시 성공하고 [productToNavigate] 를 반환하도록 설정
+      $0.apiClient.fetchProducts = { [productToNavigate] }
+    }
+
+    // NavigationLink(state:)를 통해 path 액션이 전송되는 것을 시뮬레이션
+    // 여기서는 직접 path 상태를 변경하여 테스트 (실제로는 View 상호작용 결과)
+    let detailState = ProductDetailFeature.State(product: productToNavigate)
+    await store.send(.path(.push(id: 0, state:.detail(detailState)))) {
+      // path 스택에 detail 상태가 추가되었는지 확인
+      $0.path[id: 0] = .detail(detailState)
+    }
   }
 
 }

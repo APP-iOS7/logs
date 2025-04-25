@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 @Reducer
 struct ProductListFeature {
+
   @ObservableState
   struct State: Equatable {
     var products: IdentifiedArrayOf<Product> = []
