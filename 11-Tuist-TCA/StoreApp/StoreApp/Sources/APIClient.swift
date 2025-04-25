@@ -9,7 +9,7 @@ import Dependencies
 import Foundation
 
 struct APIClient {
-  let fetchProducts: () async throws -> [Product]
+  var fetchProducts: () async throws -> [Product]
 }
 
 extension APIClient: DependencyKey {
