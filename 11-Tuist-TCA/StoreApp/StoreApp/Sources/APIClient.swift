@@ -17,6 +17,7 @@ extension APIClient: DependencyKey {
     fetchProducts: {
       let url = URL(string: "https://fakestoreapi.com/products")!
       let (data, _) = try await URLSession.shared.data(from: url)
+      debugPrint("Data fetched: \(data)")
       return try JSONDecoder().decode([Product].self, from: data)
     }
   )
@@ -24,8 +25,10 @@ extension APIClient: DependencyKey {
   static let previewValue = APIClient(
     fetchProducts: {
       [
-        Product(id: 1, title: "Product 1", price: 10.0, description: "Description 1", category: "Category 1", image: "Image URL 1"),
-        Product(id: 2, title: "Product 2", price: 20.0, description: "Description 2", category: "Category 2", image: "Image URL 2")
+        Product(id: 1, title: "Product 1", price: 10.0, description: "Description 1", category: "Category 1", image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+),
+        Product(id: 2, title: "Product 2", price: 20.0, description: "Description 2", category: "Category 2",  image: "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
+)
       ]
     }
   )
