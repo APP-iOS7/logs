@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct ProductListView: View {
   let store: StoreOf<ProductListFeature>
-
+  
   var body: some View {
     Group {
       if store.isLoading {
@@ -25,25 +25,22 @@ struct ProductListView: View {
         Text("No products available")
           .padding()
       } else {
-        List(store.products) { product in
-          HStack {
-            AsyncImage(url: URL(string: product.image)) { image in
-              image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 50)
-            } placeholder: {
-              ProgressView()
-            }
-            VStack(alignment: .leading) {
-              Text(product.title)
-                .font(.headline)
-              Text("$\(product.price, specifier: "%.2f")")
-                .font(.subheadline)
-            }
+        NavigationStack {
+          List(store.products) { product in
+            NavigationLink(value: product, label: {
+              ProductRow(product: product)
+            })
+          }
+          .navigationTitle("Products")
+          .navigationDestination(for: Product.self) { product in
+            ProductDetailView(
+              store: Store(
+                initialState: ProductDetailFeature.State(product: product)) {
+                  ProductDetailFeature()
+                }
+            )
           }
         }
-        .navigationTitle("Products")
       }
     }
     .onAppear {

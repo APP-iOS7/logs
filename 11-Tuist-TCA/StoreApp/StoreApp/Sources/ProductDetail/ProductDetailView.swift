@@ -19,7 +19,7 @@ struct ProductDetailView: View {
             image
               .resizable()
               .aspectRatio(contentMode: .fit)
-              .frame(maxWidth: .infinity)
+              .frame(maxWidth: .infinity, maxHeight: 300)
           } placeholder: {
             ProgressView()
           }
@@ -48,7 +48,7 @@ struct ProductDetailView: View {
 }
 
 #Preview {
-  NavigationView {
+  NavigationStack {
     ProductDetailView(
       store: Store(
         initialState: ProductDetailFeature.State(product: Product.example)) {

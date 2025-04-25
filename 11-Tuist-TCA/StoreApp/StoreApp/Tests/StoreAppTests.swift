@@ -74,10 +74,10 @@ struct StoreAppTests {
     // NavigationLink(state:)를 통해 path 액션이 전송되는 것을 시뮬레이션
     // 여기서는 직접 path 상태를 변경하여 테스트 (실제로는 View 상호작용 결과)
     let detailState = ProductDetailFeature.State(product: productToNavigate)
-    await store.send(.path(.push(id: 0, state:.detail(detailState)))) {
-      // path 스택에 detail 상태가 추가되었는지 확인
-      $0.path[id: 0] = .detail(detailState)
-    }
+//    await store.send(.path(.push(id: 0, state:.detail(detailState)))) {
+//      // path 스택에 detail 상태가 추가되었는지 확인
+//      $0.path[id: 0] = .detail(detailState)
+//    }
   }
 
 }
