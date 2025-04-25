@@ -31,6 +31,29 @@ struct ProductDetailView: View {
             .padding(.top, 5)
           Text(product.description)
             .padding(.top, 10)
+
+          // 수량 선택기
+          Stepper(
+            "수량: \(store.quantity)",
+            value: Binding(get: { store.quantity },
+                           set: { store.send(.quantityChanged($0)) }),
+            in: 1...100
+          )
+          .padding(.top, 20)
+
+          // 장바구니 추가 버튼
+          Button(action: {
+            store.send(.addToCartButtonTapped)
+          }) {
+            Text("장바구니에 추가")
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(Color.blue)	
+              .foregroundColor(.white)
+              .cornerRadius(8)
+          }
+          .padding(.top, 10)
+
         }
         .padding()
       } else if store.isLoading {

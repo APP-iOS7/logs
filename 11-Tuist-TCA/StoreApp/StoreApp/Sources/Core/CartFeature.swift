@@ -29,6 +29,7 @@ struct CartFeature {
       Reduce { state, action in
         switch action {
         case .addItem(let item):
+          debugPrint("Adding item: \(item)")
           state.items.append(item)
           return .none
 

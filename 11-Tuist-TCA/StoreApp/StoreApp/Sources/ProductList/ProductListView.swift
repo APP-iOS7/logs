@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 struct ProductListView: View {
   @Bindable var store: StoreOf<ProductListFeature>
+  let appStore: StoreOf<AppFeature> // 부모 스토어 참조 추가
 
   var body: some View {
     NavigationStack {
@@ -37,13 +38,17 @@ struct ProductListView: View {
             }
             .navigationTitle("Products")
             .navigationDestination(for: Product.self) { product in
-              ProductDetailView(
-                store: Store(
-                  initialState: ProductDetailFeature.State(product: product)) {
-                    ProductDetailFeature()
-                      ._printChanges()
-                }
-              )
+              WithPerceptionTracking {
+                // 상품 선택 시 AppFeature에 선택된 상품 전달
+                let _ = appStore.send(.selectProduct(product))
+
+                ProductDetailView(
+                  store: appStore.scope(
+                    state: \.productDetail,
+                    action: \.productDetail
+                  )
+                )
+              }
             } // NavigationDestination
             .refreshable {
               store.send(.onAppear)
@@ -56,15 +61,4 @@ struct ProductListView: View {
       store.send(.onAppear)
     }
   } // body
-}
-
-#Preview {
-  NavigationView {
-    ProductListView(
-      store: Store(initialState: ProductListFeature.State()) {
-        ProductListFeature()
-          ._printChanges()
-      }
-    )
-  }
 }

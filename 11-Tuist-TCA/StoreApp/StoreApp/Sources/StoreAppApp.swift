@@ -10,11 +10,14 @@ struct StoreAppApp: App {
       cart: CartFeature.State()),
   ) {
     AppFeature()
-      ._printChanges()
   }
+
   var body: some Scene {
     WindowGroup {
-      ProductListView(store: store.scope(state: \.productList, action: \.productList))
+      ProductListView(
+        store: store.scope(state: \.productList, action: \.productList),
+        appStore: store
+      )
     }
   }
 }
