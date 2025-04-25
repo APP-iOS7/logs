@@ -29,8 +29,15 @@ struct CartFeature {
       Reduce { state, action in
         switch action {
         case .addItem(let item):
-          debugPrint("Adding item: \(item)")
-          state.items.append(item)
+          if state.items.contains(where: { $0.productId == item.productId }) {
+            // 이미 장바구니에 있는 경우 수량만 업데이트
+            if let index = state.items.firstIndex(where: { $0.productId == item.productId }) {
+              state.items[index].quantity += item.quantity
+            }
+          } else {
+            // 장바구니에 없는 경우 새로 추가
+            state.items.append(item)
+          }
           return .none
 
         case .removeItem(let id):

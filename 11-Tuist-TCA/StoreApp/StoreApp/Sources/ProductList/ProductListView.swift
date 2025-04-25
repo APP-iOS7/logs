@@ -12,6 +12,10 @@ struct ProductListView: View {
   @Bindable var store: StoreOf<ProductListFeature>
   let appStore: StoreOf<AppFeature> // 부모 스토어 참조 추가
 
+  var cartItemCount: Int {
+    appStore.state.cart.items.count
+  }
+
   var body: some View {
     NavigationStack {
       Group {
@@ -46,12 +50,34 @@ struct ProductListView: View {
                   store: appStore.scope(
                     state: \.productDetail,
                     action: \.productDetail
-                  )
+                  ),
+                  appStore: appStore
                 )
               }
             } // NavigationDestination
             .refreshable {
               store.send(.onAppear)
+            }
+            .toolbar {
+              ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: CartListView(store: appStore.scope(state: \.cart, action: \.cart))) {
+                  Image(systemName: "cart")
+                    .foregroundColor(.blue)
+                    .overlay(
+                      alignment: .topTrailing
+                    ) {
+                      if cartItemCount > 0 {
+                        Text("\(cartItemCount)")
+                          .font(.caption)
+                          .foregroundColor(.white)
+                          .padding(4)
+                          .background(Color.red)
+                          .clipShape(Circle())
+                          .offset(x: 10, y: -10)
+                      }
+                    }
+                }
+              }
             }
           } // if/else
         } // WithPerceptionTracking

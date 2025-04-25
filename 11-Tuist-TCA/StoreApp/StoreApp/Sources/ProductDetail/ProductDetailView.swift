@@ -10,6 +10,11 @@ import ComposableArchitecture
 
 struct ProductDetailView: View {
   @Bindable var store: StoreOf<ProductDetailFeature>
+  let appStore: StoreOf<AppFeature>
+
+  var cartItemCount: Int {
+    appStore.cart.items.count
+  }
 
   var body: some View {
     ScrollView {
@@ -67,16 +72,26 @@ struct ProductDetailView: View {
       }
     }
     .navigationTitle("Product Details")
-  }
-}
-
-#Preview {
-  NavigationStack {
-    ProductDetailView(
-      store: Store(
-        initialState: ProductDetailFeature.State(product: Product.example)) {
-          ProductDetailFeature()
+    .toolbar {
+      ToolbarItem(placement: .navigationBarTrailing) {
+        NavigationLink(destination: CartListView(store: appStore.scope(state: \.cart, action: \.cart))) {
+          Image(systemName: "cart")
+            .foregroundColor(.blue)
+            .overlay(
+              alignment: .topTrailing
+            ) {
+              if cartItemCount > 0 {
+                Text("\(cartItemCount)")
+                  .font(.caption)
+                  .foregroundColor(.white)
+                  .padding(4)
+                  .background(Color.red)
+                  .clipShape(Circle())
+                  .offset(x: 10, y: -10)
+              }
+            }
         }
-    )
+      }
+    }
   }
 }
