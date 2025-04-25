@@ -29,7 +29,6 @@ struct ProductListFeature {
     Reduce { state, action in
       switch action {
       case .onAppear:
-        debugPrint("Fetching products...")
         state.isLoading = true
         return .run { send in
           do {

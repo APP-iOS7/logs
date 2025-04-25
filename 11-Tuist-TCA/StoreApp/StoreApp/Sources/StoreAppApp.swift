@@ -3,16 +3,18 @@ import ComposableArchitecture
 
 @main
 struct StoreAppApp: App {
-  let store = Store(
-    initialState: ProductListFeature.State(),
-    reducer: {
-      ProductListFeature()
-        .dependency(\.apiClient, .liveValue)
-}  )
-
+  @Bindable var store = Store(
+    initialState: AppFeature.State(
+      productList: ProductListFeature.State(),
+      productDetail: ProductDetailFeature.State(),
+      cart: CartFeature.State()),
+  ) {
+    AppFeature()
+      ._printChanges()
+  }
   var body: some Scene {
     WindowGroup {
-        ProductListView(store: store)
+      ProductListView(store: store.scope(state: \.productList, action: \.productList))
     }
   }
 }
