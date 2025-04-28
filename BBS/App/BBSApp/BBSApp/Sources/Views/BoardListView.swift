@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct BoardListView: View {
+  @EnvironmentObject var authViewModel: AuthViewModel
+
   @StateObject private var viewModel = BoardListViewModel()
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       Group {
         if viewModel.isLoading {
           ProgressView()
@@ -35,6 +37,16 @@ struct BoardListView: View {
       }
       .refreshable {
         await viewModel.fetchBoards()
+      }
+      .toolbar {
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button(action: {
+            // 로그아웃 액션
+            authViewModel.signOut()
+          }) {
+            Text("로그아웃")
+          }
+        }
       }
     }
   }

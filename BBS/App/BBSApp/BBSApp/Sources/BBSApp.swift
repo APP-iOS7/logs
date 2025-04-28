@@ -9,19 +9,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     FirebaseApp.configure()
 
-    #if DEBUG
     // Firestore Emulators
     let settings = Firestore.firestore().settings
-    settings.host = "localhost:8080"
+    settings.host = "127.0.0.1:8080"
     settings.cacheSettings = MemoryCacheSettings()
     settings.isSSLEnabled = false
+    Firestore.firestore().settings = settings
 
     // Auth
     Auth.auth().useEmulator(withHost: "localhost", port: 9099)
 
     // Storage
     Storage.storage().useEmulator(withHost: "localhost", port: 9199)
-    #endif
 
     return true
   }

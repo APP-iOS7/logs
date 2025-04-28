@@ -19,35 +19,58 @@ struct LoginView: View {
   }
 
   var body: some View {
-    VStack {
-      TextField("Email", text: $email)
-        .keyboardType(.emailAddress)
-        .autocapitalization(.none)
-        .onChange(of: email) { newValue in
-          // Basic email format check (replace with robust validation)
-          if !newValue.contains("@") && !newValue.isEmpty {
-            emailError = "유효한 이메일 주소를 입력하세요."
-          } else {
-            emailError = nil
+    NavigationStack {
+      VStack {
+        Spacer()
+        TextField("Email", text: $email)
+          .textFieldStyle(.roundedBorder)
+          .keyboardType(.emailAddress)
+          .autocapitalization(.none)
+          .autocorrectionDisabled()
+          .onChange(of: email) { _,newValue in
+            // Basic email format check (replace with robust validation)
+            if !newValue.contains("@") && !newValue.isEmpty {
+              emailError = "유효한 이메일 주소를 입력하세요."
+            } else {
+              emailError = nil
+            }
+          }
+
+        if let emailError = emailError {
+          Text(emailError)
+            .foregroundColor(.red)
+            .font(.caption)
+        }
+
+        SecureField("Password", text: $password)
+          .textFieldStyle(.roundedBorder)
+          .autocapitalization(.none)
+
+        Button("로그인") {
+          Task {
+            await authViewModel.signIn(withEmail: email, password: password)
           }
         }
+        .tint(.blue)
+        .frame(maxWidth: .infinity)
+        .buttonStyle(.borderedProminent)
+        .disabled(!isFormValid) // 버튼 비활성화 조건
 
-      if let emailError = emailError {
-        Text(emailError)
-          .foregroundColor(.red)
-          .font(.caption)
-      }
-
-      SecureField("Password", text: $password)
-
-      Button("로그인") {
-        Task {
-          await authViewModel.signIn(withEmail: email, password: password)
+        Button("회원가입") {
+          Task {
+            await authViewModel.signUp(withEmail: email, password: password, displayName: "")
+          }
         }
+        .frame(maxWidth: .infinity)
+        .buttonStyle(.bordered)
+        .disabled(!isFormValid) // 버튼 비활성화 조건
+
+        Spacer()
       }
-      .disabled(!isFormValid) // 버튼 비활성화 조건
+      .padding()
+      .navigationTitle("로그인 ")
+      .background(Color(.systemGroupedBackground))
     }
-    .padding()
   }
 }
 #Preview {
