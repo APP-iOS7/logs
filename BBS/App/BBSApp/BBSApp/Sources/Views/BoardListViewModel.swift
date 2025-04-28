@@ -19,6 +19,7 @@ class BoardListViewModel: ObservableObject {
     do {
       let querySnapshot = try await db.collection("boards").getDocuments()
       // getDocuments(as:)를 사용하기 위해 Board 모델이 필요
+      debugPrint("Fetched boards: \(querySnapshot.documents)")
       self.boards = try querySnapshot.documents.compactMap { document in
         try document.data(as: Board.self)
       }

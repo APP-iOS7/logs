@@ -8,36 +8,36 @@ service cloud.firestore {
 
     // 사용자 프로필: 본인만 읽고 쓸 수 있음 (생성은 로그인 사용자 누구나)
     match /users/{userId} {
-      allow read, update, delete: if request.auth!= null && request.auth.uid == userId; // [69, 145, 146, 147]
-      allow create: if request.auth!= null;
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId; // [69, 145, 146, 147]
+      allow create: if request.auth != null;
     }
 
     // 게시판: 로그인 사용자 읽기 가능, 쓰기는 관리자만 (예시)
     match /boards/{boardId} {
-      allow read: if request.auth!= null;
+      allow read: if request.auth != null;
       // 쓰기(create, update, delete)는 관리자만 가능하도록 아래 역할 기반 규칙 추가
       allow write: if isAdmin(); // isAdmin() 함수는 아래 정의
     }
 
     // 게시글: 로그인 사용자 읽기 가능, 생성은 로그인 사용자, 수정/삭제는 작성자 또는 관리자
     match /posts/{postId} {
-      allow read: if request.auth!= null;
-      allow create: if request.auth!= null && isAuthorOrAdmin(request.resource.data.authorId) && canCreatePost(request); // 생성 시 데이터 검증
-      allow update: if request.auth!= null && isAuthorOrAdmin(resource.data.authorId) && canUpdatePost(request); // 수정 시 작성자/관리자 확인 및 필드 검증
-      allow delete: if request.auth!= null && isAuthorOrAdmin(resource.data.authorId); // 삭제 시 작성자/관리자 확인
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && isAuthorOrAdmin(request.resource.data.authorId) && canCreatePost(request); // 생성 시 데이터 검증
+      allow update: if request.auth != null && isAuthorOrAdmin(resource.data.authorId) && canUpdatePost(request); // 수정 시 작성자/관리자 확인 및 필드 검증
+      allow delete: if request.auth != null && isAuthorOrAdmin(resource.data.authorId); // 삭제 시 작성자/관리자 확인
     }
 
     // 댓글 (서브컬렉션 방식): 로그인 사용자 읽기 가능, 생성은 로그인 사용자, 수정/삭제는 작성자 또는 관리자
     match /posts/{postId}/comments/{commentId} {
-      allow read: if request.auth!= null;
-      allow create: if request.auth!= null && isAuthorOrAdmin(request.resource.data.authorId) && canCreateComment(request); // 생성 시 데이터 검증
-      allow update: if request.auth!= null && isAuthorOrAdmin(resource.data.authorId) && canUpdateComment(request); // 수정 시 작성자/관리자 확인 및 필드 검증
-      allow delete: if request.auth!= null && isAuthorOrAdmin(resource.data.authorId); // 삭제 시 작성자/관리자 확인
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && isAuthorOrAdmin(request.resource.data.authorId) && canCreateComment(request); // 생성 시 데이터 검증
+      allow update: if request.auth != null && isAuthorOrAdmin(resource.data.authorId) && canUpdateComment(request); // 수정 시 작성자/관리자 확인 및 필드 검증
+      allow delete: if request.auth != null && isAuthorOrAdmin(resource.data.authorId); // 삭제 시 작성자/관리자 확인
     }
 
     // --- Helper Functions ---
     function isSignedIn() {
-      return request.auth!= null;
+      return request.auth != null;
     }
 
     // 관리자 확인 (Custom Claims 사용 시)

@@ -33,6 +33,9 @@ struct BoardListView: View {
       .task { //.onAppear 대신.task 사용 권장 (async/await 지원)
         await viewModel.fetchBoards()
       }
+      .refreshable {
+        await viewModel.fetchBoards()
+      }
     }
   }
 }

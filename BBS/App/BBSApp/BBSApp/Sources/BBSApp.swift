@@ -9,6 +9,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     FirebaseApp.configure()
 
+    #if DEBUG
     // Firestore Emulators
     let settings = Firestore.firestore().settings
     settings.host = "localhost:8080"
@@ -20,6 +21,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     // Storage
     Storage.storage().useEmulator(withHost: "localhost", port: 9199)
+    #endif
 
     return true
   }
@@ -29,10 +31,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct BBSApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-  
+
+  @StateObject var authViewModel = AuthViewModel()
+
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      if authViewModel.userSession != nil {
+        BoardListView()
+          .environmentObject(authViewModel)
+      } else {
+        LoginView()
+          .environmentObject(authViewModel)
+      }
     }
   }
 }
