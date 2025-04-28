@@ -5,8 +5,28 @@ rules_version = '2';
 //    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
 service firebase.storage {
   match /b/{bucket}/o {
+    // 기본적으로 모든 접근 거부
     match /{allPaths=**} {
       allow read, write: if false;
+    }
+
+    // 사용자 프로필 이미지: 본인만 업로드 가능, 누구나 읽기 가능 (예시)
+    match /users/{userId}/profileImage.jpg {
+      allow read: if true; // 프로필 이미지는 공개적으로 읽을 수 있도록 허용
+      allow write: if request.auth!= null && request.auth.uid == userId
+                   && request.resource.size < 2 * 1024 * 1024 // 2MB 크기 제한 [153, 154]
+                   && request.resource.contentType.matches('image/.*'); // 이미지 타입만 허용 [154, 155]
+    }
+
+    // 게시글 이미지: 게시글 작성자만 업로드 가능, 누구나 읽기 가능
+    // 경로: posts/{postId}/{filename}
+    match /posts/{postId}/{filename} {
+      allow read: if true; // 게시글 이미지는 공개적으로 읽을 수 있도록 허용
+      allow write: if request.auth!= null
+                   // Firestore에서 해당 postId의 게시글 정보를 가져와 작성자 확인 필요
+                   && request.auth.uid == get(/databases/$(database)/documents/posts/$(postId)).data.authorId // [145] Firestore 데이터 접근
+                   && request.resource.size < 10 * 1024 * 1024 // 10MB 크기 제한
+                   && request.resource.contentType.matches('image/.*');
     }
   }
 }
