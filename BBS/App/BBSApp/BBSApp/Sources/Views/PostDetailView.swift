@@ -83,7 +83,3 @@ struct PostDetailView: View {
     }
   }
 }
-
-#Preview {
-  PostDetailView()
-}

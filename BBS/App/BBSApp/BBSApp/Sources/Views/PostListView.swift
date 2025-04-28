@@ -45,7 +45,3 @@ struct PostListView: View {
     }
   }
 }
-
-#Preview {
-  PostListView()
-}

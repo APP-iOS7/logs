@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 // PostDetailViewModel.swift
 @MainActor
@@ -122,7 +123,10 @@ class PostDetailViewModel: ObservableObject {
   }
 
   deinit {
-    unsubscribeFromComments()
+    weak var weakSelf = self
+    Task { @MainActor [weakSelf] in
+      weakSelf?.unsubscribeFromComments() // ViewModel 소멸 시 리스너 해제
+    }
   }
 }
 

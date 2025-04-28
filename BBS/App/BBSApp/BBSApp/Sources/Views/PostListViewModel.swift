@@ -18,7 +18,7 @@ class PostListViewModel: ObservableObject {
   private var listenerRegistration: ListenerRegistration? // 실시간 리스너 관리
 
   // 데이터 로딩 함수 (예시 - 상세 구현은 6장에서)
-  func fetchPosts(boardId: String) {
+  func fetchPosts(boardId: String) async {
     isLoading = true
     errorMessage = nil
     do {
