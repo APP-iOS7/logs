@@ -12,10 +12,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     // Firestore Emulators
     let settings = Firestore.firestore().settings
     settings.host = "localhost:8080"
-
-    var cacheSettings = MemoryCacheSettings()
-    settings.cacheSettings = cacheSettings
-
+    settings.cacheSettings = MemoryCacheSettings()
     settings.isSSLEnabled = false
 
     // Auth

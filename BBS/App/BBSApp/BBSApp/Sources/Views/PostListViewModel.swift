@@ -19,7 +19,21 @@ class PostListViewModel: ObservableObject {
 
   // 데이터 로딩 함수 (예시 - 상세 구현은 6장에서)
   func fetchPosts(boardId: String) {
-    //... Firestore 쿼리 및 데이터 로딩 로직...
+    isLoading = true
+    errorMessage = nil
+    do {
+      let querySnapshot = try await db.collection("posts")
+        .whereField("boardId", isEqualTo: boardId)
+        .order(by: "createdAt", descending: true)
+        .getDocuments()
+      self.posts = try querySnapshot.documents.compactMap { document in
+        try document.data(as: Post.self) // Post 모델 사용
+      }
+    } catch {
+      print("Error fetching posts for board \(boardId): \(error)")
+      errorMessage = error.localizedDescription
+    }
+    isLoading = false
   }
 
   // 실시간 리스너 구독/해지 함수 (예시 - 상세 구현은 6장에서)
