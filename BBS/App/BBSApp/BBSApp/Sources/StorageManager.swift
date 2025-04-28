@@ -7,7 +7,8 @@
 
 import FirebaseStorage
 import Foundation
-import SwiftUICore
+import UIKit
+import FirebaseAuth
 
 class StorageManager {
   static let shared = StorageManager()
@@ -16,18 +17,27 @@ class StorageManager {
   private init() {}
 
   func uploadPostImage(imageData: Data, postId: String) async throws -> URL {
-    // 이미지 압축 (선택적)
-    // guard let image = UIImage(data: imageData),
-    //       let compressedData = image.jpegData(compressionQuality: 0.8) else { // [5]
-    //     throw NSError(domain: "AppError", code: -1, userInfo:)
-    // }
-    let compressedData = imageData // 압축 없이 원본 사용 예시
+    // 현재 사용자 인증 상태 확인
+    guard Auth.auth().currentUser != nil,
+          let userId = Auth.auth().currentUser?.uid else {
+      throw NSError(domain: "AppError", code: -2, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
+    }
+
+    guard let image = UIImage(data: imageData),
+          let compressedData = image.jpegData(compressionQuality: 0.8) else { // [5]
+      throw NSError(domain: "AppError", code: -1, userInfo: nil)
+    }
 
     let fileName = "\(UUID().uuidString).jpg"
     let storageRef = storage.reference().child("posts/\(postId)/\(fileName)") // [90, 91]
 
+    // 메타데이터 설정
+    let metadata = StorageMetadata()
+    metadata.contentType = "image/jpeg"
+    metadata.customMetadata = ["uploadedBy": userId] // 사용자 ID 저장 (비정규화)
+
     // putDataAsync 사용 (권장) [103]
-    let _ = try await storageRef.putDataAsync(compressedData)
+    let _ = try await storageRef.putDataAsync(compressedData, metadata: metadata)
     print("Image uploaded successfully")
 
     // 다운로드 URL 가져오기 [90, 91, 97, 98]

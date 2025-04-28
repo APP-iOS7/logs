@@ -24,6 +24,7 @@ class AuthViewModel: ObservableObject {
     // 앱 시작 시 현재 로그인된 사용자 확인
     self.userSession = Auth.auth().currentUser
     Task {
+      debugPrint("Current user session: \(String(describing: self.userSession))")
       await fetchUser()
       await checkAdminRole() // 역할 확인
     }

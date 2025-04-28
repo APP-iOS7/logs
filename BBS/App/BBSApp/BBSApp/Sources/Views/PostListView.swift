@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PostListView: View {
+  @EnvironmentObject var authViewModel: AuthViewModel
+
   @StateObject private var viewModel = PostListViewModel()
   let boardId: String
   let boardName: String

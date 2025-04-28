@@ -10,7 +10,10 @@ import PhotosUI // PhotosPicker 사용
 
 struct CreatePostView: View {
   let boardId: String
-  @StateObject private var viewModel = CreatePostViewModel() // 별도 ViewModel 사용 권장
+
+  @EnvironmentObject var authViewModel: AuthViewModel
+
+  @StateObject private var viewModel = CreatePostViewModel()
 
   @State private var postTitle: String = ""
   @State private var postContent: String = ""
@@ -49,6 +52,7 @@ struct CreatePostView: View {
             boardId: boardId,
             title: postTitle,
             content: postContent,
+            authViewModel: authViewModel,
             imageData: selectedImageData
           )
           // 성공/실패 처리 후 dismiss() 호출
@@ -59,9 +63,9 @@ struct CreatePostView: View {
       }
         .disabled(postTitle.isEmpty || postContent.isEmpty || viewModel.isUploading) // 기본 유효성 검사 및 업로드 중 비활성화
       )
-      .onChange(of: selectedItem) { newItem, _ in // 선택 변경 시 이미지 데이터 로드
+      .onChange(of: selectedItem) { _,newItem in // 선택 변경 시 이미지 데이터 로드
         Task {
-          if let data = try? await newItem?.loadTransferable(type: Data.self) { //
+          if let data = try? await newItem?.loadTransferable(type: Data.self) {
             selectedImageData = data
             if let uiImage = UIImage(data: data) {
               selectedImagePreview = Image(uiImage: uiImage)
@@ -74,7 +78,7 @@ struct CreatePostView: View {
       }
       .overlay { // 로딩 및 오류 표시
         if viewModel.isUploading { ProgressView("Uploading...") }
-        if let error = viewModel.errorMessage { Text("Error: (error)").foregroundColor(.red) }
+        if let error = viewModel.errorMessage { Text("Error: \(error)").foregroundStyle(.red) }
       }
     }
   }

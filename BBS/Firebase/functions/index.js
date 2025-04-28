@@ -52,7 +52,7 @@ exports.addAdminRole = onCall(
 )
 
 // Auth onCreate 트리거: 특정 이메일 주소로 가입 시 자동으로 관리자 역할 부여 (v1 문법 사용)
-exports.assignAdminOnCreate = functions.auth.user().onCreate((user) => {
+exports.assignAdminOnCreate = functions.region("asia-northeast3").auth.user().onCreate((user) => {
 	// 비동기 함수를, 프로미스 리턴으로 변경
 	if (user.email === "jmbae@codegrove.co.kr") {
 		return admin

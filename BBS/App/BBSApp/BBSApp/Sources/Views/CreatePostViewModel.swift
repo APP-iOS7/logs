@@ -14,9 +14,12 @@ class CreatePostViewModel: ObservableObject {
   @Published var errorMessage: String?
 
   private var db = Firestore.firestore()
-  private var authViewModel = AuthViewModel() // 현재 사용자 정보 접근 위해 (실제 구현에서는 DI 고려)
 
-  func createPost(boardId: String, title: String, content: String, imageData: Data?) async {
+  func createPost(boardId: String, title: String, content: String, authViewModel: AuthViewModel, imageData: Data?) async {
+    debugPrint("Creating post for board: \(boardId)")
+    debugPrint("User session: \(authViewModel.userSession?.uid ?? "No user")")
+
+
     guard let user = authViewModel.userSession, let userProfile = authViewModel.currentUser else {
       errorMessage = "User not logged in."
       return

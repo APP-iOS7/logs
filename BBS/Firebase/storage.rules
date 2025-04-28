@@ -22,9 +22,9 @@ service firebase.storage {
     // 경로: posts/{postId}/{filename}
     match /posts/{postId}/{filename} {
       allow read: if true; // 게시글 이미지는 공개적으로 읽을 수 있도록 허용
-      allow write: if request.auth!= null
-                   // Firestore에서 해당 postId의 게시글 정보를 가져와 작성자 확인 필요
-                   && request.auth.uid == get(/databases/$(database)/documents/posts/$(postId)).data.authorId // [145] Firestore 데이터 접근
+      allow write: if request.auth != null
+                    // 메타 데이터로 작성자 ID 확인
+                   && request.auth.uid == request.resource.metadata.uploadedBy
                    && request.resource.size < 10 * 1024 * 1024 // 10MB 크기 제한
                    && request.resource.contentType.matches('image/.*');
     }
