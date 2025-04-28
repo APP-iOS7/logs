@@ -122,6 +122,20 @@ class PostDetailViewModel: ObservableObject {
     }
   }
 
+  func deleteComment(comment: Comment) async {
+    guard let commentId = comment.id else {
+      errorMessage = "Comment ID is nil"
+      return
+    }
+    do {
+      try await db.collection("posts").document(comment.postId).collection("comments").document(commentId).delete()
+      print("Comment deleted successfully")
+    } catch {
+      print("Error deleting comment: \(error)")
+      errorMessage = "Failed to delete comment: \(error.localizedDescription)"
+    }
+  }
+
   deinit {
     weak var weakSelf = self
     Task { @MainActor [weakSelf] in

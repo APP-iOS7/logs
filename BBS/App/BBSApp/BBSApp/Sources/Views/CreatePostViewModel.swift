@@ -48,9 +48,9 @@ class CreatePostViewModel: ObservableObject {
         authorDisplayName: userProfile.displayName, // 비정규화
         boardId: boardId,
         imageUrl: imageUrl,
+        commentsCount: 0,
         createdAt: nil, // @ServerTimestamp가 처리
         updatedAt: nil  // @ServerTimestamp가 처리
-        // commentCount: 0 // 댓글 수 초기화 (비정규화 시)
       )
 
       // 3. Firestore에 Post 문서 저장

@@ -16,21 +16,9 @@ struct Post: Identifiable, Codable {
   var authorDisplayName: String // 비정규화된 작성자 이름
   var boardId: String // 게시판 ID
   var imageUrl: String? // 이미지 URL (선택적)
+  var commentsCount: Int = 0 // 댓글 수
   @ServerTimestamp var createdAt: Timestamp? // 서버 시간 기준 생성 시간 [17, 34, 37]
   @ServerTimestamp var updatedAt: Timestamp? // 서버 시간 기준 수정 시간
-
-  // Firestore 필드명과 Swift 프로퍼티명이 다를 경우 사용 [17, 36]
-  // enum CodingKeys: String, CodingKey {
-  //     case id
-  //     case title
-  //     case content
-  //     case authorId
-  //     case authorDisplayName = "authorName" // 예시: Firestore 필드명이 'authorName'일 경우
-  //     case boardId
-  //     case imageUrl
-  //     case createdAt
-  //     case updatedAt
-  // }
 }
 
 struct Comment: Identifiable, Codable {

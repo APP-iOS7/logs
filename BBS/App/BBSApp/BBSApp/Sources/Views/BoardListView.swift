@@ -47,6 +47,13 @@ struct BoardListView: View {
             Text("로그아웃")
           }
         }
+        if authViewModel.isAdmin  {
+          ToolbarItem(placement: .navigationBarLeading) {
+            NavigationLink(destination: CreateBoardView()) {
+              Text("게시판 생성")
+            }
+          }
+        }
       }
     }
   }

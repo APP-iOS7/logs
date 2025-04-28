@@ -14,6 +14,8 @@ const functions = require('firebase-functions/v1');
 const admin = require("firebase-admin")
 const logger = require("firebase-functions/logger")
 
+const { FieldValue } = admin.
+
 admin.initializeApp()
 
 // HTTPS Callable 함수: 기존 관리자가 다른 사용자에게 관리자 역할 부여
@@ -69,3 +71,33 @@ exports.assignAdminOnCreate = functions.region("asia-northeast3").auth.user().on
 	}
 	return null // 조건에 맞지 않으면 바로 null 반환
 })
+
+
+// posts/{postId}/comments/{commentId} 문서가 생성되면 posts/{postId} 문서에 댓글 수 증가
+// posts/{postId}/comments/{commentId} 문서가 deleted 상태가 되면 posts/{postId} 문서에 댓글 수 감소
+// TTL 설정으로 30일 후 자동 삭제
+exports.updateCommentCount = functions
+  .region("asia-northeast3")
+  .firestore.document("posts/{postId}/comments/{commentId}")
+  .onWrite(async (change, context) => {
+    const postId = context.params.postId
+    const postRef = admin.firestore().collection("posts").doc(postId)
+
+    if (!change.after.exists) {
+      // 댓글이 삭제된 경우
+      logger.log("Comment deleted")
+      await postRef.update({
+        commentsCount: FieldValue.increment(-1),
+      })
+      return null
+    }
+
+    if (!change.before.exists) {
+      // 댓글이 생성된 경우
+      logger.log("Comment created")
+      await postRef.update({
+        commentsCount: FieldValue.increment(1),
+      })
+      return null
+    }
+  })

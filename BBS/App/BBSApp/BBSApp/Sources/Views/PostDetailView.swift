@@ -11,7 +11,7 @@ struct PostDetailView: View {
   @StateObject private var viewModel = PostDetailViewModel()
   let postId: String
   @State private var commentText: String = ""
-
+  
   var body: some View {
     VStack(alignment:.leading) {
       if viewModel.isLoadingPost {
@@ -27,26 +27,35 @@ struct PostDetailView: View {
         Text(post.content).padding(.bottom)
         Text("By \(post.authorDisplayName)").font(.caption).foregroundColor(.gray)
         Divider()
-
+        
         Text("Comments").font(.headline)
         if viewModel.isLoadingComments && viewModel.comments.isEmpty {
           ProgressView("Loading comments...")
         } else if viewModel.comments.isEmpty {
           Text("No comments yet.")
         } else {
-          List(viewModel.comments) { comment in
-            VStack(alignment:.leading) {
-              Text(comment.content)
-              HStack {
-                Text(comment.authorDisplayName).font(.caption2)
-                Spacer()
-                Text(comment.createdAt?.dateValue() ?? Date(), style:.time).font(.caption2)
+          List {
+            ForEach(viewModel.comments) { comment in
+              VStack(alignment:.leading) {
+                Text(comment.content)
+                HStack {
+                  Text(comment.authorDisplayName).font(.caption2)
+                  Spacer()
+                  Text(comment.createdAt?.dateValue() ?? Date(), style:.time).font(.caption2)
+                }
               }
             }
+            .onDelete(perform: { indexSet in
+              Task {
+                let comment = viewModel.comments[indexSet.first!]
+                await viewModel.deleteComment(comment: comment)
+              }
+            })
           }
-          .listStyle(.plain) // 댓글 목록 스타일 조정
+          .listStyle(.plain)
+          
         }
-
+        
         // 댓글 입력 영역
         HStack {
           TextField("Add a comment...", text: $commentText)
@@ -64,7 +73,7 @@ struct PostDetailView: View {
           .disabled(commentText.isEmpty)
         }
         .padding()
-
+        
       } else if let errorMessage = viewModel.errorMessage {
         Text("Error: \(errorMessage)")
       } else {

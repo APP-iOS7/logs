@@ -18,11 +18,16 @@ struct PostListView: View {
     List(viewModel.posts) { post in
       if let postId = post.id {
         NavigationLink(destination: PostDetailView(postId: postId)) { // post.id가 nil이 아님을 보장해야 함
-          VStack(alignment:.leading) {
-            Text(post.title).font(.headline)
-            Text(post.authorDisplayName).font(.caption)
-            // Text("Comments: \(post.commentCount?? 0)") // 댓글 수 표시 (비정규화 시)
+          HStack {
+            VStack(alignment:.leading) {
+              Text(post.title).font(.headline)
+              Text(post.authorDisplayName).font(.caption)
+            }
+            Spacer()
+            Text(String(format: "%d comments", post.commentsCount)) // 댓글 수 표시 (비정규화 시)
+              .font(.caption)
           }
+          .padding()
         }
       } else {
         Text("Error: Post ID is nil")
