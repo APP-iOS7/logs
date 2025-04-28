@@ -3,7 +3,7 @@ import ComposableArchitecture
 
 @main
 struct StoreApp: App {
-  @Bindable var store = Store(
+  let store = Store(
     initialState: AppFeature.State(
       productList: ProductListFeature.State(),
       productDetail: ProductDetailFeature.State(),
