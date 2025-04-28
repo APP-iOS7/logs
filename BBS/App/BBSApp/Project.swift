@@ -4,6 +4,11 @@ let bundleId = "kr.co.codegrove.BBSApp"
 
 let project = Project(
   name: "BBSApp",
+  settings: .settings(
+    base: [
+      "OTHER_LDFLAGS": ["-ObjC"]
+    ]
+  ),
   targets: [
     .target(
       name: "BBSApp",
@@ -15,6 +20,9 @@ let project = Project(
           "UILaunchScreen": [
             "UIColorName": "",
             "UIImageName": "",
+          ],
+          "NSAppTransportSecurity": [
+            "NSAllowsArbitraryLoads": true,
           ],
         ]
       ),
