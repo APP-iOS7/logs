@@ -14,9 +14,9 @@ const functions = require('firebase-functions/v1');
 const admin = require("firebase-admin")
 const logger = require("firebase-functions/logger")
 
-const { FieldValue } = admin.
-
 admin.initializeApp()
+
+const { FieldValue } = require('firebase-admin/firestore');
 
 // HTTPS Callable 함수: 기존 관리자가 다른 사용자에게 관리자 역할 부여
 exports.addAdminRole = onCall(
